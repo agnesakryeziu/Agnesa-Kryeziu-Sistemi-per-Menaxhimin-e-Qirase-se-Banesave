@@ -1,0 +1,15 @@
+# Ambienti virtual
+.venv/
+
+# Skedaret e perkohshem te Python
+_pycache_/
+*.pyc
+
+# Te dhenat sekrete
+.env
+
+# Skedaret lokale te editorit
+.vscode/
+
+# Databaza lokale SQLite
+db.sqlite3
