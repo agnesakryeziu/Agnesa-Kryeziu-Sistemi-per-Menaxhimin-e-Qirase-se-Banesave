@@ -1,20 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 
 
 class Perdorues(AbstractUser):
     email = models.EmailField(unique=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.username
+
+
 class Pronari(models.Model):
     emri = models.CharField(max_length=100)
     mbiemri = models.CharField(max_length=100)
     telefoni = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
 
-    def _str_(self):
-        return f"{self.emri} {self.mbiemri}"    
+    def __str__(self):
+        return f"{self.emri} {self.mbiemri}"
+
 
 class Banesa(models.Model):
     adresa = models.CharField(max_length=200)
@@ -29,8 +33,9 @@ class Banesa(models.Model):
         related_name='banesat'
     )
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.adresa} - {self.qyteti}"
+
 
 class Qiramarresi(models.Model):
     emri = models.CharField(max_length=100)
@@ -38,8 +43,9 @@ class Qiramarresi(models.Model):
     telefoni = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.emri} {self.mbiemri}"
+
 
 class Kontrata(models.Model):
     banesa = models.ForeignKey(
@@ -60,16 +66,15 @@ class Kontrata(models.Model):
     )
 
     def clean(self):
-        from django.core.exceptions import ValidationError
-
         if self.data_fillimit and self.data_mbarimit:
             if self.data_mbarimit <= self.data_fillimit:
                 raise ValidationError(
                     "Data e mbarimit duhet te jete pas dates se fillimit."
                 )
 
-    def _str_(self):
+    def __str__(self):
         return f"Kontrata {self.id} - {self.banesa}"
+
 
 class Pagesa(models.Model):
     kontrata = models.ForeignKey(
@@ -87,8 +92,6 @@ class Pagesa(models.Model):
     e_paguar = models.BooleanField(default=False)
 
     def clean(self):
-        from django.core.exceptions import ValidationError
-
         if self.muaji is not None and not 1 <= self.muaji <= 12:
             raise ValidationError(
                 "Muaji duhet te jete nga 1 deri ne 12."
@@ -99,5 +102,5 @@ class Pagesa(models.Model):
                 "Shuma e pageses duhet te jete me e madhe se zero."
             )
 
-    def _str_(self):
+    def __str__(self):
         return f"Pagesa {self.muaji}/{self.viti} - Kontrata {self.kontrata_id}"
