@@ -66,11 +66,32 @@ class Kontrata(models.Model):
     )
 
     def clean(self):
-        if self.data_fillimit and self.data_mbarimit:
-            if self.data_mbarimit <= self.data_fillimit:
+        super().clean()
+
+        if not self.data_fillimit or not self.data_mbarimit:
+            return
+
+        if self.data_mbarimit <= self.data_fillimit:
+            raise ValidationError(
+                "Data e mbarimit duhet te jete pas dates se fillimit."
+            )
+
+        if self.qiraja_mujore is not None and self.qiraja_mujore <= 0:
+            raise ValidationError(
+                "Qiraja mujore duhet te jete me e madhe se zero."
+            )
+
+        if self.banesa_id:
+            kontratat = Kontrata.objects.filter(
+                banesa_id=self.banesa_id,
+                data_fillimit__lte=self.data_mbarimit,
+                data_mbarimit__gte=self.data_fillimit
+            ).exclude(pk=self.pk)
+
+            if kontratat.exists():
                 raise ValidationError(
-                    "Data e mbarimit duhet te jete pas dates se fillimit."
-                )
+                    "Kjo banese ka nje kontrate tjeter ne kete periudhe."
+            )
 
     def __str__(self):
         return f"Kontrata {self.id} - {self.banesa}"
@@ -92,15 +113,33 @@ class Pagesa(models.Model):
     e_paguar = models.BooleanField(default=False)
 
     def clean(self):
+        super().clean()
         if self.muaji is not None and not 1 <= self.muaji <= 12:
             raise ValidationError(
                 "Muaji duhet te jete nga 1 deri ne 12."
+            )
+
+        if self.viti is not None and self.viti < 2000:
+            raise ValidationError(
+                "Viti nuk eshte i vlefshem."
             )
 
         if self.shuma is not None and self.shuma <= 0:
             raise ValidationError(
                 "Shuma e pageses duhet te jete me e madhe se zero."
             )
+
+        if self.kontrata_id and self.muaji is not None and self.viti is not None:
+            pagesat = Pagesa.objects.filter(
+                kontrata_id=self.kontrata_id,
+                muaji=self.muaji,
+                viti=self.viti
+            ).exclude(pk=self.pk)
+
+            if pagesat.exists():
+                raise ValidationError(
+                    "Pagesa per kete muaj dhe vit ekziston tashme."
+                )
 
     def __str__(self):
         return f"Pagesa {self.muaji}/{self.viti} - Kontrata {self.kontrata_id}"
