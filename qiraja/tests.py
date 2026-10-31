@@ -11,7 +11,7 @@ class TestValidimet(TestCase):
 
     def setUp(self):
         self.pronari = Pronari.objects.create(
-            emri="Arben",
+            emri="Arianita",
             mbiemri="Gashi",
             telefoni="044000111"
         )
