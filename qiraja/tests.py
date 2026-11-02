@@ -194,5 +194,159 @@ class TestAPIPronaret(APITestCase):
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_404_NOT_FOUND
+            status.HTTP_404_NOT_FOUND        )
+
+class TestAPIModulet(APITestCase):
+
+    def setUp(self):
+        User = get_user_model()
+
+        self.admin = User.objects.create_superuser(
+            username="admin_modulet",
+            email="admin_modulet@example.com",
+            password="TestPassword123!"
         )
+
+        self.client.force_authenticate(user=self.admin)
+
+        self.pronari = Pronari.objects.create(
+            emri="Arianita",
+            mbiemri="Gashi",
+            telefoni="044000111"
+        )
+
+        self.banesa = Banesa.objects.create(
+            adresa="Rruga A, Nr. 10",
+            qyteti="Prishtine",
+            siperfaqja=75,
+            numri_dhomave=3,
+            cmimi_mujor=Decimal("350.00"),
+            pronari=self.pronari
+        )
+
+        self.qiramarresi = Qiramarresi.objects.create(
+            emri="Dren",
+            mbiemri="Berisha",
+            telefoni="045000222"
+        )
+
+    def test_crud_banesat(self):
+        te_dhenat = {
+            "adresa": "Rruga B, Nr. 20",
+            "qyteti": "Prishtine",
+            "siperfaqja": 80,
+            "numri_dhomave": 3,
+            "cmimi_mujor": "400.00",
+            "pronari": self.pronari.id
+        }
+
+        response = self.client.post(
+            "/api/banesat/", te_dhenat, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        banesa_id = response.data["id"]
+        url = f"/api/banesat/{banesa_id}/"
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.patch(
+            url, {"cmimi_mujor": "450.00"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_crud_qiramarresit(self):
+        te_dhenat = {
+            "emri": "Ardit",
+            "mbiemri": "Krasniqi",
+            "telefoni": "049000333",
+            "email": "ardit@example.com"
+        }
+
+        response = self.client.post(
+            "/api/qiramarresit/", te_dhenat, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        qiramarresi_id = response.data["id"]
+        url = f"/api/qiramarresit/{qiramarresi_id}/"
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.patch(
+            url, {"telefoni": "049000444"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_crud_kontratat(self):
+        te_dhenat = {
+            "banesa": self.banesa.id,
+            "qiramarresi": self.qiramarresi.id,
+            "data_fillimit": "2026-11-01",
+            "data_mbarimit": "2027-10-31",
+            "qiraja_mujore": "350.00"
+        }
+
+        response = self.client.post(
+            "/api/kontratat/", te_dhenat, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        kontrata_id = response.data["id"]
+        url = f"/api/kontratat/{kontrata_id}/"
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.patch(
+            url, {"qiraja_mujore": "370.00"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_crud_pagesat(self):
+        kontrata = Kontrata.objects.create(
+            banesa=self.banesa,
+            qiramarresi=self.qiramarresi,
+            data_fillimit=date(2026, 11, 1),
+            data_mbarimit=date(2027, 10, 31),
+            qiraja_mujore=Decimal("350.00")
+        )
+
+        te_dhenat = {
+            "kontrata": kontrata.id,
+            "data_pageses": "2026-11-05",
+            "shuma": "350.00",
+            "muaji": 11,
+            "viti": 2026,
+            "e_paguar": True
+        }
+
+        response = self.client.post(
+            "/api/pagesat/", te_dhenat, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        pagesa_id = response.data["id"]
+        url = f"/api/pagesat/{pagesa_id}/"
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.patch(
+            url, {"e_paguar": False}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
