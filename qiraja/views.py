@@ -1,5 +1,7 @@
-from rest_framework import viewsets
+from django.db.models.deletion import ProtectedError
+from rest_framework import status, viewsets
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 
 from .models import (
     Pronari,
@@ -16,33 +18,51 @@ from .serializers import (
     KontrataSerializer,
     PagesaSerializer,
 )
+class ViewSetMeMbrojtje(viewsets.ModelViewSet):
+    permission_classes = [IsAdminUser]
+
+    def destroy(self, request, *args, **kwargs):
+        objekti = self.get_object()
+
+        try:
+            self.perform_destroy(objekti)
+        except ProtectedError:
+            return Response(
+                {
+                    "error": "Fshirja nuk lejohet.",
+                    "message": (
+                        "Ekzistojne te dhena te lidhura "
+                        "me kete rekord."
+                    ),
+                },
+                status=status.HTTP_409_CONFLICT
+            )
+
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 
-class PronariViewSet(viewsets.ModelViewSet):
+class PronariViewSet(ViewSetMeMbrojtje):
     queryset = Pronari.objects.all()
     serializer_class = PronariSerializer
-    permission_classes = [IsAdminUser]
 
 
-class BanesaViewSet(viewsets.ModelViewSet):
+class BanesaViewSet(ViewSetMeMbrojtje):
     queryset = Banesa.objects.all()
     serializer_class = BanesaSerializer
-    permission_classes = [IsAdminUser]
 
 
-class QiramarresiViewSet(viewsets.ModelViewSet):
+class QiramarresiViewSet(ViewSetMeMbrojtje):
     queryset = Qiramarresi.objects.all()
     serializer_class = QiramarresiSerializer
-    permission_classes = [IsAdminUser]
 
 
-class KontrataViewSet(viewsets.ModelViewSet):
+class KontrataViewSet(ViewSetMeMbrojtje):
     queryset = Kontrata.objects.all()
     serializer_class = KontrataSerializer
-    permission_classes = [IsAdminUser]
 
 
-class PagesaViewSet(viewsets.ModelViewSet):
+class PagesaViewSet(ViewSetMeMbrojtje):
     queryset = Pagesa.objects.all()
     serializer_class = PagesaSerializer
-    permission_classes = [IsAdminUser]

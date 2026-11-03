@@ -350,3 +350,43 @@ class TestAPIModulet(APITestCase):
 
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_nuk_fshihet_pronari_me_banese(self):
+        url = f"/api/pronaret/{self.pronari.id}/"
+
+        response = self.client.delete(url)
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_409_CONFLICT
+        )
+
+        self.assertTrue(
+            Pronari.objects.filter(
+                id=self.pronari.id
+            ).exists()
+        )
+
+    def test_nuk_fshihet_banesa_me_kontrate(self):
+        Kontrata.objects.create(
+            banesa=self.banesa,
+            qiramarresi=self.qiramarresi,
+            data_fillimit=date(2026, 11, 1),
+            data_mbarimit=date(2027, 10, 31),
+            qiraja_mujore=Decimal("350.00")
+        )
+
+        url = f"/api/banesat/{self.banesa.id}/"
+
+        response = self.client.delete(url)
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_409_CONFLICT
+        )
+
+        self.assertTrue(
+            Banesa.objects.filter(
+                id=self.banesa.id
+            ).exists()
+        )
