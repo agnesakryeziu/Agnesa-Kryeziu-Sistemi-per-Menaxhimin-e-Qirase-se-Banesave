@@ -1,0 +1,284 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Home | RentManage{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-image"></div>
+
+    <div class="hero-container">
+        <div class="hero-content">
+
+            <p class="hero-label">
+                PLATFORMA MODERNE PËR MENAXHIMIN E BANESAVE
+            </p>
+
+            <h1>
+                Gjeni banesën ideale<br>
+                për qira
+            </h1>
+
+            <p class="hero-description">
+                Zbuloni banesa me qira, kontrata të sigurta
+                dhe menaxhim të thjeshtë të pagesave.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="#banesat" class="hero-button">
+                    Shiko Banesat →
+                </a>
+
+                <a href="/sherbimet/" class="hero-button-secondary">
+                    Si funksionon?
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<section class="search-section">
+
+    <div class="search-container">
+
+        <form method="GET"
+              action="{% url 'home' %}"
+              class="search-form">
+
+            <div class="search-field">
+
+                <label for="kerkimi" class="sr-only">
+                    Kërko sipas adresës
+                </label>
+
+                <span class="search-symbol" aria-hidden="true">
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="kerkimi"
+                    name="q"
+                    placeholder="Kërko sipas adresës..."
+                    value="{{ request.GET.q }}"
+                >
+
+            </div>
+
+            <div class="search-field">
+
+                <span class="search-symbol" aria-hidden="true">
+                    ⌖
+                </span>
+
+                <label for="qyteti" class="sr-only">
+                    Zgjidh qytetin
+                </label>
+
+                <select id="qyteti" name="qyteti">
+
+                    <option value="">
+                        Zgjidh qytetin
+                    </option>
+
+                    <option value="Prizren" {% if request.GET.qyteti == "Prizren" %}selected{% endif %}>
+                        Prizren
+                    </option>
+
+                    <option value="Prishtinë" {% if request.GET.qyteti == "Prishtinë" %}selected{% endif %}>
+                        Prishtinë
+                    </option>
+
+                    <option value="Dragash" {% if request.GET.qyteti == "Dragash" %}selected{% endif %}>
+                        Dragash
+                    </option>
+
+                    <option value="Gjilan" {% if request.GET.qyteti == "Gjilan" %}selected{% endif %}>
+                        Gjilan
+                    </option>
+
+                    <option value="Ferizaj" {% if request.GET.qyteti == "Ferizaj" %}selected{% endif %}>
+                        Ferizaj
+                    </option>
+
+                    <option value="Gjakovë" {% if request.GET.qyteti == "Gjakovë" %}selected{% endif %}>
+                        Gjakovë
+                    </option>
+
+                    <option value="Pejë" {% if request.GET.qyteti == "Pejë" %}selected{% endif %}>
+                        Pejë
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="search-field">
+
+                <span class="search-symbol" aria-hidden="true">
+                    €
+                </span>
+
+                <label for="cmimi" class="sr-only">
+                    Çmimi maksimal
+                </label>
+
+                <input
+                    type="number"
+                    id="cmimi"
+                    name="cmimi_max"
+                    min="0"
+                    step="0.01"
+                    placeholder="Çmimi maksimal"
+                    value="{{ request.GET.cmimi_max }}"
+                >
+
+            </div>
+
+            <button type="submit" class="search-button">
+                ⌕ Kërko
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<section class="properties-section" id="banesat">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <h2>Banesat e fundit</h2>
+
+            <a href="/banesat/">
+                Shiko të gjitha →
+            </a>
+
+        </div>
+
+        <div class="properties-grid">
+
+            {% for banesa in banesat %}
+
+            <article class="property-card">
+
+                <div class="property-image">
+
+                    {% if forloop.counter == 1 %}
+
+                        <img
+                            src="{% static 'qiraja/img/banesa1.jpg' %}"
+                            alt="Fotografi ilustruese e banesës"
+                        >
+
+                    {% elif forloop.counter == 2 %}
+
+                        <img
+                            src="{% static 'qiraja/img/banesa2.jpg' %}"
+                            alt="Fotografi ilustruese e banesës"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="{% static 'qiraja/img/banesa3.jpg' %}"
+                            alt="Fotografi ilustruese e banesës"
+                        >
+
+                    {% endif %}
+
+                    {% if banesa.e_zene %}
+
+                        <span class="property-status occupied">
+                            E zënë
+                        </span>
+
+                    {% else %}
+
+                        <span class="property-status available">
+                            E lirë
+                        </span>
+
+                    {% endif %}
+
+                    <span class="property-heart" aria-hidden="true">
+                        ♡
+                    </span>
+
+                </div>
+
+                <div class="property-content">
+
+                    <h3>
+                        Banesë {{ banesa.numri_dhomave }} dhoma –
+                        {{ banesa.qyteti }}
+                    </h3>
+
+                    <div class="property-details">
+
+                        <span>
+                            ⌖ {{ banesa.qyteti }}
+                        </span>
+
+                        <span>
+                            ◻ {{ banesa.siperfaqja }} m²
+                        </span>
+
+                        <span>
+                            {{ banesa.numri_dhomave }} dhoma
+                        </span>
+
+                    </div>
+
+                    <div class="property-bottom">
+
+                        <p class="property-address">
+                            {{ banesa.adresa }}
+                        </p>
+
+                        <p class="property-price">
+                            <strong>
+                                {{ banesa.cmimi_mujor|floatformat:"-2" }} €
+                            </strong>
+                            / muaj
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% empty %}
+
+            <div class="empty-properties">
+
+                <h3>Nuk ka banesa për t'u shfaqur</h3>
+
+                <p>
+                    Aktualisht nuk ka banesa të regjistruara
+                    që mund të shfaqen në këtë faqe.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

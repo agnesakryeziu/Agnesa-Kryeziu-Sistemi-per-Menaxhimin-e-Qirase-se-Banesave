@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RentManage{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'qiraja/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="navbar-container">
+
+            <a href="{% url 'home' %}" class="logo">
+                <svg viewBox="0 0 40 40" width="40" height="40" fill="none" aria-hidden="true">
+                    <path d="M5 18L20 5L35 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 17V34H30V17" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17 34V23H24V34" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>RentManage</span>
+            </a>
+
+            <button
+                type="button"
+                class="menu-toggle"
+                aria-label="Hap menynë"
+                aria-controls="navbar-links"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+            <nav class="navbar-links" id="navbar-links" aria-label="Navigimi kryesor">
+
+                <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">
+                    Home
+                </a>
+
+                <a href="/banesat/" class="{% if request.path == '/banesat/' %}active{% endif %}">
+                    Banesat
+                </a>
+
+                <a href="/rreth-nesh/" class="{% if request.path == '/rreth-nesh/' %}active{% endif %}">
+                    Rreth Nesh
+                </a>
+
+                <a href="/sherbimet/" class="{% if request.path == '/sherbimet/' %}active{% endif %}">
+                    Shërbimet
+                </a>
+
+                <a href="/kontaktet/" class="{% if request.path == '/kontaktet/' %}active{% endif %}">
+                    Kontaktet
+                </a>
+
+            </nav>
+
+            <div class="nav-actions">
+
+                <a href="/kontaktet/" class="nav-contact">
+                    ☎ <span>Na kontaktoni</span>
+                </a>
+
+                <a href="/admin/login/?next=/admin/" class="btn-login">
+                    ♙ <span>Kyçu</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+
+            <div class="footer-column footer-about">
+                <div class="footer-brand">
+                    <svg viewBox="0 0 40 40" width="37" height="37" fill="none" aria-hidden="true">
+                        <path d="M5 18L20 5L35 18M10 17V34H30V17M17 34V23H24V34"
+                              stroke="currentColor"
+                              stroke-width="3"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                    <span>RentManage</span>
+                </div>
+
+                <p>
+                    Platformë moderne për kërkimin dhe
+                    menaxhimin e banesave me qira.
+                    Gjeni banesën që ju përshtatet.
+                </p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Lidhje të shpejta</h3>
+
+                <a href="{% url 'home' %}">Home</a>
+                <a href="/banesat/">Banesat</a>
+                <a href="/rreth-nesh/">Rreth Nesh</a>
+                <a href="/sherbimet/">Shërbimet</a>
+                <a href="/kontaktet/">Kontaktet</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Kontakt</h3>
+
+                <p>📍 Kosovë</p>
+                <p>✉ Na shkruani përmes faqes Kontaktet</p>
+
+                <a href="/kontaktet/" class="footer-contact-link">
+                    Na kontaktoni →
+                </a>
+            </div>
+
+            <div class="footer-column footer-news">
+                <h3>Bëhu i informuar</h3>
+
+                <p>
+                    Informohu për banesat dhe shërbimet
+                    e reja të RentManage.
+                </p>
+
+                <div class="newsletter-preview">
+                    <input
+                        type="email"
+                        placeholder="Shkruaj email-in tuaj"
+                        aria-label="Email për njoftimet"
+                        disabled
+                    >
+
+                    <button
+                        type="button"
+                        aria-label="Abonimi do të jetë i disponueshëm së shpejti"
+                        disabled
+                    >
+                        ➤
+                    </button>
+                </div>
+
+                <small>Abonimi do të aktivizohet më vonë.</small>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>
+                © {% now "Y" %} RentManage.
+                Të gjitha të drejtat e rezervuara.
+            </p>
+
+            <p>Sistemi për Menaxhimin e Qirasë së Banesave</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navbarLinks = document.querySelector(".navbar-links");
+
+        menuToggle.addEventListener("click", function () {
+            const open = navbarLinks.classList.toggle("open");
+            menuToggle.setAttribute("aria-expanded", String(open));
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

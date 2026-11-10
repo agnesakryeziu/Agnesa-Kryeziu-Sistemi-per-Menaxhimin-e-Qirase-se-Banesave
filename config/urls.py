@@ -5,4 +5,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("qiraja.urls")),
     path("api-auth/", include("rest_framework.urls")),
+    path("", include("qiraja.web_urls")),
 ]
