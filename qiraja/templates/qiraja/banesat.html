@@ -1,0 +1,195 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Banesat | RentManage{% endblock %}
+{% block body_class %}page-banesat{% endblock %}
+
+{% block content %}
+
+<section class="banesat-intro">
+    <div class="banesat-intro-inner">
+        <span class="banesat-label">RENTMANAGE / BANESAT</span>
+        <h1>Gjeni banesën tuaj ideale</h1>
+        <p>
+            Eksploroni banesat me qira dhe gjeni
+            ofertën që i përshtatet nevojave tuaja.
+        </p>
+    </div>
+</section>
+
+<section class="banesat-content">
+    <div class="section-container">
+
+        <form method="get"
+              action="{% url 'banesat' %}"
+              class="banesat-filter-form">
+
+            <div class="banesat-filter-field">
+                <label for="kerkimi">Kërko banesë</label>
+                <input
+                    id="kerkimi"
+                    type="text"
+                    name="q"
+                    placeholder="Adresa ose qyteti"
+                    value="{{ kerkimi }}"
+                >
+            </div>
+
+            <div class="banesat-filter-field">
+                <label for="qyteti">Qyteti</label>
+                <select id="qyteti" name="qyteti">
+                    <option value="">Të gjitha qytetet</option>
+
+                    {% for qytet in qytetet %}
+                        <option value="{{ qytet }}"
+                            {% if qyteti_zgjedhur == qytet %}selected{% endif %}>
+                            {{ qytet }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="banesat-filter-field">
+                <label for="cmimi_max">Çmimi maksimal</label>
+                <input
+                    id="cmimi_max"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    name="cmimi_max"
+                    placeholder="Çmimi në €"
+                    value="{{ cmimi_max }}"
+                >
+            </div>
+
+            <div class="banesat-filter-field">
+                <label for="statusi">Statusi</label>
+                <select id="statusi" name="statusi">
+                    <option value="">Të gjitha</option>
+                    <option value="lire"
+                        {% if statusi == "lire" %}selected{% endif %}>
+                        Të lira
+                    </option>
+                    <option value="zene"
+                        {% if statusi == "zene" %}selected{% endif %}>
+                        Të zëna
+                    </option>
+                </select>
+            </div>
+
+            <div class="banesat-filter-field">
+                <label for="renditja">Renditja</label>
+                <select id="renditja" name="renditja">
+                    <option value="fundit"
+                        {% if renditja == "fundit" %}selected{% endif %}>
+                        Më të rejat
+                    </option>
+                    <option value="cmimi_ulte"
+                        {% if renditja == "cmimi_ulte" %}selected{% endif %}>
+                        Çmimi më i ulët
+                    </option>
+                    <option value="cmimi_larte"
+                        {% if renditja == "cmimi_larte" %}selected{% endif %}>
+                        Çmimi më i lartë
+                    </option>
+                </select>
+            </div>
+
+            <div class="banesat-filter-actions">
+                <button type="submit" class="search-button">
+                    Kërko
+                </button>
+                <a href="{% url 'banesat' %}" class="banesat-reset">
+                    Pastro
+                </a>
+            </div>
+
+        </form>
+
+        {% if gabim_filtri %}
+            <p class="banesat-error" role="alert">
+                {{ gabim_filtri }}
+            </p>
+        {% endif %}
+
+        <div class="banesat-heading">
+            <div>
+                <span class="banesat-label">ZBULONI OFERTAT</span>
+                <h2>Banesa me qira</h2>
+            </div>
+            <p>{{ numri_rezultateve }} rezultate</p>
+        </div>
+
+        <div class="properties-grid">
+
+            {% for banesa in banesat %}
+
+                <article class="property-card">
+
+                    <div class="property-image">
+                        {% cycle 'qiraja/img/banesa1.jpg' 'qiraja/img/banesa2.jpg' 'qiraja/img/banesa3.jpg' as fotografia silent %}
+
+                        <img
+                            src="{% static fotografia %}"
+                            alt="Fotografi ilustruese e banesës"
+                            loading="lazy"
+                        >
+
+                        <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+                            {% if banesa.e_zene %}
+                                E zënë
+                            {% else %}
+                                E lirë
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="property-content">
+                        <h3>
+                            Banesë {{ banesa.numri_dhomave }} dhoma –
+                            {{ banesa.qyteti }}
+                        </h3>
+
+                        <div class="property-details">
+                            <span>⌖ {{ banesa.qyteti }}</span>
+                            <span>▣ {{ banesa.siperfaqja }} m²</span>
+                            <span>⌂ {{ banesa.numri_dhomave }} dhoma</span>
+                        </div>
+
+                        <div class="property-bottom">
+                            <p class="property-address">
+                                {{ banesa.adresa }}
+                            </p>
+
+                            <p class="property-price">
+                                <strong>
+                                    {{ banesa.cmimi_mujor|floatformat:"-2" }} €
+                                </strong>
+                                / muaj
+                            </p>
+                        </div>
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-properties">
+                    <h3>Nuk u gjet asnjë banesë</h3>
+                    <p>
+                        Provoni të ndryshoni filtrat
+                        ose pastroni kërkimin.
+                    </p>
+                    <a href="{% url 'banesat' %}" class="banesat-empty-link">
+                        Shfaq të gjitha banesat
+                    </a>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
