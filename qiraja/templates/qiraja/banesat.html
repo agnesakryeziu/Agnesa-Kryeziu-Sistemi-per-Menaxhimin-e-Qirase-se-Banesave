@@ -127,7 +127,6 @@
         </div>
 
         <div class="properties-grid">
-
             {% for banesa in banesat %}
                 <a
                     href="{% url 'detajet_baneses' banesa.pk %}"
@@ -136,13 +135,21 @@
                     aria-label="Shiko detajet e banesës në {{ banesa.qyteti }}"
                 >
                     <div class="property-image">
-                        {% cycle 'qiraja/img/banesa1.jpg' 'qiraja/img/banesa2.jpg' 'qiraja/img/banesa3.jpg' as fotografia silent %}
 
-                        <img
-                            src="{% static fotografia %}"
-                            alt="Fotografi ilustruese e banesës"
-                            loading="lazy"
-                        >
+                        {% if banesa.fotografia %}
+                            <img
+                                src="{{ banesa.fotografia.url }}"
+                                alt="Fotografia e banesës në {{ banesa.qyteti }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            {% cycle 'qiraja/img/banesa1.jpg' 'qiraja/img/banesa2.jpg' 'qiraja/img/banesa3.jpg' as fotografia silent %}
+                            <img
+                                src="{% static fotografia %}"
+                                alt="Fotografi ilustruese"
+                                loading="lazy"
+                            >
+                        {% endif %}
 
                         <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
                             {% if banesa.e_zene %}
@@ -192,8 +199,8 @@
                     </a>
                 </div>
             {% endfor %}
-
         </div>
+
     </div>
 </section>
 

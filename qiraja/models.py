@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 
 
 class Perdorues(AbstractUser):
@@ -25,12 +26,26 @@ class Banesa(models.Model):
     qyteti = models.CharField(max_length=100)
     siperfaqja = models.PositiveIntegerField()
     numri_dhomave = models.PositiveIntegerField()
-    cmimi_mujor = models.DecimalField(max_digits=10, decimal_places=2)
+    cmimi_mujor = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    fotografia = models.ImageField(
+        upload_to="banesat/",
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            )
+        ]
+    )
 
     pronari = models.ForeignKey(
         Pronari,
         on_delete=models.PROTECT,
-        related_name='banesat'
+        related_name="banesat"
     )
 
     def __str__(self):
@@ -51,15 +66,18 @@ class Kontrata(models.Model):
     banesa = models.ForeignKey(
         Banesa,
         on_delete=models.PROTECT,
-        related_name='kontratat'
+        related_name="kontratat"
     )
+
     qiramarresi = models.ForeignKey(
         Qiramarresi,
         on_delete=models.PROTECT,
-        related_name='kontratat'
+        related_name="kontratat"
     )
+
     data_fillimit = models.DateField()
     data_mbarimit = models.DateField()
+
     qiraja_mujore = models.DecimalField(
         max_digits=10,
         decimal_places=2
@@ -91,7 +109,7 @@ class Kontrata(models.Model):
             if kontratat.exists():
                 raise ValidationError(
                     "Kjo banese ka nje kontrate tjeter ne kete periudhe."
-            )
+                )
 
     def __str__(self):
         return f"Kontrata {self.id} - {self.banesa}"
@@ -101,19 +119,23 @@ class Pagesa(models.Model):
     kontrata = models.ForeignKey(
         Kontrata,
         on_delete=models.PROTECT,
-        related_name='pagesat'
+        related_name="pagesat"
     )
+
     data_pageses = models.DateField()
+
     shuma = models.DecimalField(
         max_digits=10,
         decimal_places=2
     )
+
     muaji = models.PositiveSmallIntegerField()
     viti = models.PositiveIntegerField()
     e_paguar = models.BooleanField(default=False)
 
     def clean(self):
         super().clean()
+
         if self.muaji is not None and not 1 <= self.muaji <= 12:
             raise ValidationError(
                 "Muaji duhet te jete nga 1 deri ne 12."

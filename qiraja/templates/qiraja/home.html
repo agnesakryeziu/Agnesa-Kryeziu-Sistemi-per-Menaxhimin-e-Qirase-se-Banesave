@@ -43,8 +43,11 @@
 
 <section class="search-section" aria-label="Kërkimi i banesave">
     <div class="search-container">
-        <form method="get" action="{% url 'home' %}#banesat" class="search-form">
-
+        <form
+            method="get"
+            action="{% url 'home' %}#banesat"
+            class="search-form"
+        >
             <div class="search-field">
                 <label class="sr-only" for="kerkimi">
                     Kërko sipas adresës
@@ -101,7 +104,6 @@
 
 <section class="properties-section" id="banesat">
     <div class="section-container">
-
         <div class="section-heading">
             <h2>Banesa të fundit</h2>
             <a href="{% url 'banesat' %}">
@@ -110,7 +112,6 @@
         </div>
 
         <div class="properties-grid">
-
             {% for banesa in banesat %}
                 <a
                     href="{% url 'detajet_baneses' banesa.pk %}"
@@ -120,20 +121,29 @@
                 >
                     <div class="property-image">
 
-                        {% if forloop.counter == 1 %}
+                        {% if banesa.fotografia %}
+                            <img
+                                src="{{ banesa.fotografia.url }}"
+                                alt="Fotografia e banesës në {{ banesa.qyteti }}"
+                                loading="lazy"
+                            >
+                        {% elif forloop.counter == 1 %}
                             <img
                                 src="{% static 'qiraja/img/banesa1.jpg' %}"
-                                alt="Fotografi ilustruese e banesës"
+                                alt="Fotografi ilustruese"
+                                loading="lazy"
                             >
                         {% elif forloop.counter == 2 %}
                             <img
                                 src="{% static 'qiraja/img/banesa2.jpg' %}"
-                                alt="Fotografi ilustruese e banesës"
+                                alt="Fotografi ilustruese"
+                                loading="lazy"
                             >
                         {% else %}
                             <img
                                 src="{% static 'qiraja/img/banesa3.jpg' %}"
-                                alt="Fotografi ilustruese e banesës"
+                                alt="Fotografi ilustruese"
+                                loading="lazy"
                             >
                         {% endif %}
 
@@ -186,7 +196,6 @@
                     </p>
                 </div>
             {% endfor %}
-
         </div>
     </div>
 </section>

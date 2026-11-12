@@ -17,7 +17,9 @@
             ← Kthehu te banesat
         </a>
 
-        <p class="detail-label">RENTMANAGE / DETAJET E BANESËS</p>
+        <p class="detail-label">
+            RENTMANAGE / DETAJET E BANESËS
+        </p>
 
         <h1>
             Banesë me {{ banesa.numri_dhomave }} dhoma
@@ -34,13 +36,20 @@
     <div class="detail-container">
 
         <div class="detail-photo">
-            <img
-                src="{% static 'qiraja/img/banesa1.jpg' %}"
-                alt="Fotografi ilustruese e banesës"
-            >
-            <span class="detail-photo-label">
-                Fotografi ilustruese
-            </span>
+            {% if banesa.fotografia %}
+                <img
+                    src="{{ banesa.fotografia.url }}"
+                    alt="Fotografia e banesës në {{ banesa.qyteti }}"
+                >
+            {% else %}
+                <img
+                    src="{% static 'qiraja/img/banesa1.jpg' %}"
+                    alt="Fotografi ilustruese e banesës"
+                >
+                <span class="detail-photo-label">
+                    Fotografi ilustruese
+                </span>
+            {% endif %}
         </div>
 
         <div class="detail-panel">
@@ -97,8 +106,7 @@
             </dl>
 
             <p class="detail-note">
-                Fotografia është ilustruese.
-                Të dhënat e banesës merren nga databaza.
+                Informacionet e banesës merren nga databaza MySQL.
             </p>
 
             <a href="{% url 'banesat' %}" class="detail-button">
