@@ -1,0 +1,273 @@
+.page-detajet .site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+}
+
+.detail-hero {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.detail-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 72%;
+    background: url("../img/hero-rentmanage.jpg") center / cover no-repeat;
+}
+
+.detail-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #ffffff 25%,
+        rgba(255,255,255,.96) 37%,
+        rgba(255,255,255,.45) 68%,
+        transparent 100%
+    );
+}
+
+.detail-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1250px;
+    margin: auto;
+    padding: 125px 28px 70px;
+}
+
+.detail-breadcrumb {
+    display: inline-block;
+    color: #07563b;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 23px;
+}
+
+.detail-label {
+    color: #176a49;
+    font-size: 11px;
+    letter-spacing: 1.3px;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+.detail-hero h1 {
+    max-width: 650px;
+    color: #063d2c;
+    font: 800 clamp(30px, 3.5vw, 45px)/1.2 "Manrope", sans-serif;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+}
+
+.detail-address {
+    font-size: 14px;
+    color: #4d6256;
+}
+
+.detail-section {
+    background: #fcfcfa;
+    padding: 46px 24px 85px;
+}
+
+.detail-container {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 35px;
+    max-width: 1225px;
+    margin: auto;
+    align-items: start;
+}
+
+.detail-photo {
+    position: relative;
+    background: white;
+    border-radius: 17px;
+    border: 1px solid #e5eae5;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 50, 31, .08);
+}
+
+.detail-photo img {
+    display: block;
+    width: 100%;
+    height: 430px;
+    object-fit: cover;
+}
+
+.detail-photo-label {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    padding: 9px 16px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.95);
+    color: #325244;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.detail-panel {
+    padding: 29px;
+    background: white;
+    border-radius: 17px;
+    border: 1px solid #e5eae5;
+    box-shadow: 0 12px 30px rgba(0, 50, 31, .08);
+}
+
+.detail-status {
+    display: inline-block;
+    padding: 8px 17px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.detail-status.available {
+    background: #e2f4e8;
+    color: #087249;
+}
+
+.detail-status.occupied {
+    background: #fff0d8;
+    color: #9e631e;
+}
+
+.detail-price {
+    padding: 22px 0;
+    margin-bottom: 22px;
+    border-bottom: 1px solid #e7ede8;
+}
+
+.detail-price span {
+    display: block;
+    margin-bottom: 7px;
+    color: #627369;
+    font-size: 13px;
+}
+
+.detail-price strong {
+    color: #07563b;
+    font: 800 38px "Manrope", sans-serif;
+}
+
+.detail-price small {
+    color: #627369;
+    font-size: 13px;
+}
+
+.detail-panel h2 {
+    color: #103e2c;
+    font: 800 20px "Manrope", sans-serif;
+    margin-bottom: 17px;
+}
+
+.detail-info > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.detail-info dt {
+    font-size: 13px;
+    color: #68776d;
+}
+
+.detail-info dd {
+    margin: 0;
+    color: #173d2a;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.detail-note {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 9px;
+    background: #f3f7f3;
+    color: #5a6d60;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.detail-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 24px;
+    margin-top: 22px;
+    border-radius: 25px;
+    background: #053d2b;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.detail-button:hover {
+    background: #08734c;
+}
+
+@media (max-width: 800px) {
+    .detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-photo img {
+        height: 340px;
+    }
+
+    .detail-hero::before {
+        width: 100%;
+        opacity: .3;
+    }
+
+    .detail-hero::after {
+        background: rgba(255,255,255,.75);
+    }
+}
+
+@media (max-width: 550px) {
+    .detail-hero {
+        min-height: 320px;
+    }
+
+    .detail-hero-inner {
+        padding: 110px 22px 52px;
+    }
+
+    .detail-hero h1 {
+        font-size: 30px;
+    }
+
+    .detail-section {
+        padding: 28px 16px 60px;
+    }
+
+    .detail-container {
+        gap: 20px;
+    }
+
+    .detail-photo img {
+        height: 240px;
+    }
+
+    .detail-panel {
+        padding: 22px 18px;
+    }
+
+    .detail-price strong {
+        font-size: 32px;
+    }
+}

@@ -1,0 +1,113 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Detajet e banesës | RentManage{% endblock %}
+{% block body_class %}page-detajet{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/detajet.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="detail-hero">
+    <div class="detail-hero-inner">
+
+        <a href="{% url 'banesat' %}" class="detail-breadcrumb">
+            ← Kthehu te banesat
+        </a>
+
+        <p class="detail-label">RENTMANAGE / DETAJET E BANESËS</p>
+
+        <h1>
+            Banesë me {{ banesa.numri_dhomave }} dhoma
+            në {{ banesa.qyteti }}
+        </h1>
+
+        <p class="detail-address">
+            ⌖ {{ banesa.adresa }}, {{ banesa.qyteti }}
+        </p>
+    </div>
+</section>
+
+<section class="detail-section">
+    <div class="detail-container">
+
+        <div class="detail-photo">
+            <img
+                src="{% static 'qiraja/img/banesa1.jpg' %}"
+                alt="Fotografi ilustruese e banesës"
+            >
+            <span class="detail-photo-label">
+                Fotografi ilustruese
+            </span>
+        </div>
+
+        <div class="detail-panel">
+
+            <span class="detail-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+                {% if banesa.e_zene %}
+                    E zënë
+                {% else %}
+                    E lirë
+                {% endif %}
+            </span>
+
+            <div class="detail-price">
+                <span>Çmimi mujor</span>
+                <strong>
+                    {{ banesa.cmimi_mujor|floatformat:"-2" }} €
+                </strong>
+                <small>/ muaj</small>
+            </div>
+
+            <h2>Informacionet e banesës</h2>
+
+            <dl class="detail-info">
+                <div>
+                    <dt>Qyteti</dt>
+                    <dd>{{ banesa.qyteti }}</dd>
+                </div>
+
+                <div>
+                    <dt>Adresa</dt>
+                    <dd>{{ banesa.adresa }}</dd>
+                </div>
+
+                <div>
+                    <dt>Sipërfaqja</dt>
+                    <dd>{{ banesa.siperfaqja }} m²</dd>
+                </div>
+
+                <div>
+                    <dt>Numri i dhomave</dt>
+                    <dd>{{ banesa.numri_dhomave }}</dd>
+                </div>
+
+                <div>
+                    <dt>Disponueshmëria</dt>
+                    <dd>
+                        {% if banesa.e_zene %}
+                            E zënë
+                        {% else %}
+                            E lirë
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+
+            <p class="detail-note">
+                Fotografia është ilustruese.
+                Të dhënat e banesës merren nga databaza.
+            </p>
+
+            <a href="{% url 'banesat' %}" class="detail-button">
+                ← Shiko të gjitha banesat
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

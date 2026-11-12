@@ -1,7 +1,7 @@
 from decimal import Decimal, InvalidOperation
 
 from django.db.models import Exists, OuterRef, Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
 from .models import Banesa, Kontrata
@@ -62,6 +62,8 @@ def home(request):
         "qiraja/home.html",
         context
     )
+
+
 def banesat(request):
     sot = timezone.localdate()
 
@@ -154,4 +156,27 @@ def banesat(request):
         request,
         "qiraja/banesat.html",
         context
+    )
+
+
+def detajet_baneses(request, pk):
+    sot = timezone.localdate()
+
+    kontratat_aktive = Kontrata.objects.filter(
+        banesa_id=OuterRef("pk"),
+        data_fillimit__lte=sot,
+        data_mbarimit__gte=sot
+    )
+
+    banesa = get_object_or_404(
+        Banesa.objects.annotate(
+            e_zene=Exists(kontratat_aktive)
+        ),
+        pk=pk
+    )
+
+    return render(
+        request,
+        "qiraja/detajet_baneses.html",
+        {"banesa": banesa}
     )

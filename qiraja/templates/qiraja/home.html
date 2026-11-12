@@ -7,13 +7,11 @@
 {% block content %}
 
 <section class="hero">
-
     <div class="hero-image" aria-hidden="true"></div>
     <div class="hero-leaves" aria-hidden="true"></div>
 
     <div class="hero-container">
         <div class="hero-content">
-
             <p class="hero-label">
                 PLATFORMA MODERNE PËR MENAXHIMIN E BANESAVE
             </p>
@@ -37,24 +35,21 @@
                     ▷ &nbsp; Si funksionon?
                 </a>
             </div>
-
         </div>
     </div>
 
     <div class="hero-bottom-wave" aria-hidden="true"></div>
-
 </section>
 
 <section class="search-section" aria-label="Kërkimi i banesave">
-
     <div class="search-container">
-
         <form method="get" action="{% url 'home' %}#banesat" class="search-form">
 
             <div class="search-field">
-                <label class="sr-only" for="kerkimi">Kërko sipas adresës</label>
+                <label class="sr-only" for="kerkimi">
+                    Kërko sipas adresës
+                </label>
                 <span class="search-symbol" aria-hidden="true">⌕</span>
-
                 <input
                     id="kerkimi"
                     type="text"
@@ -65,9 +60,10 @@
             </div>
 
             <div class="search-field">
-                <label class="sr-only" for="qyteti">Zgjidh qytetin</label>
+                <label class="sr-only" for="qyteti">
+                    Zgjidh qytetin
+                </label>
                 <span class="search-symbol" aria-hidden="true">⌖</span>
-
                 <select id="qyteti" name="qyteti">
                     <option value="">Zgjidh qytetin</option>
                     <option value="Prizren" {% if request.GET.qyteti == "Prizren" %}selected{% endif %}>Prizren</option>
@@ -81,9 +77,10 @@
             </div>
 
             <div class="search-field">
-                <label class="sr-only" for="cmimi">Çmimi maksimal</label>
+                <label class="sr-only" for="cmimi">
+                    Çmimi maksimal
+                </label>
                 <span class="search-symbol" aria-hidden="true">€</span>
-
                 <input
                     id="cmimi"
                     type="number"
@@ -98,20 +95,16 @@
             <button type="submit" class="search-button">
                 ⌕ &nbsp; Kërko
             </button>
-
         </form>
     </div>
-
 </section>
 
 <section class="properties-section" id="banesat">
-
     <div class="section-container">
 
         <div class="section-heading">
             <h2>Banesa të fundit</h2>
-
-            <a href="/banesat/">
+            <a href="{% url 'banesat' %}">
                 Shiko të gjitha &nbsp; →
             </a>
         </div>
@@ -119,65 +112,83 @@
         <div class="properties-grid">
 
             {% for banesa in banesat %}
+                <a
+                    href="{% url 'detajet_baneses' banesa.pk %}"
+                    class="property-card"
+                    style="display:block"
+                    aria-label="Shiko detajet e banesës në {{ banesa.qyteti }}"
+                >
+                    <div class="property-image">
 
-            <article class="property-card">
+                        {% if forloop.counter == 1 %}
+                            <img
+                                src="{% static 'qiraja/img/banesa1.jpg' %}"
+                                alt="Fotografi ilustruese e banesës"
+                            >
+                        {% elif forloop.counter == 2 %}
+                            <img
+                                src="{% static 'qiraja/img/banesa2.jpg' %}"
+                                alt="Fotografi ilustruese e banesës"
+                            >
+                        {% else %}
+                            <img
+                                src="{% static 'qiraja/img/banesa3.jpg' %}"
+                                alt="Fotografi ilustruese e banesës"
+                            >
+                        {% endif %}
 
-                <div class="property-image">
+                        <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+                            {% if banesa.e_zene %}
+                                E zënë
+                            {% else %}
+                                E lirë
+                            {% endif %}
+                        </span>
 
-                    {% if forloop.counter == 1 %}
-                        <img src="{% static 'qiraja/img/banesa1.jpg' %}" alt="Fotografi ilustruese e banesës">
-                    {% elif forloop.counter == 2 %}
-                        <img src="{% static 'qiraja/img/banesa2.jpg' %}" alt="Fotografi ilustruese e banesës">
-                    {% else %}
-                        <img src="{% static 'qiraja/img/banesa3.jpg' %}" alt="Fotografi ilustruese e banesës">
-                    {% endif %}
-
-                    <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
-                        {% if banesa.e_zene %}E zënë{% else %}E lirë{% endif %}
-                    </span>
-
-                    <span class="property-heart" aria-hidden="true">♡</span>
-
-                </div>
-
-                <div class="property-content">
-
-                    <h3>
-                        Banesë {{ banesa.numri_dhomave }} dhoma –
-                        {{ banesa.qyteti }}
-                    </h3>
-
-                    <div class="property-details">
-                        <span>⌖ {{ banesa.qyteti }}</span>
-                        <span>▣ {{ banesa.siperfaqja }} m²</span>
-                        <span>⌂ {{ banesa.numri_dhomave }} dhoma</span>
+                        <span class="property-heart" aria-hidden="true">
+                            ♡
+                        </span>
                     </div>
 
-                    <div class="property-bottom">
-                        <p class="property-address">{{ banesa.adresa }}</p>
+                    <div class="property-content">
+                        <h3>
+                            Banesë {{ banesa.numri_dhomave }} dhoma –
+                            {{ banesa.qyteti }}
+                        </h3>
 
-                        <p class="property-price">
-                            <strong>{{ banesa.cmimi_mujor|floatformat:"-2" }} €</strong>
-                            / muaj
-                        </p>
+                        <div class="property-details">
+                            <span>⌖ {{ banesa.qyteti }}</span>
+                            <span>▣ {{ banesa.siperfaqja }} m²</span>
+                            <span>⌂ {{ banesa.numri_dhomave }} dhoma</span>
+                        </div>
+
+                        <div class="property-bottom">
+                            <p class="property-address">
+                                {{ banesa.adresa }}
+                            </p>
+
+                            <p class="property-price">
+                                <strong>
+                                    {{ banesa.cmimi_mujor|floatformat:"-2" }} €
+                                </strong>
+                                / muaj
+                            </p>
+                        </div>
                     </div>
-
-                </div>
-            </article>
+                </a>
 
             {% empty %}
-
-            <div class="empty-properties">
-                <h3>Nuk ka banesa për t'u shfaqur</h3>
-                <p>Aktualisht nuk ka banesa që përputhen me kërkimin.</p>
-            </div>
-
+                <div class="empty-properties">
+                    <h3>Nuk ka banesa për t'u shfaqur</h3>
+                    <p>
+                        Aktualisht nuk ka banesa që
+                        përputhen me kërkimin.
+                    </p>
+                </div>
             {% endfor %}
 
         </div>
-
     </div>
-
 </section>
 
 {% endblock %}
