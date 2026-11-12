@@ -1,0 +1,74 @@
+{% load static %}
+
+<article class="property-card">
+    <div class="property-image">
+        <a
+            href="{% url 'detajet_baneses' banesa.pk %}"
+            class="property-image-link"
+            aria-label="Shiko detajet e banesës në {{ banesa.qyteti }}"
+        >
+            {% if banesa.fotografia %}
+                <img
+                    src="{{ banesa.fotografia.url }}"
+                    alt="Fotografia e banesës në {{ banesa.qyteti }}"
+                    loading="lazy"
+                >
+            {% elif forloop.counter == 1 %}
+                <img
+                    src="{% static 'qiraja/img/banesa1.jpg' %}"
+                    alt="Fotografi ilustruese"
+                    loading="lazy"
+                >
+            {% elif forloop.counter == 2 %}
+                <img
+                    src="{% static 'qiraja/img/banesa2.jpg' %}"
+                    alt="Fotografi ilustruese"
+                    loading="lazy"
+                >
+            {% else %}
+                <img
+                    src="{% static 'qiraja/img/banesa3.jpg' %}"
+                    alt="Fotografi ilustruese"
+                    loading="lazy"
+                >
+            {% endif %}
+        </a>
+
+        <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+            {% if banesa.e_zene %}
+                E zënë
+            {% else %}
+                E lirë
+            {% endif %}
+        </span>
+    </div>
+
+    <div class="property-content">
+        <h3>
+            Banesë {{ banesa.numri_dhomave }} dhoma – {{ banesa.qyteti }}
+        </h3>
+
+        <div class="property-details">
+            <span>⌖ {{ banesa.qyteti }}</span>
+            <span>▣ {{ banesa.siperfaqja }} m²</span>
+            <span>⌂ {{ banesa.numri_dhomave }} dhoma</span>
+        </div>
+
+        {% if faqja_banesave %}
+        <div class="property-inline-action">
+            <a href="{% url 'detajet_baneses' banesa.pk %}" class="property-inline-button">
+                Shiko detajet
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="property-bottom">
+            <p class="property-address">{{ banesa.adresa }}</p>
+
+            <p class="property-price">
+                <strong>{{ banesa.cmimi_mujor|floatformat:"-2" }} €</strong>
+                / muaj
+            </p>
+        </div>
+    </div>
+</article>

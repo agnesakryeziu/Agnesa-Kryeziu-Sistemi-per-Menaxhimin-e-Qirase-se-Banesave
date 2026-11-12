@@ -52,6 +52,38 @@ class Banesa(models.Model):
         return f"{self.adresa} - {self.qyteti}"
 
 
+class FotografiaBaneses(models.Model):
+    banesa = models.ForeignKey(
+        Banesa,
+        on_delete=models.CASCADE,
+        related_name="fotografite"
+    )
+
+    fotografia = models.ImageField(
+        upload_to="banesat/galeria/",
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"]
+            )
+        ]
+    )
+
+    pershkrimi = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    renditja = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["renditja", "id"]
+        verbose_name = "Fotografi e banesës"
+        verbose_name_plural = "Fotografitë e banesave"
+
+    def __str__(self):
+        return self.pershkrimi or f"Fotografia {self.pk}"
+
+
 class Qiramarresi(models.Model):
     emri = models.CharField(max_length=100)
     mbiemri = models.CharField(max_length=100)

@@ -6,13 +6,13 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'qiraja/css/detajet.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/galeria.css' %}">
 {% endblock %}
 
 {% block content %}
 
 <section class="detail-hero">
     <div class="detail-hero-inner">
-
         <a href="{% url 'banesat' %}" class="detail-breadcrumb">
             ← Kthehu te banesat
         </a>
@@ -35,21 +35,119 @@
 <section class="detail-section">
     <div class="detail-container">
 
-        <div class="detail-photo">
-            {% if banesa.fotografia %}
-                <img
-                    src="{{ banesa.fotografia.url }}"
-                    alt="Fotografia e banesës në {{ banesa.qyteti }}"
+        <div class="detail-photo" data-gallery>
+
+            <div class="gallery-stage">
+
+                {% if banesa.fotografia %}
+                    <img
+                        data-gallery-main
+                        src="{{ banesa.fotografia.url }}"
+                        alt="Fotografia kryesore e banesës"
+                    >
+                {% elif banesa.fotografite.first %}
+                    <img
+                        data-gallery-main
+                        src="{{ banesa.fotografite.first.fotografia.url }}"
+                        alt="Fotografia e banesës"
+                    >
+                {% else %}
+                    <img
+                        data-gallery-main
+                        src="{% static 'qiraja/img/banesa1.jpg' %}"
+                        alt="Fotografi ilustruese"
+                    >
+                    <span class="detail-photo-label">
+                        Fotografi ilustruese
+                    </span>
+                {% endif %}
+
+                <button
+                    type="button"
+                    class="gallery-arrow gallery-prev"
+                    data-gallery-prev
+                    aria-label="Fotografia e mëparshme"
                 >
-            {% else %}
-                <img
-                    src="{% static 'qiraja/img/banesa1.jpg' %}"
-                    alt="Fotografi ilustruese e banesës"
+                    &#10094;
+                </button>
+
+                <button
+                    type="button"
+                    class="gallery-arrow gallery-next"
+                    data-gallery-next
+                    aria-label="Fotografia tjetër"
                 >
-                <span class="detail-photo-label">
-                    Fotografi ilustruese
-                </span>
+                    &#10095;
+                </button>
+
+                <button
+                    type="button"
+                    class="gallery-expand"
+                    data-gallery-expand
+                    aria-label="Zmadho fotografinë"
+                >
+                    ⛶
+                </button>
+
+            </div>
+
+            {% if banesa.fotografia or banesa.fotografite.exists %}
+                <div class="gallery-thumbnails">
+
+                    {% if banesa.fotografia %}
+                        <button
+                            type="button"
+                            class="gallery-thumbnail active"
+                            data-gallery-thumb
+                            data-image="{{ banesa.fotografia.url }}"
+                            data-alt="Fotografia kryesore e banesës"
+                            data-caption="Fotografia kryesore"
+                            aria-label="Shfaq fotografinë kryesore"
+                            aria-pressed="true"
+                        >
+                            <img
+                                src="{{ banesa.fotografia.url }}"
+                                alt=""
+                                loading="lazy"
+                            >
+                        </button>
+                    {% endif %}
+
+                    {% for foto in banesa.fotografite.all %}
+                        <button
+                            type="button"
+                            class="gallery-thumbnail{% if not banesa.fotografia and forloop.first %} active{% endif %}"
+                            data-gallery-thumb
+                            data-image="{{ foto.fotografia.url }}"
+                            data-alt="{{ foto.pershkrimi|default:'Fotografia e banesës' }}"
+                            data-caption="{{ foto.pershkrimi|default:'Fotografia e banesës' }}"
+                            aria-label="Shfaq {{ foto.pershkrimi|default:'fotografinë e banesës' }}"
+                            aria-pressed="{% if not banesa.fotografia and forloop.first %}true{% else %}false{% endif %}"
+                        >
+                            <img
+                                src="{{ foto.fotografia.url }}"
+                                alt=""
+                                loading="lazy"
+                            >
+                        </button>
+                    {% endfor %}
+
+                </div>
             {% endif %}
+
+            <div class="gallery-caption" aria-live="polite">
+                <span data-gallery-caption>
+                    {% if banesa.fotografia %}
+                        Fotografia kryesore
+                    {% elif banesa.fotografite.first %}
+                        {{ banesa.fotografite.first.pershkrimi|default:"Fotografia e banesës" }}
+                    {% else %}
+                        Fotografi ilustruese
+                    {% endif %}
+                </span>
+                <span data-gallery-count></span>
+            </div>
+
         </div>
 
         <div class="detail-panel">
@@ -106,7 +204,8 @@
             </dl>
 
             <p class="detail-note">
-                Informacionet e banesës merren nga databaza MySQL.
+                Fotografitë e banesës dhe informacionet
+                shfaqen nga sistemi RentManage.
             </p>
 
             <a href="{% url 'banesat' %}" class="detail-button">
@@ -114,8 +213,25 @@
             </a>
 
         </div>
-
     </div>
 </section>
 
+<dialog class="gallery-dialog" data-gallery-dialog>
+    <div class="gallery-dialog-content">
+        <button
+            type="button"
+            class="gallery-dialog-close"
+            data-gallery-close
+            aria-label="Mbyll fotografinë"
+        >
+            &times;
+        </button>
+        <img data-gallery-large alt="Fotografia e zmadhuar">
+    </div>
+</dialog>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'qiraja/js/galeria.js' %}" defer></script>
 {% endblock %}
