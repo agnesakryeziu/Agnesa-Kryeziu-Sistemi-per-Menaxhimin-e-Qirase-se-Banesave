@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import web_views
 from .kontakt_views import KontaktView
+from .login_views import HyrjeView, DaljeView
 
 
 urlpatterns = [
@@ -34,5 +35,15 @@ urlpatterns = [
         "kontaktet/",
         KontaktView.as_view(),
         name="kontaktet"
+    ),
+    path(
+        "hyrja/",
+        HyrjeView.as_view(),
+        name="hyrja"
+    ),
+    path(
+        "dalje/",
+        DaljeView.as_view(),
+        name="dalje"
     ),
 ]

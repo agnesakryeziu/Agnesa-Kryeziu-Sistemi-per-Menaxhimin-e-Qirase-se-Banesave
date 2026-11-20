@@ -1,0 +1,170 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Hyr në sistem | RentManage{% endblock %}
+
+{% block content %}
+
+<section class="rent-login-page">
+
+    <div class="rent-login-container">
+
+        <div class="rent-login-left">
+
+            <div class="rent-login-left-content">
+
+                <span class="rent-login-tag">
+                    RENTMANAGE
+                </span>
+
+                <h2>
+                    Menaxhimi i banesave,
+                    më i thjeshtë.
+                </h2>
+
+                <p>
+                    Një hapësirë e organizuar për
+                    menaxhimin e banesave,
+                    kontratave dhe pagesave të qirasë.
+                </p>
+
+                <div class="rent-login-features">
+
+                    <div class="rent-login-feature">
+                        <span class="rent-feature-icon">✓</span>
+                        <span>Menaxhimi i banesave</span>
+                    </div>
+
+                    <div class="rent-login-feature">
+                        <span class="rent-feature-icon">✓</span>
+                        <span>Organizimi i kontratave</span>
+                    </div>
+
+                    <div class="rent-login-feature">
+                        <span class="rent-feature-icon">✓</span>
+                        <span>Evidentimi i pagesave</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="rent-login-circle rent-circle-one"></div>
+            <div class="rent-login-circle rent-circle-two"></div>
+            <div class="rent-login-circle rent-circle-three"></div>
+
+        </div>
+
+        <div class="rent-login-right">
+
+            <a href="{% url 'home' %}" class="rent-login-back">
+                ← Kthehu në Home
+            </a>
+
+            <div class="rent-login-form-content">
+
+                <div class="rent-login-heading">
+
+                    <span class="rent-login-small-title">
+                        HYRJA E ADMINISTRATORIT
+                    </span>
+
+                    <h1>Mirë se u kthyet!</h1>
+
+                    <p>
+                        Shkruani të dhënat tuaja
+                        për të hyrë në sistem.
+                    </p>
+
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="rent-login-error" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="rent-login-form">
+
+                    {% csrf_token %}
+
+                    {% if next %}
+                        <input type="hidden" name="next" value="{{ next }}">
+                    {% endif %}
+
+                    <div class="rent-login-field">
+
+                        <label for="id_username">
+                            Emri i përdoruesit
+                        </label>
+
+                        <input
+                            type="text"
+                            id="id_username"
+                            name="username"
+                            placeholder="Shkruani username"
+                            value="{{ form.username.value|default_if_none:'' }}"
+                            autocomplete="username"
+                            maxlength="150"
+                            required
+                            autofocus
+                        >
+
+                        {% for error in form.username.errors %}
+                            <span class="rent-login-field-error">
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="rent-login-field">
+
+                        <label for="id_password">
+                            Fjalëkalimi
+                        </label>
+
+                        <input
+                            type="password"
+                            id="id_password"
+                            name="password"
+                            placeholder="Shkruani fjalëkalimin"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        {% for error in form.password.errors %}
+                            <span class="rent-login-field-error">
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+
+                    </div>
+
+                    <button type="submit" class="rent-login-button">
+                        <span>Hyr në sistem</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+
+                </form>
+
+                <div class="rent-login-bottom">
+
+                    <span class="rent-login-lock" aria-hidden="true">●</span>
+
+                    <p>
+                        Qasje e rezervuar për administratorin
+                        e RentManage.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

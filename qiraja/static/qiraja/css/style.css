@@ -2338,3 +2338,409 @@ button {
         opacity: 0.6;
     }
 }
+.rent-login-page {
+    min-height: 690px;
+    padding: 58px 24px 85px;
+    background: #fffdf9;
+    font-family: "DM Sans", sans-serif;
+}
+
+.rent-login-container {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    max-width: 1080px;
+    min-height: 590px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #e8e8e1;
+    border-radius: 23px;
+    background: #ffffff;
+    box-shadow: 0 20px 55px rgba(24, 60, 43, 0.09);
+}
+
+.rent-login-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 65px 53px;
+    background: linear-gradient(
+        145deg,
+        #07543b 0%,
+        #043d2b 57%,
+        #022e21 100%
+    );
+    color: #ffffff;
+}
+
+.rent-login-left-content {
+    position: relative;
+    z-index: 2;
+}
+
+.rent-login-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid rgba(240, 202, 136, 0.45);
+    border-radius: 25px;
+    color: #f0ca88;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.rent-login-left h2 {
+    max-width: 400px;
+    margin: 27px 0 18px;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(30px, 3vw, 41px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -1.2px;
+}
+
+.rent-login-left p {
+    max-width: 350px;
+    color: #dce8de;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.rent-login-features {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    margin-top: 45px;
+}
+
+.rent-login-feature {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #f5f8f4;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rent-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    border: 1px solid rgba(240, 202, 136, 0.45);
+    border-radius: 50%;
+    background: rgba(240, 202, 136, 0.12);
+    color: #f0ca88;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.rent-login-circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.rent-circle-one {
+    top: -100px;
+    right: -100px;
+    width: 275px;
+    height: 275px;
+    border: 1px solid rgba(240, 202, 136, 0.19);
+}
+
+.rent-circle-two {
+    right: -80px;
+    bottom: -140px;
+    width: 310px;
+    height: 310px;
+    border: 48px solid rgba(255, 255, 255, 0.035);
+}
+
+.rent-circle-three {
+    top: 130px;
+    right: 50px;
+    width: 55px;
+    height: 55px;
+    background: rgba(240, 202, 136, 0.11);
+}
+
+.rent-login-right {
+    display: flex;
+    flex-direction: column;
+    padding: 35px 55px 55px;
+}
+
+.rent-login-back {
+    align-self: flex-start;
+    color: #66786b;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.rent-login-back:hover {
+    color: #07543b;
+}
+
+.rent-login-form-content {
+    width: 100%;
+    max-width: 410px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+.rent-login-small-title {
+    color: #0c7250;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+}
+
+.rent-login-heading h1 {
+    margin: 16px 0 12px;
+    color: #073d2b;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.rent-login-heading p {
+    color: #718076;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.rent-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    margin-top: 34px;
+}
+
+.rent-login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.rent-login-field label {
+    color: #244937;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.rent-login-field input {
+    width: 100%;
+    min-height: 51px;
+    padding: 13px 16px;
+    border: 1px solid #dbe4dc;
+    border-radius: 11px;
+    outline: none;
+    background: #fafbf8;
+    color: #173e2b;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.rent-login-field input::placeholder {
+    color: #96a39a;
+}
+
+.rent-login-field input:focus {
+    border-color: #0a7652;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(10, 118, 82, 0.08);
+}
+
+.rent-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 52px;
+    margin-top: 5px;
+    padding: 14px 23px;
+    border: none;
+    border-radius: 30px;
+    background: #053d2b;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.rent-login-button span:last-child {
+    color: #f0ca88;
+    font-size: 21px;
+}
+
+.rent-login-button:hover {
+    background: #08704c;
+    transform: translateY(-2px);
+}
+
+.rent-login-button:focus-visible {
+    outline: 3px solid #d6ae64;
+    outline-offset: 3px;
+}
+
+.rent-login-error {
+    margin-top: 20px;
+    padding: 14px 17px;
+    border: 1px solid #efd1c9;
+    border-radius: 10px;
+    background: #fff2ef;
+    color: #a23c2d;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.rent-login-error ul {
+    margin: 0;
+    padding-left: 17px;
+}
+
+.rent-login-field-error {
+    color: #a23c2d;
+    font-size: 12px;
+}
+
+.rent-login-bottom {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 29px;
+    padding-top: 21px;
+    border-top: 1px solid #ecf0eb;
+}
+
+.rent-login-lock {
+    color: #0a7652;
+    font-size: 10px;
+}
+
+.rent-login-bottom p {
+    color: #7c887f;
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+@media (max-width: 850px) {
+    .rent-login-container {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+    }
+
+    .rent-login-left {
+        min-height: 280px;
+        padding: 40px;
+    }
+
+    .rent-login-left h2 {
+        font-size: 30px;
+    }
+
+    .rent-login-features {
+        display: none;
+    }
+
+    .rent-login-right {
+        padding: 30px 38px 45px;
+    }
+}
+
+@media (max-width: 600px) {
+    .rent-login-page {
+        padding: 28px 15px 55px;
+    }
+
+    .rent-login-container {
+        border-radius: 17px;
+    }
+
+    .rent-login-left {
+        min-height: 225px;
+        padding: 30px 25px;
+    }
+
+    .rent-login-left h2 {
+        margin: 18px 0 12px;
+        font-size: 26px;
+    }
+
+    .rent-login-left p {
+        font-size: 12px;
+    }
+
+    .rent-login-right {
+        padding: 26px 24px 34px;
+    }
+
+    .rent-login-form-content {
+        padding: 35px 0 10px;
+    }
+
+    .rent-login-heading h1 {
+        font-size: 29px;
+    }
+
+    .rent-login-form {
+        margin-top: 27px;
+    }
+}
+.nav-panel-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 25px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.nav-panel-link:hover {
+    border-color: #f0ca88;
+    color: #f0ca88;
+}
+
+.nav-logout-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.nav-logout-button {
+    border: none;
+}
+
+@media (max-width: 600px) {
+    .nav-actions {
+        gap: 7px;
+    }
+
+    .nav-panel-link {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+
+    .nav-logout-button {
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+}
