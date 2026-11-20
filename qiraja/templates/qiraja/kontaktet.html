@@ -1,0 +1,226 @@
+{% extends "qiraja/base.html" %}
+
+{% block title %}Kontaktet | RentManage{% endblock %}
+
+{% block content %}
+
+<div class="rcontact-page">
+
+    <span class="rcontact-ball ball-one" aria-hidden="true"></span>
+    <span class="rcontact-ball ball-two" aria-hidden="true"></span>
+    <span class="rcontact-ball ball-three" aria-hidden="true"></span>
+
+    <section class="rcontact-hero">
+        <div class="rcontact-container">
+
+            <span class="rcontact-label">KONTAKTET</span>
+
+            <h1>Jemi këtu për t'ju ndihmuar.</h1>
+
+            <p>
+                Keni një pyetje për një banesë apo dëshironi
+                të dini më shumë për RentManage?
+                Na shkruani përmes formularit të kontaktit.
+            </p>
+
+        </div>
+    </section>
+
+    <section class="rcontact-section">
+        <div class="rcontact-container rcontact-layout">
+
+            <div class="rcontact-information">
+
+                <span class="rcontact-label">NA KONTAKTONI</span>
+
+                <h2>Na tregoni çfarë po kërkoni.</h2>
+
+                <p class="rcontact-description">
+                    Qoftë për një banesë që ju ka pëlqyer
+                    apo për informacion rreth shërbimeve,
+                    mund të na dërgoni pyetjen tuaj.
+                </p>
+
+                <div class="rcontact-info-item">
+                    <div class="rcontact-info-icon" aria-hidden="true">
+                        ⌂
+                    </div>
+
+                    <div>
+                        <h3>Po kërkoni banesë?</h3>
+                        <p>
+                            Shfletoni ofertat dhe gjeni
+                            një hapësirë që ju përshtatet.
+                        </p>
+                        <a href="{% url 'banesat' %}">
+                            Shiko banesat →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="rcontact-info-item">
+                    <div class="rcontact-info-icon" aria-hidden="true">
+                        ✉
+                    </div>
+
+                    <div>
+                        <h3>Keni një pyetje?</h3>
+                        <p>
+                            Plotësoni formularin dhe
+                            shkruani mesazhin tuaj.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{% url 'sherbimet' %}" class="rcontact-service-link">
+                    Njihuni me shërbimet tona
+                    <span aria-hidden="true">↗</span>
+                </a>
+
+            </div>
+
+            <div class="rcontact-form-card">
+
+                <div class="rcontact-form-heading">
+                    <span class="rcontact-label">
+                        FORMULARI I KONTAKTIT
+                    </span>
+
+                    <h2>Na dërgoni një mesazh</h2>
+
+                    <p>
+                        Plotësoni të dhënat më poshtë.
+                        Fushat me * janë të detyrueshme.
+                    </p>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="rcontact-message" role="status">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <div class="rcontact-error" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="rcontact-form">
+                    {% csrf_token %}
+
+                    <div class="rcontact-form-row">
+
+                        <div class="rcontact-field">
+                            <label for="id_emri">
+                                Emri dhe mbiemri *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="id_emri"
+                                name="emri"
+                                placeholder="Emri juaj i plotë"
+                                autocomplete="name"
+                                maxlength="150"
+                                value="{{ request.POST.emri|default:'' }}"
+                                required
+                            >
+
+                            {% for error in form.emri.errors %}
+                                <span class="rcontact-field-error">
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="rcontact-field">
+                            <label for="id_email">
+                                Email *
+                            </label>
+
+                            <input
+                                type="email"
+                                id="id_email"
+                                name="email"
+                                placeholder="email@shembull.com"
+                                autocomplete="email"
+                                maxlength="254"
+                                value="{{ request.POST.email|default:'' }}"
+                                required
+                            >
+
+                            {% for error in form.email.errors %}
+                                <span class="rcontact-field-error">
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <div class="rcontact-field">
+                        <label for="id_subjekti">
+                            Subjekti *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="id_subjekti"
+                            name="subjekti"
+                            placeholder="Për çfarë dëshironi të na shkruani?"
+                            maxlength="200"
+                            value="{{ request.POST.subjekti|default:'' }}"
+                            required
+                        >
+
+                        {% for error in form.subjekti.errors %}
+                            <span class="rcontact-field-error">
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="rcontact-field">
+                        <label for="id_mesazhi">
+                            Mesazhi *
+                        </label>
+
+                        <textarea
+                            id="id_mesazhi"
+                            name="mesazhi"
+                            rows="6"
+                            maxlength="3000"
+                            placeholder="Shkruani mesazhin tuaj këtu..."
+                            required
+                        >{{ request.POST.mesazhi|default:'' }}</textarea>
+
+                        {% for error in form.mesazhi.errors %}
+                            <span class="rcontact-field-error">
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="rcontact-submit">
+                        Dërgo mesazhin
+                        <span aria-hidden="true">→</span>
+                    </button>
+
+                    <p class="rcontact-privacy">
+                        Të dhënat përdoren për trajtimin
+                        e mesazhit tuaj.
+                    </p>
+
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

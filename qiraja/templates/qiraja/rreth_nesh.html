@@ -1,0 +1,127 @@
+{% extends "qiraja/base.html" %}
+
+{% block title %}Rreth Nesh | RentManage{% endblock %}
+{% block body_class %}page-editorial page-rreth{% endblock %}
+
+{% block content %}
+
+<section class="rmx-hero">
+    <div class="rmx-shell rmx-hero-layout">
+
+        <div class="rmx-hero-copy">
+            <span class="rmx-eyebrow">RRETH RENTMANAGE</span>
+
+            <h1>
+                Një mënyrë më e lehtë
+                për të gjetur banesën tuaj.
+            </h1>
+
+            <p>
+                Kërkimi i një banese fillon me informacionin
+                e duhur. RentManage ju ndihmon të shihni
+                ofertat, të krahasoni çmimet dhe të njiheni
+                me çdo hapësirë përpara se të vendosni.
+            </p>
+
+            <div class="rmx-actions">
+                <a href="{% url 'banesat' %}" class="rmx-button">
+                    Shiko banesat
+                    <span aria-hidden="true">→</span>
+                </a>
+
+                <a href="{% url 'sherbimet' %}" class="rmx-text-link">
+                    Shërbimet tona
+                </a>
+            </div>
+        </div>
+
+        <div class="rmx-art" aria-hidden="true">
+            <div class="rmx-art-ring"></div>
+            <div class="rmx-art-circle"></div>
+            <div class="rmx-art-circle-small"></div>
+            <div class="rmx-art-stem"></div>
+            <span class="rmx-art-leaf leaf-one"></span>
+            <span class="rmx-art-leaf leaf-two"></span>
+            <span class="rmx-art-leaf leaf-three"></span>
+            <span class="rmx-art-leaf leaf-four"></span>
+            <span class="rmx-art-leaf leaf-five"></span>
+        </div>
+
+    </div>
+</section>
+
+<section class="rmx-section">
+    <div class="rmx-shell">
+
+        <div class="rmx-section-intro">
+            <span class="rmx-eyebrow">ÇFARË NA KARAKTERIZON</span>
+            <h2>Informacion i qartë. Zgjedhje më e lehtë.</h2>
+        </div>
+
+        <div class="rmx-feature-grid">
+
+            <div class="rmx-feature">
+                <span class="rmx-feature-mark">01</span>
+                <h3>Gjithçka në një vend</h3>
+                <p>
+                    Fotografitë, çmimet, vendndodhja dhe
+                    karakteristikat kryesore të banesave.
+                </p>
+            </div>
+
+            <div class="rmx-feature">
+                <span class="rmx-feature-mark">02</span>
+                <h3>Kërkim sipas nevojës</h3>
+                <p>
+                    Filtroni ofertat sipas qytetit,
+                    çmimit dhe disponueshmërisë.
+                </p>
+            </div>
+
+            <div class="rmx-feature">
+                <span class="rmx-feature-mark">03</span>
+                <h3>Organizim më i mirë</h3>
+                <p>
+                    Një sistem i strukturuar për
+                    banesat, kontratat dhe pagesat.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="rmx-statement">
+    <div class="rmx-shell rmx-statement-layout">
+
+        <div>
+            <span class="rmx-eyebrow">QASJA JONË</span>
+            <h2>Pa kërkime të komplikuara.</h2>
+        </div>
+
+        <p>
+            Nga pamja e banesës deri te çmimi mujor,
+            informacionet kryesore duhet të jenë të
+            lehta për t'u gjetur dhe kuptuar.
+            Pikërisht kështu është menduar RentManage.
+        </p>
+
+    </div>
+</section>
+
+<section class="rmx-cta">
+    <div class="rmx-shell rmx-cta-layout">
+        <div>
+            <span class="rmx-eyebrow">GJENI BANESËN TUAJ</span>
+            <h2>Shikoni ofertat e disponueshme.</h2>
+        </div>
+
+        <a href="{% url 'banesat' %}" class="rmx-button">
+            Eksploro banesat
+            <span aria-hidden="true">→</span>
+        </a>
+    </div>
+</section>
+
+{% endblock %}

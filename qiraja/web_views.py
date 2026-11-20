@@ -53,14 +53,10 @@ def home(request):
         except InvalidOperation:
             banesat = banesat.none()
 
-    context = {
-        "banesat": banesat[:3]
-    }
-
     return render(
         request,
         "qiraja/home.html",
-        context
+        {"banesat": banesat[:3]}
     )
 
 
@@ -179,4 +175,18 @@ def detajet_baneses(request, pk):
         request,
         "qiraja/detajet_baneses.html",
         {"banesa": banesa}
+    )
+
+
+def rreth_nesh(request):
+    return render(
+        request,
+        "qiraja/rreth_nesh.html"
+    )
+
+
+def sherbimet(request):
+    return render(
+        request,
+        "qiraja/sherbimet.html"
     )

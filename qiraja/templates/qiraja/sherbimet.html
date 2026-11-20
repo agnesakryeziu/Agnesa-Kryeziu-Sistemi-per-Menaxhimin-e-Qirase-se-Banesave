@@ -1,0 +1,147 @@
+{% extends "qiraja/base.html" %}
+
+{% block title %}Shërbimet | RentManage{% endblock %}
+
+{% block content %}
+
+<div class="rms-services-page">
+
+    <section class="rms-services-hero">
+        <div class="rms-services-hero-content">
+            <span class="rms-services-label">
+                SHËRBIMET TONA
+            </span>
+
+            <h1>
+                Gjeni banesën tuaj
+                më lehtë.
+            </h1>
+
+            <p>
+                Nga kërkimi i banesës deri te
+                informacionet për qiranë,
+                RentManage ju ndihmon t'i keni
+                gjërat më të thjeshta dhe
+                më të organizuara.
+            </p>
+
+            <a href="{% url 'banesat' %}" class="rms-services-button">
+                Shiko banesat
+                <span aria-hidden="true">→</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="rms-services-content">
+        <div class="rms-services-container">
+
+            <div class="rms-services-heading">
+                <span class="rms-services-label">
+                    ÇFARË OFROJMË
+                </span>
+
+                <h2>
+                    Shërbime që e bëjnë
+                    kërkimin më të thjeshtë.
+                </h2>
+
+                <p>
+                    Informacionet dhe mundësitë
+                    kryesore për banesat me qira,
+                    të organizuara në një vend.
+                </p>
+            </div>
+
+            <div class="rms-services-grid">
+
+                <article class="rms-services-item">
+                    <h3>Kërkimi i banesave</h3>
+                    <p>
+                        Kërkoni banesa sipas qytetit,
+                        adresës dhe çmimit mujor,
+                        në mënyrë që të gjeni
+                        ofertat që ju përshtaten.
+                    </p>
+                </article>
+
+                <article class="rms-services-item">
+                    <h3>Fotografi të banesave</h3>
+                    <p>
+                        Shikoni fotografitë e dhomave
+                        dhe ambienteve të tjera
+                        përpara se të zgjidhni
+                        një banesë.
+                    </p>
+                </article>
+
+                <article class="rms-services-item">
+                    <h3>Informacione të detajuara</h3>
+                    <p>
+                        Njihuni me sipërfaqen,
+                        numrin e dhomave, adresën
+                        dhe çmimin e secilës banesë.
+                    </p>
+                </article>
+
+                <article class="rms-services-item">
+                    <h3>Disponueshmëria</h3>
+                    <p>
+                        Kontrolloni nëse banesa
+                        është e lirë apo e zënë,
+                        sipas kontratave aktive.
+                    </p>
+                </article>
+
+                <article class="rms-services-item">
+                    <h3>Kontratat e qirasë</h3>
+                    <p>
+                        Administratori mund të
+                        organizojë kontratat,
+                        periudhat e qirasë dhe
+                        të dhënat e qiramarrësve.
+                    </p>
+                </article>
+
+                <article class="rms-services-item">
+                    <h3>Menaxhimi i pagesave</h3>
+                    <p>
+                        Regjistrimi dhe evidenca
+                        e pagesave mujore për
+                        secilën kontratë.
+                    </p>
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="rms-services-bottom">
+        <div class="rms-services-container rms-services-bottom-layout">
+
+            <div>
+                <span class="rms-services-label">
+                    BANESA ME QIRA
+                </span>
+
+                <h2>
+                    Gjeni hapësirën që ju përshtatet.
+                </h2>
+
+                <p>
+                    Shfletoni banesat dhe njihuni
+                    me ofertat e disponueshme.
+                </p>
+            </div>
+
+            <a href="{% url 'banesat' %}" class="rms-services-button">
+                Eksploro banesat
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

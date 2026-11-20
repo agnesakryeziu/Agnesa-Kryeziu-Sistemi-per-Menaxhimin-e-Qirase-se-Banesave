@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from .models import MesazhKontakti
 
 from .models import (
     Perdorues,
@@ -35,3 +36,30 @@ admin.site.register(Pronari)
 admin.site.register(Qiramarresi)
 admin.site.register(Kontrata)
 admin.site.register(Pagesa)
+
+@admin.register(MesazhKontakti)
+class MesazhKontaktiAdmin(admin.ModelAdmin):
+    list_display = (
+        "emri",
+        "email",
+        "subjekti",
+        "krijuar_me",
+    )
+
+    search_fields = (
+        "emri",
+        "email",
+        "subjekti",
+    )
+
+    list_filter = ("krijuar_me",)
+
+    readonly_fields = (
+        "emri",
+        "email",
+        "subjekti",
+        "mesazhi",
+        "krijuar_me",
+    )
+
+    ordering = ("-krijuar_me",)

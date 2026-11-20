@@ -197,3 +197,18 @@ class Pagesa(models.Model):
 
     def __str__(self):
         return f"Pagesa {self.muaji}/{self.viti} - Kontrata {self.kontrata_id}"
+        
+class MesazhKontakti(models.Model):
+    emri = models.CharField(max_length=150)
+    email = models.EmailField()
+    subjekti = models.CharField(max_length=200)
+    mesazhi = models.TextField()
+    krijuar_me = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-krijuar_me"]
+        verbose_name = "Mesazh kontakti"
+        verbose_name_plural = "Mesazhet e kontaktit"
+
+    def __str__(self):
+        return f"{self.emri} - {self.subjekti}"
