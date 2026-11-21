@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 class HyrjeView(LoginView):
     template_name = "qiraja/hyrja.html"
-    next_page = "/admin/"
+    next_page = reverse_lazy("paneli")
 
     def form_valid(self, form):
         perdoruesi = form.get_user()

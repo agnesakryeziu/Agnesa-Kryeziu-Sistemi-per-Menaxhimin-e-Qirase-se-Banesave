@@ -1,0 +1,347 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Paneli i Administratorit | RentManage{% endblock %}
+
+{% block body_class %}page-paneli{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% url 'admin:qiraja_banesa_changelist' as url_banesat %}
+{% url 'admin:qiraja_pronari_changelist' as url_pronaret %}
+{% url 'admin:qiraja_qiramarresi_changelist' as url_qiramarresit %}
+{% url 'admin:qiraja_kontrata_changelist' as url_kontratat %}
+{% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
+{% url 'admin:qiraja_banesa_add' as url_shto_banese %}
+{% url 'admin:qiraja_kontrata_add' as url_shto_kontrate %}
+{% url 'admin:qiraja_pagesa_add' as url_shto_pagese %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
+                <a href="{% url 'paneli' %}" class="rmp-link-active">
+                    Përmbledhje
+                </a>
+
+                <a href="{{ url_banesat|default:'/admin/' }}">
+                    Banesat
+                </a>
+
+                <a href="{{ url_pronaret|default:'/admin/' }}">
+                    Pronarët
+                </a>
+
+                <a href="{{ url_qiramarresit|default:'/admin/' }}">
+                    Qiramarrësit
+                </a>
+
+                <a href="{{ url_kontratat|default:'/admin/' }}">
+                    Kontratat
+                </a>
+
+                <a href="{{ url_pagesat|default:'/admin/' }}">
+                    Pagesat
+                </a>
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post" action="{% url 'dalje' %}" class="rmp-logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </header>
+
+    <section class="rmp-hero">
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>Mirë se erdhët, Administrator!</h1>
+
+            <p>
+                Menaxhoni banesat, kontratat dhe pagesat
+                në mënyrë të thjeshtë dhe efikase.
+            </p>
+
+            <div class="rmp-hero-bottom">
+
+                <div class="rmp-today">
+                    <span>Sot është</span>
+                    <strong>{{ sot|date:"d.m.Y" }}</strong>
+                </div>
+
+                <a href="{{ url_shto_banese|default:'/admin/' }}" class="rmp-add-button">
+                    + Shto banesë
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="rmp-content">
+
+        <section class="rmp-statistics" aria-label="Statistikat kryesore">
+
+            <div class="rmp-stat">
+                <strong>{{ banesat_gjithsej }}</strong>
+                <span>Banesa gjithsej</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ banesat_e_lira }}</strong>
+                <span>Banesa të lira</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ banesat_e_zena }}</strong>
+                <span>Banesa të zëna</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ kontratat_aktive }}</strong>
+                <span>Kontrata aktive</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ pagesat_kete_muaj }}</strong>
+                <span>Pagesa këtë muaj</span>
+            </div>
+
+        </section>
+
+        <div class="rmp-details-grid">
+
+            <section class="rmp-surface rmp-chart-section">
+
+                <div class="rmp-section-heading">
+                    <div>
+                        <h2>Të hyrat nga qiraja</h2>
+                        <span class="rmp-title-line"></span>
+                    </div>
+
+                    <span class="rmp-period">
+                        6 muajt e fundit
+                    </span>
+                </div>
+
+                {% if ka_te_hyra %}
+
+                <div class="rmp-chart">
+
+                    <div class="rmp-chart-scale">
+                        <span>{{ grafiku_maks|floatformat:0 }} €</span>
+                        <span>{{ grafiku_gjysma|floatformat:0 }} €</span>
+                        <span>0 €</span>
+                    </div>
+
+                    <div class="rmp-chart-body">
+
+                        <svg
+                            class="rmp-chart-svg"
+                            viewBox="0 0 720 200"
+                            role="img"
+                            aria-label="Grafiku i të hyrave nga qiraja"
+                        >
+                            <defs>
+                                <linearGradient id="rmp-chart-fill" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0b7650" stop-opacity="0.24"/>
+                                    <stop offset="100%" stop-color="#0b7650" stop-opacity="0.015"/>
+                                </linearGradient>
+                            </defs>
+
+                            <line x1="35" y1="40" x2="675" y2="40" class="rmp-grid-line"/>
+                            <line x1="35" y1="85" x2="675" y2="85" class="rmp-grid-line"/>
+                            <line x1="35" y1="130" x2="675" y2="130" class="rmp-grid-line"/>
+                            <line x1="35" y1="175" x2="675" y2="175" class="rmp-grid-line"/>
+
+                            <polygon
+                                points="{{ grafiku_zona }}"
+                                fill="url(#rmp-chart-fill)"
+                            />
+
+                            <polyline
+                                points="{{ grafiku_pikat }}"
+                                class="rmp-chart-line"
+                            />
+
+                            {% for pika in grafiku_muajt %}
+                            <circle
+                                cx="{{ pika.x }}"
+                                cy="{{ pika.y }}"
+                                r="4.5"
+                                class="rmp-chart-dot"
+                            >
+                                <title>{{ pika.emri }}: {{ pika.shuma }} €</title>
+                            </circle>
+                            {% endfor %}
+
+                        </svg>
+
+                        <div class="rmp-chart-months">
+                            {% for pika in grafiku_muajt %}
+                            <span>{{ pika.emri }}</span>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="rmp-empty-chart">
+                    <p>
+                        Nuk ka ende të hyra të regjistruara
+                        për gjashtë muajt e fundit.
+                    </p>
+                    <span>
+                        Grafiku përditësohet kur regjistrohen pagesat.
+                    </span>
+                </div>
+
+                {% endif %}
+
+            </section>
+
+            <section class="rmp-surface rmp-payments-section">
+
+                <div class="rmp-section-heading">
+                    <div>
+                        <h2>Pagesat e fundit</h2>
+                        <span class="rmp-title-line"></span>
+                    </div>
+
+                    <a href="{{ url_pagesat|default:'/admin/' }}" class="rmp-view-all">
+                        Shiko të gjitha →
+                    </a>
+                </div>
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table">
+                        <thead>
+                            <tr>
+                                <th>Banesa</th>
+                                <th>Qiramarrësi</th>
+                                <th>Muaji / Viti</th>
+                                <th>Shuma</th>
+                                <th>Statusi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for pagesa in pagesat_e_fundit %}
+
+                            <tr>
+                                <td>
+                                    {{ pagesa.kontrata.banesa.adresa|truncatechars:19 }}
+                                </td>
+
+                                <td>
+                                    {{ pagesa.kontrata.qiramarresi.emri }}
+                                    {{ pagesa.kontrata.qiramarresi.mbiemri }}
+                                </td>
+
+                                <td>
+                                    {{ pagesa.muaji }}/{{ pagesa.viti }}
+                                </td>
+
+                                <td class="rmp-amount">
+                                    {{ pagesa.shuma|floatformat:2 }} €
+                                </td>
+
+                                <td>
+                                    {% if pagesa.e_paguar %}
+                                    <span class="rmp-status rmp-paid">
+                                        E paguar
+                                    </span>
+                                    {% else %}
+                                    <span class="rmp-status rmp-unpaid">
+                                        E papaguar
+                                    </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="5" class="rmp-table-empty">
+                                    Nuk ka pagesa të regjistruara ende.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <section class="rmp-shortcuts">
+
+            <h2>Menaxhimi i të dhënave</h2>
+
+            <span class="rmp-shortcuts-divider" aria-hidden="true"></span>
+
+            <p>
+                Regjistroni banesa të reja, përditësoni kontratat
+                dhe evidentoni pagesat e qirasë.
+            </p>
+
+            <div class="rmp-shortcut-links">
+                <a href="{{ url_shto_kontrate|default:'/admin/' }}">
+                    Shto kontratë
+                </a>
+
+                <a href="{{ url_shto_pagese|default:'/admin/' }}">
+                    Regjistro pagesë
+                </a>
+            </div>
+
+        </section>
+
+    </div>
+
+    <svg
+        class="rmp-bottom-wave"
+        viewBox="0 0 1440 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+    >
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+    </svg>
+
+</div>
+
+{% endblock %}
