@@ -11,12 +11,12 @@
 
 {% block content %}
 
-{% url 'admin:qiraja_banesa_changelist' as url_banesat %}
-{% url 'admin:qiraja_pronari_changelist' as url_pronaret %}
-{% url 'admin:qiraja_qiramarresi_changelist' as url_qiramarresit %}
+{% url 'panel_banesat' as url_banesat %}
+{% url 'panel_pronaret' as url_pronaret %}
+{% url 'panel_qiramarresit' as url_qiramarresit %}
 {% url 'admin:qiraja_kontrata_changelist' as url_kontratat %}
 {% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
-{% url 'admin:qiraja_banesa_add' as url_shto_banese %}
+{% url 'panel_shto_banese' as url_shto_banese %}
 {% url 'admin:qiraja_kontrata_add' as url_shto_kontrate %}
 {% url 'admin:qiraja_pagesa_add' as url_shto_pagese %}
 
@@ -31,18 +31,18 @@
 
             <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
                 <a href="{% url 'paneli' %}" class="rmp-link-active">
-                    Përmbledhje
+                    Paneli
                 </a>
 
-                <a href="{{ url_banesat|default:'/admin/' }}">
+                <a href="{{ url_banesat|default:'/paneli/' }}">
                     Banesat
                 </a>
 
-                <a href="{{ url_pronaret|default:'/admin/' }}">
+                <a href="{{ url_pronaret|default:'/paneli/' }}">
                     Pronarët
                 </a>
 
-                <a href="{{ url_qiramarresit|default:'/admin/' }}">
+                <a href="{{ url_qiramarresit|default:'/paneli/' }}">
                     Qiramarrësit
                 </a>
 
@@ -94,7 +94,7 @@
                     <strong>{{ sot|date:"d.m.Y" }}</strong>
                 </div>
 
-                <a href="{{ url_shto_banese|default:'/admin/' }}" class="rmp-add-button">
+                <a href="{{ url_shto_banese|default:'/paneli/' }}" class="rmp-add-button">
                     + Shto banesë
                 </a>
 

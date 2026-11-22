@@ -212,3 +212,17 @@ class MesazhKontakti(models.Model):
 
     def __str__(self):
         return f"{self.emri} - {self.subjekti}"
+
+class FotoBanese(models.Model):
+    banesa = models.ForeignKey(
+        "Banesa",
+        on_delete=models.CASCADE,
+        related_name="fotot_shtese"
+    )
+
+    fotografia = models.ImageField(
+        upload_to="banesat/galeria/"
+    )
+
+    def __str__(self):
+        return f"Fotografia e banesës {self.banesa_id}"

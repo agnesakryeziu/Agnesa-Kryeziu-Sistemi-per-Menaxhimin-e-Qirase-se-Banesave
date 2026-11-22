@@ -1,0 +1,326 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+{% block body_class %}page-paneli page-panel-form{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+{% url 'panel_banesat' as url_banesat %}
+{% url 'panel_pronaret' as url_pronaret %}
+{% url 'panel_qiramarresit' as url_qiramarresit %}
+{% url 'admin:qiraja_kontrata_changelist' as url_kontratat %}
+{% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
+
+                <a href="{% url 'paneli' %}">
+                    Paneli
+                </a>
+
+                <a href="{{ url_banesat|default:'/paneli/' }}"
+                   class="{% if seksioni == 'banesat' %}rmp-link-active{% endif %}">
+                    Banesat
+                </a>
+
+                <a href="{{ url_pronaret|default:'/paneli/' }}"
+                   class="{% if seksioni == 'pronaret' %}rmp-link-active{% endif %}">
+                    Pronarët
+                </a>
+
+                <a href="{{ url_qiramarresit|default:'/paneli/' }}"
+                   class="{% if seksioni == 'qiramarresit' %}rmp-link-active{% endif %}">
+                    Qiramarrësit
+                </a>
+
+                <a href="{{ url_kontratat|default:'/admin/' }}">
+                    Kontratat
+                </a>
+
+                <a href="{{ url_pagesat|default:'/admin/' }}">
+                    Pagesat
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>{{ pershkrimi }}</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        <section class="rmp-form-section">
+
+            <div class="rmp-form-heading">
+
+                <div>
+
+                    <span class="rmp-management-label">
+                        {% if eshte_ndryshim %}
+                            PËRDITËSIMI I TË DHËNAVE
+                        {% else %}
+                            REGJISTRIM I RI
+                        {% endif %}
+                    </span>
+
+                    <h2>
+                        {% if seksioni == 'banesat' %}
+                            Të dhënat e banesës
+                        {% elif seksioni == 'pronaret' %}
+                            Të dhënat e pronarit
+                        {% else %}
+                            Të dhënat e qiramarrësit
+                        {% endif %}
+                    </h2>
+
+                    <p>
+                        Plotësoni fushat e mëposhtme për të ruajtur
+                        të dhënat në sistem.
+                    </p>
+
+                </div>
+
+                <a href="{{ url_kthim }}" class="rmp-back-link">
+                    Kthehu te lista
+                </a>
+
+            </div>
+
+            <div class="rmp-form-card">
+
+                <form method="post"
+                      enctype="multipart/form-data"
+                      class="rmp-management-form"
+                      novalidate>
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="rmp-form-errors" role="alert">
+
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+                    {% endif %}
+
+                    <div class="rmp-form-grid">
+
+                        {% for field in form %}
+
+                        <div class="rmp-form-group
+                            {% if field.name == 'adresa' or field.name == 'fotografia' or field.name == 'fotot_shtese' %}rmp-form-full{% endif %}
+                        ">
+
+                            <label for="{{ field.id_for_label }}"
+                                   class="rmp-form-label">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+                                    <span class="rmp-required">*</span>
+                                {% endif %}
+
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <small class="rmp-field-help">
+                                    {{ field.help_text }}
+                                </small>
+                            {% endif %}
+
+                            {% if field.errors %}
+                            <div class="rmp-field-errors" role="alert">
+
+                                {% for error in field.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+
+                            </div>
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="rmp-form-actions">
+
+                        <a href="{{ url_kthim }}"
+                           class="rmp-cancel-button">
+                            Anulo
+                        </a>
+
+                        <button type="submit" class="rmp-save-button">
+
+                            {% if eshte_ndryshim %}
+                                Ruaj ndryshimet
+                            {% else %}
+                                Ruaj të dhënat
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            {% if seksioni == 'banesat' and eshte_ndryshim %}
+
+            <section class="rmp-photo-gallery">
+
+                <div class="rmp-gallery-heading">
+
+                    <div>
+                        <span class="rmp-management-label">
+                            FOTOGRAFITË E BANESËS
+                        </span>
+
+                        <h3>Galeria e fotografive</h3>
+
+                        <p>
+                            Fotografitë e ruajtura për këtë banesë.
+                            Klikoni mbi një fotografi për ta hapur.
+                        </p>
+                    </div>
+
+                    <span class="rmp-gallery-count">
+                        {{ object.fotot_shtese.count }} / 7 shtesë
+                    </span>
+
+                </div>
+
+                {% if object.fotografia %}
+
+                <div class="rmp-gallery-subtitle">
+                    Fotografia kryesore
+                </div>
+
+                <div class="rmp-gallery-grid">
+
+                    <a href="{{ object.fotografia.url }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="rmp-gallery-item">
+
+                        <img
+                            src="{{ object.fotografia.url }}"
+                            alt="Fotografia kryesore e banesës"
+                            loading="lazy"
+                        >
+
+                        <span>Fotografia kryesore</span>
+
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+                <div class="rmp-gallery-subtitle">
+                    Fotografitë shtesë
+                </div>
+
+                <div class="rmp-gallery-grid">
+
+                    {% for foto in object.fotot_shtese.all %}
+
+                    <a href="{{ foto.fotografia.url }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="rmp-gallery-item">
+
+                        <img
+                            src="{{ foto.fotografia.url }}"
+                            alt="Fotografia shtesë {{ forloop.counter }}"
+                            loading="lazy"
+                        >
+
+                        <span>
+                            Fotografia {{ forloop.counter }}
+                        </span>
+
+                    </a>
+
+                    {% empty %}
+
+                    <p class="rmp-gallery-empty">
+                        Nuk ka ende fotografi shtesë për këtë banesë.
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            {% endif %}
+
+            <div class="rmp-form-note">
+
+                <p>
+                    Fushat e shënuara me * janë të detyrueshme.
+                    Të dhënat ruhen në databazën e sistemit RentManage.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}
