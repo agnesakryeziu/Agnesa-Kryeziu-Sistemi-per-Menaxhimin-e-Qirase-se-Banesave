@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Banesa, Pronari, Qiramarresi
+from .models import Banesa, Pronari, Qiramarresi, FotografiaBaneses
 
 
 class MultipleImageInput(forms.ClearableFileInput):
@@ -49,6 +49,18 @@ class BanesaForm(StiliFormes, forms.ModelForm):
         ),
     )
 
+    hiq_foto_kryesore = forms.BooleanField(
+        required=False,
+        label="Largo fotografinë kryesore",
+    )
+
+    fotot_per_fshirje = forms.ModelMultipleChoiceField(
+        queryset=FotografiaBaneses.objects.none(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label="Fotografitë për largim",
+    )
+
     class Meta:
         model = Banesa
 
@@ -92,6 +104,54 @@ class BanesaForm(StiliFormes, forms.ModelForm):
                 attrs={"accept": "image/*"}
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields["fotot_per_fshirje"].queryset = (
+                FotografiaBaneses.objects.filter(
+                    banesa=self.instance
+                )
+            )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        fotot_e_reja = cleaned_data.get("fotot_shtese") or []
+        fotot_per_fshirje = (
+            cleaned_data.get("fotot_per_fshirje") or []
+        )
+
+        if self.instance and self.instance.pk:
+            numri_ekzistues = (
+                self.instance.fotografite.count()
+            )
+        else:
+            numri_ekzistues = 0
+
+        numri_perfundimtar = (
+            numri_ekzistues
+            - len(fotot_per_fshirje)
+            + len(fotot_e_reja)
+        )
+
+        if numri_perfundimtar > 7:
+            self.add_error(
+                "fotot_shtese",
+                "Një banesë mund të ketë maksimumi 7 fotografi shtesë."
+            )
+
+        if (
+            cleaned_data.get("hiq_foto_kryesore")
+            and self.files.get("fotografia")
+        ):
+            self.add_error(
+                "fotografia",
+                "Zgjidhni ose largimin ose zëvendësimin e fotografisë kryesore."
+            )
+
+        return cleaned_data
 
 
 class PronariForm(StiliFormes, forms.ModelForm):

@@ -6,9 +6,11 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/panel_fotot.css' %}">
 {% endblock %}
 
 {% block content %}
+
 {% url 'panel_banesat' as url_banesat %}
 {% url 'panel_pronaret' as url_pronaret %}
 {% url 'panel_qiramarresit' as url_qiramarresit %}
@@ -74,6 +76,7 @@
                 </form>
 
             </div>
+
         </div>
     </header>
 
@@ -86,7 +89,6 @@
             </span>
 
             <h1>{{ titulli }}</h1>
-
             <p>{{ pershkrimi }}</p>
 
         </div>
@@ -142,6 +144,7 @@
                     {% csrf_token %}
 
                     {% if form.non_field_errors %}
+
                     <div class="rmp-form-errors" role="alert">
 
                         {% for error in form.non_field_errors %}
@@ -149,50 +152,279 @@
                         {% endfor %}
 
                     </div>
+
                     {% endif %}
 
                     <div class="rmp-form-grid">
 
                         {% for field in form %}
 
-                        <div class="rmp-form-group
-                            {% if field.name == 'adresa' or field.name == 'fotografia' or field.name == 'fotot_shtese' %}rmp-form-full{% endif %}
-                        ">
+                            {% if field.name != 'fotografia' and field.name != 'fotot_shtese' and field.name != 'hiq_foto_kryesore' and field.name != 'fotot_per_fshirje' %}
 
-                            <label for="{{ field.id_for_label }}"
-                                   class="rmp-form-label">
+                            <div class="rmp-form-group {% if field.name == 'adresa' %}rmp-form-full{% endif %}">
 
-                                {{ field.label }}
+                                <label for="{{ field.id_for_label }}"
+                                       class="rmp-form-label">
 
-                                {% if field.field.required %}
-                                    <span class="rmp-required">*</span>
+                                    {{ field.label }}
+
+                                    {% if field.field.required %}
+                                        <span class="rmp-required">*</span>
+                                    {% endif %}
+
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                    <small class="rmp-field-help">
+                                        {{ field.help_text }}
+                                    </small>
                                 {% endif %}
 
-                            </label>
+                                {% if field.errors %}
 
-                            {{ field }}
+                                <div class="rmp-field-errors" role="alert">
 
-                            {% if field.help_text %}
-                                <small class="rmp-field-help">
-                                    {{ field.help_text }}
-                                </small>
-                            {% endif %}
+                                    {% for error in field.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
 
-                            {% if field.errors %}
-                            <div class="rmp-field-errors" role="alert">
+                                </div>
 
-                                {% for error in field.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
+                                {% endif %}
 
                             </div>
-                            {% endif %}
 
-                        </div>
+                            {% endif %}
 
                         {% endfor %}
 
                     </div>
+
+                    {% if seksioni == 'banesat' %}
+
+                    <section class="rmp-pm">
+
+                        <div class="rmp-pm-head">
+
+                            <h3>Fotografitë e banesës</h3>
+
+                            {% if eshte_ndryshim %}
+                                <span class="rmp-pm-count">
+                                    {{ object.fotografite.count }} / 7 shtesë
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                        {% if eshte_ndryshim %}
+
+                        <div class="rmp-pm-photos">
+
+                            {% if object.fotografia %}
+
+                            <div class="rmp-pm-item" data-photo-item>
+
+                                <button type="button"
+                                        class="rmp-pm-open"
+                                        data-photo-open
+                                        data-photo-src="{{ object.fotografia.url }}"
+                                        data-photo-label="Fotografia kryesore"
+                                        aria-label="Shiko fotografinë kryesore">
+
+                                    <img src="{{ object.fotografia.url }}"
+                                         alt="Fotografia kryesore"
+                                         loading="lazy">
+
+                                </button>
+
+                                <button type="button"
+                                        class="rmp-pm-delete"
+                                        data-photo-delete
+                                        title="Largo fotografinë"
+                                        aria-label="Shëno fotografinë kryesore për largim">
+                                    &times;
+                                </button>
+
+                                <span class="rmp-pm-caption">
+                                    Kryesore
+                                </span>
+
+                                <input type="checkbox"
+                                       name="hiq_foto_kryesore"
+                                       value="on"
+                                       data-photo-checkbox
+                                       hidden
+                                       {% if form.hiq_foto_kryesore.value %}checked{% endif %}>
+
+                            </div>
+
+                            {% endif %}
+
+                            {% for foto in object.fotografite.all %}
+
+                            {% if foto.fotografia %}
+
+                            <div class="rmp-pm-item" data-photo-item>
+
+                                <button type="button"
+                                        class="rmp-pm-open"
+                                        data-photo-open
+                                        data-photo-src="{{ foto.fotografia.url }}"
+                                        data-photo-label="Fotografia shtesë {{ forloop.counter }}"
+                                        aria-label="Shiko fotografinë shtesë {{ forloop.counter }}">
+
+                                    <img src="{{ foto.fotografia.url }}"
+                                         alt="Fotografia shtesë {{ forloop.counter }}"
+                                         loading="lazy">
+
+                                </button>
+
+                                <button type="button"
+                                        class="rmp-pm-delete"
+                                        data-photo-delete
+                                        title="Largo fotografinë"
+                                        aria-label="Shëno fotografinë shtesë për largim">
+                                    &times;
+                                </button>
+
+                                <span class="rmp-pm-caption">
+                                    Foto {{ forloop.counter }}
+                                </span>
+
+                                <input type="checkbox"
+                                       name="fotot_per_fshirje"
+                                       value="{{ foto.pk }}"
+                                       data-photo-checkbox
+                                       hidden
+                                       {% if foto.pk|stringformat:"s" in form.fotot_per_fshirje.value %}checked{% endif %}>
+
+                            </div>
+
+                            {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        {% if not object.fotografia and not object.fotografite.exists %}
+
+                        <p class="rmp-pm-note">
+                            Kjo banesë nuk ka ende fotografi.
+                        </p>
+
+                        {% endif %}
+
+                        {% endif %}
+
+                        {% if form.hiq_foto_kryesore.errors %}
+
+                        <div class="rmp-field-errors" role="alert">
+
+                            {% for error in form.hiq_foto_kryesore.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+
+                        </div>
+
+                        {% endif %}
+
+                        {% if form.fotot_per_fshirje.errors %}
+
+                        <div class="rmp-field-errors" role="alert">
+
+                            {% for error in form.fotot_per_fshirje.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+
+                        </div>
+
+                        {% endif %}
+
+                        <div class="rmp-pm-fields">
+
+                            <div class="rmp-form-group">
+
+                                <label for="{{ form.fotografia.id_for_label }}"
+                                       class="rmp-form-label">
+
+                                    {% if eshte_ndryshim %}
+                                        Zëvendëso fotografinë kryesore
+                                    {% else %}
+                                        Fotografia kryesore
+                                    {% endif %}
+
+                                </label>
+
+                                <input type="file"
+                                       name="fotografia"
+                                       id="{{ form.fotografia.id_for_label }}"
+                                       accept="image/*"
+                                       class="rmp-form-input">
+
+                                {% if form.fotografia.errors %}
+
+                                <div class="rmp-field-errors" role="alert">
+
+                                    {% for error in form.fotografia.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="rmp-form-group">
+
+                                <label for="{{ form.fotot_shtese.id_for_label }}"
+                                       class="rmp-form-label">
+                                    Shto fotografi shtesë
+                                </label>
+
+                                {{ form.fotot_shtese }}
+
+                                {% if form.fotot_shtese.errors %}
+
+                                <div class="rmp-field-errors" role="alert">
+
+                                    {% for error in form.fotot_shtese.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% if eshte_ndryshim %}
+
+                        <p class="rmp-pm-note">
+                            Kliko mbi një fotografi për ta zmadhuar.
+                            Përdor shigjetat për të kaluar te fotografitë tjera.
+                            Kliko X mbi një fotografi për ta shënuar për largim.
+                            Kliko X përsëri për ta anuluar largimin.
+                            Ndryshimet ruhen vetëm pasi të shtypësh
+                            "Ruaj ndryshimet".
+                        </p>
+
+                        {% else %}
+
+                        <p class="rmp-pm-note">
+                            Mund të shtoni një fotografi kryesore
+                            dhe deri në 7 fotografi shtesë.
+                        </p>
+
+                        {% endif %}
+
+                    </section>
+
+                    {% endif %}
 
                     <div class="rmp-form-actions">
 
@@ -201,7 +433,8 @@
                             Anulo
                         </a>
 
-                        <button type="submit" class="rmp-save-button">
+                        <button type="submit"
+                                class="rmp-save-button">
 
                             {% if eshte_ndryshim %}
                                 Ruaj ndryshimet
@@ -217,97 +450,6 @@
 
             </div>
 
-            {% if seksioni == 'banesat' and eshte_ndryshim %}
-
-            <section class="rmp-photo-gallery">
-
-                <div class="rmp-gallery-heading">
-
-                    <div>
-                        <span class="rmp-management-label">
-                            FOTOGRAFITË E BANESËS
-                        </span>
-
-                        <h3>Galeria e fotografive</h3>
-
-                        <p>
-                            Fotografitë e ruajtura për këtë banesë.
-                            Klikoni mbi një fotografi për ta hapur.
-                        </p>
-                    </div>
-
-                    <span class="rmp-gallery-count">
-                        {{ object.fotot_shtese.count }} / 7 shtesë
-                    </span>
-
-                </div>
-
-                {% if object.fotografia %}
-
-                <div class="rmp-gallery-subtitle">
-                    Fotografia kryesore
-                </div>
-
-                <div class="rmp-gallery-grid">
-
-                    <a href="{{ object.fotografia.url }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="rmp-gallery-item">
-
-                        <img
-                            src="{{ object.fotografia.url }}"
-                            alt="Fotografia kryesore e banesës"
-                            loading="lazy"
-                        >
-
-                        <span>Fotografia kryesore</span>
-
-                    </a>
-
-                </div>
-
-                {% endif %}
-
-                <div class="rmp-gallery-subtitle">
-                    Fotografitë shtesë
-                </div>
-
-                <div class="rmp-gallery-grid">
-
-                    {% for foto in object.fotot_shtese.all %}
-
-                    <a href="{{ foto.fotografia.url }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="rmp-gallery-item">
-
-                        <img
-                            src="{{ foto.fotografia.url }}"
-                            alt="Fotografia shtesë {{ forloop.counter }}"
-                            loading="lazy"
-                        >
-
-                        <span>
-                            Fotografia {{ forloop.counter }}
-                        </span>
-
-                    </a>
-
-                    {% empty %}
-
-                    <p class="rmp-gallery-empty">
-                        Nuk ka ende fotografi shtesë për këtë banesë.
-                    </p>
-
-                    {% endfor %}
-
-                </div>
-
-            </section>
-
-            {% endif %}
-
             <div class="rmp-form-note">
 
                 <p>
@@ -321,6 +463,202 @@
 
     </div>
 
+    {% if seksioni == 'banesat' and eshte_ndryshim %}
+
+    <dialog class="rmp-pm-dialog"
+            data-photo-dialog
+            aria-label="Galeria e fotografive të banesës">
+
+        <div class="rmp-pm-dialog-header">
+
+            <strong data-modal-title>
+                Fotografia e banesës
+            </strong>
+
+            <button type="button"
+                    class="rmp-pm-dialog-close"
+                    data-modal-close
+                    aria-label="Mbyll galerinë">
+                &times;
+            </button>
+
+        </div>
+
+        <div class="rmp-pm-dialog-stage">
+
+            <button type="button"
+                    class="rmp-pm-arrow"
+                    data-modal-prev
+                    aria-label="Fotografia e mëparshme">
+                &#10094;
+            </button>
+
+            <img src=""
+                 alt="Fotografia e zmadhuar"
+                 data-modal-image>
+
+            <button type="button"
+                    class="rmp-pm-arrow"
+                    data-modal-next
+                    aria-label="Fotografia tjetër">
+                &#10095;
+            </button>
+
+        </div>
+
+        <div class="rmp-pm-dialog-footer">
+
+            <span data-modal-counter></span>
+
+            <button type="button"
+                    class="rmp-pm-modal-remove"
+                    data-modal-remove>
+                Largo fotografinë
+            </button>
+
+        </div>
+
+    </dialog>
+
+    {% endif %}
+
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const dialog = document.querySelector("[data-photo-dialog]");
+
+    const photos = Array.from(
+        document.querySelectorAll("[data-photo-open]")
+    );
+
+    if (!dialog || photos.length === 0) {
+        return;
+    }
+
+    const modalImage = dialog.querySelector("[data-modal-image]");
+    const modalTitle = dialog.querySelector("[data-modal-title]");
+    const modalCounter = dialog.querySelector("[data-modal-counter]");
+    const closeButton = dialog.querySelector("[data-modal-close]");
+    const prevButton = dialog.querySelector("[data-modal-prev]");
+    const nextButton = dialog.querySelector("[data-modal-next]");
+    const removeButton = dialog.querySelector("[data-modal-remove]");
+
+    let currentIndex = 0;
+
+    function updateCard(card) {
+        const checkbox = card.querySelector("[data-photo-checkbox]");
+        const deleteButton = card.querySelector("[data-photo-delete]");
+
+        const removed = checkbox.checked;
+
+        card.classList.toggle("is-removed", removed);
+
+        deleteButton.title = removed
+            ? "Anulo largimin"
+            : "Largo fotografinë";
+
+        deleteButton.setAttribute(
+            "aria-label",
+            removed ? "Anulo largimin" : "Shëno për largim"
+        );
+    }
+
+    function updateModal() {
+        const photo = photos[currentIndex];
+
+        modalImage.src = photo.dataset.photoSrc;
+        modalImage.alt = photo.dataset.photoLabel;
+        modalTitle.textContent = photo.dataset.photoLabel;
+
+        modalCounter.textContent =
+            (currentIndex + 1) + " / " + photos.length;
+
+        const card = photo.closest("[data-photo-item]");
+        const checkbox = card.querySelector("[data-photo-checkbox]");
+
+        removeButton.textContent = checkbox.checked
+            ? "Anulo largimin"
+            : "Largo fotografinë";
+    }
+
+    function showPhoto(index) {
+        currentIndex = (
+            index + photos.length
+        ) % photos.length;
+
+        updateModal();
+    }
+
+    function toggleRemoval(card) {
+        const checkbox = card.querySelector("[data-photo-checkbox]");
+
+        checkbox.checked = !checkbox.checked;
+
+        updateCard(card);
+        updateModal();
+    }
+
+    photos.forEach(function (photo, index) {
+        const card = photo.closest("[data-photo-item]");
+        const deleteButton = card.querySelector("[data-photo-delete]");
+
+        updateCard(card);
+
+        photo.addEventListener("click", function () {
+            showPhoto(index);
+
+            if (!dialog.open) {
+                dialog.showModal();
+            }
+        });
+
+        deleteButton.addEventListener("click", function () {
+            currentIndex = index;
+            toggleRemoval(card);
+        });
+    });
+
+    prevButton.addEventListener("click", function () {
+        showPhoto(currentIndex - 1);
+    });
+
+    nextButton.addEventListener("click", function () {
+        showPhoto(currentIndex + 1);
+    });
+
+    closeButton.addEventListener("click", function () {
+        dialog.close();
+    });
+
+    removeButton.addEventListener("click", function () {
+        const card = photos[currentIndex].closest("[data-photo-item]");
+        toggleRemoval(card);
+    });
+
+    dialog.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showPhoto(currentIndex - 1);
+        }
+
+        if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showPhoto(currentIndex + 1);
+        }
+    });
+
+    dialog.addEventListener("click", function (event) {
+        if (event.target === dialog) {
+            dialog.close();
+        }
+    });
+
+    if (photos.length === 1) {
+        prevButton.style.display = "none";
+        nextButton.style.display = "none";
+    }
+});
+</script>
 
 {% endblock %}

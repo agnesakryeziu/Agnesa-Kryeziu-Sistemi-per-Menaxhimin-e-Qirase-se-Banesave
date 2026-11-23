@@ -4,12 +4,21 @@ from django.contrib.auth.mixins import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView
 
-from .models import Banesa, Pronari, Qiramarresi, FotoBanese
-from .panel_forms import BanesaForm, PronariForm, QiramarresiForm
+from .models import (
+    Banesa,
+    Pronari,
+    Qiramarresi,
+    FotografiaBaneses,
+)
+from .panel_forms import (
+    BanesaForm,
+    PronariForm,
+    QiramarresiForm,
+)
 
 
 class QasjaAdministratorit(LoginRequiredMixin, UserPassesTestMixin):
@@ -43,7 +52,9 @@ class ListaAdministrimit(QasjaAdministratorit, ListView):
             kushti = Q()
 
             for fusha in self.kerko_ne:
-                kushti |= Q(**{f"{fusha}__icontains": kerkimi})
+                kushti |= Q(
+                    **{f"{fusha}__icontains": kerkimi}
+                )
 
             queryset = queryset.filter(kushti)
 
@@ -90,7 +101,10 @@ class ListaQiramarresve(ListaAdministrimit):
     kerko_ne = ("emri", "mbiemri", "email", "telefoni")
 
 
-class FormularAdministrimi(QasjaAdministratorit, SuccessMessageMixin):
+class FormularAdministrimi(
+    QasjaAdministratorit,
+    SuccessMessageMixin
+):
     template_name = "qiraja/panel_form.html"
 
     titulli = ""
@@ -113,36 +127,128 @@ class FormularAdministrimi(QasjaAdministratorit, SuccessMessageMixin):
 
 
 class RuajtjaFotoveBanese:
+    def planifiko_fshirjen_e_skedarit(self, fusha):
+        if not fusha or not fusha.name:
+            return
+
+        emri = fusha.name
+        storage = fusha.storage
+
+        transaction.on_commit(
+            lambda: storage.delete(emri),
+            robust=True
+        )
+
     @transaction.atomic
     def form_valid(self, form):
-        fotot = form.cleaned_data.get("fotot_shtese") or []
+        fotot_e_reja = list(
+            form.cleaned_data.get("fotot_shtese") or []
+        )
 
-        banesa_ekzistuese = getattr(self, "object", None)
+        fotot_per_fshirje = list(
+            form.cleaned_data.get("fotot_per_fshirje") or []
+        )
 
+        hiq_foto_kryesore = form.cleaned_data.get(
+            "hiq_foto_kryesore",
+            False
+        )
+
+        banesa_e_vjeter = None
         numri_ekzistues = 0
 
-        if banesa_ekzistuese is not None and banesa_ekzistuese.pk:
-            numri_ekzistues = (
-                banesa_ekzistuese.fotot_shtese.count()
+        if self.object is not None and self.object.pk:
+            banesa_e_vjeter = (
+                Banesa.objects.select_for_update().get(
+                    pk=self.object.pk
+                )
             )
 
-        if numri_ekzistues + len(fotot) > 7:
-            hapesira = max(7 - numri_ekzistues, 0)
+            numri_ekzistues = (
+                FotografiaBaneses.objects.filter(
+                    banesa=banesa_e_vjeter
+                ).count()
+            )
 
+        numri_perfundimtar = (
+            numri_ekzistues
+            - len(fotot_per_fshirje)
+            + len(fotot_e_reja)
+        )
+
+        if numri_perfundimtar > 7:
             form.add_error(
                 "fotot_shtese",
-                f"Mund të shtoni edhe {hapesira} fotografi shtesë."
+                "Një banesë mund të ketë maksimumi 7 fotografi shtesë."
             )
-
             return self.form_invalid(form)
+
+        foto_kryesore_e_vjeter = None
+
+        if banesa_e_vjeter and banesa_e_vjeter.fotografia:
+            foto_kryesore_e_vjeter = (
+                banesa_e_vjeter.fotografia
+            )
 
         response = super().form_valid(form)
 
-        for foto in fotot:
-            FotoBanese.objects.create(
-                banesa=self.object,
-                fotografia=foto
+        if hiq_foto_kryesore:
+            self.object.fotografia = ""
+            self.object.save(
+                update_fields=["fotografia"]
             )
+
+        if foto_kryesore_e_vjeter:
+            emri_i_ri = (
+                self.object.fotografia.name
+                if self.object.fotografia
+                else ""
+            )
+
+            if foto_kryesore_e_vjeter.name != emri_i_ri:
+                self.planifiko_fshirjen_e_skedarit(
+                    foto_kryesore_e_vjeter
+                )
+
+        if fotot_per_fshirje:
+            identifikuesit = [
+                foto.pk for foto in fotot_per_fshirje
+            ]
+
+            fotografite = list(
+                FotografiaBaneses.objects.filter(
+                    banesa=self.object,
+                    pk__in=identifikuesit
+                )
+            )
+
+            for foto in fotografite:
+                self.planifiko_fshirjen_e_skedarit(
+                    foto.fotografia
+                )
+
+            FotografiaBaneses.objects.filter(
+                banesa=self.object,
+                pk__in=identifikuesit
+            ).delete()
+
+        renditja_tjeter = (
+            FotografiaBaneses.objects.filter(
+                banesa=self.object
+            ).aggregate(
+                maksimumi=Max("renditja")
+            )["maksimumi"] or 0
+        ) + 1
+
+        for foto in fotot_e_reja:
+            FotografiaBaneses.objects.create(
+                banesa=self.object,
+                fotografia=foto,
+                pershkrimi="",
+                renditja=renditja_tjeter
+            )
+
+            renditja_tjeter += 1
 
         return response
 
