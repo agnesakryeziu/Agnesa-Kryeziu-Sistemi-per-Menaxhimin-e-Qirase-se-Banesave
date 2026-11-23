@@ -4,8 +4,9 @@ from django.contrib.auth.mixins import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
-from django.db.models import Q, Max
+from django.db.models import Q, Max, Exists, OuterRef
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView
 
 from .models import (
@@ -13,6 +14,7 @@ from .models import (
     Pronari,
     Qiramarresi,
     FotografiaBaneses,
+    Kontrata,
 )
 from .panel_forms import (
     BanesaForm,
@@ -81,6 +83,21 @@ class ListaBanesave(ListaAdministrimit):
     emri_url_shto = "panel_shto_banese"
     kerko_ne = ("adresa", "qyteti")
     lidhjet = ("pronari",)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        sot = timezone.localdate()
+
+        kontratat_aktive = Kontrata.objects.filter(
+            banesa_id=OuterRef("pk"),
+            data_fillimit__lte=sot,
+            data_mbarimit__gte=sot,
+        )
+
+        return queryset.annotate(
+            e_zene=Exists(kontratat_aktive)
+        )
 
 
 class ListaPronareve(ListaAdministrimit):

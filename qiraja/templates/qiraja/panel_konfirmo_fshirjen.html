@@ -1,7 +1,7 @@
 {% extends "qiraja/base.html" %}
 {% load static %}
 
-{% block title %}Fshi banesën | RentManage{% endblock %}
+{% block title %}{{ titulli }} | RentManage{% endblock %}
 {% block body_class %}page-paneli page-panel-form{% endblock %}
 
 {% block extra_css %}
@@ -20,7 +20,7 @@
                 PANELI I ADMINISTRATORIT
             </span>
 
-            <h1>Fshirja e banesës</h1>
+            <h1>{{ titulli }}</h1>
 
             <p>
                 Konfirmoni veprimin përpara se të vazhdoni.
@@ -38,68 +38,160 @@
                 !
             </div>
 
-            <h2>A dëshironi ta fshini këtë banesë?</h2>
+            {% if banesa %}
 
-            <p class="rmp-delete-description">
-                Ju lutemi kontrolloni të dhënat e banesës
-                përpara konfirmimit.
-            </p>
+                <h2>A dëshironi ta fshini këtë banesë?</h2>
 
-            <div class="rmp-delete-property">
+                <p class="rmp-delete-description">
+                    Kontrolloni të dhënat e banesës
+                    përpara se të konfirmoni fshirjen.
+                </p>
 
-                <strong>{{ banesa.adresa }}</strong>
+                <div class="rmp-delete-property">
 
-                <span>
-                    {{ banesa.qyteti }}
-                    · {{ banesa.siperfaqja }} m²
-                    · {{ banesa.cmimi_mujor }} €
-                </span>
+                    <strong>{{ banesa.adresa }}</strong>
 
-            </div>
-
-            {% if banesa.kontratat.exists %}
-
-                <div class="rmp-delete-warning" role="alert">
-                    Kjo banesë ka kontrata të regjistruara
-                    dhe nuk mund të fshihet.
-                </div>
-
-                <div class="rmp-delete-actions">
-
-                    <a href="{% url 'panel_banesat' %}"
-                       class="rmp-delete-cancel">
-                        Kthehu te banesat
-                    </a>
+                    <span>
+                        {{ banesa.qyteti }}
+                        · {{ banesa.siperfaqja }} m²
+                        · {{ banesa.cmimi_mujor }} €
+                    </span>
 
                 </div>
 
-            {% else %}
+                {% if banesa.kontratat.exists %}
 
-                <div class="rmp-delete-warning">
-                    Kujdes! Fshirja është e përhershme.
-                    Do të largohen edhe fotografitë
-                    e lidhura me këtë banesë.
-                </div>
-
-                <form method="post">
-
-                    {% csrf_token %}
+                    <div class="rmp-delete-warning" role="alert">
+                        Kjo banesë nuk mund të fshihet,
+                        sepse ka kontrata të regjistruara.
+                    </div>
 
                     <div class="rmp-delete-actions">
 
                         <a href="{% url 'panel_banesat' %}"
                            class="rmp-delete-cancel">
-                            Anulo
+                            Kthehu te banesat
                         </a>
-
-                        <button type="submit"
-                                class="rmp-delete-confirm">
-                            Po, fshi banesën
-                        </button>
 
                     </div>
 
-                </form>
+                {% else %}
+
+                    <div class="rmp-delete-warning">
+                        Kujdes! Fshirja është e përhershme.
+                        Do të largohen edhe fotografitë
+                        e lidhura me këtë banesë.
+                    </div>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <div class="rmp-delete-actions">
+
+                            <a href="{% url 'panel_banesat' %}"
+                               class="rmp-delete-cancel">
+                                Anulo
+                            </a>
+
+                            <button type="submit"
+                                    class="rmp-delete-confirm">
+                                Po, fshi banesën
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                {% endif %}
+
+            {% elif personi %}
+
+                <h2>
+                    A dëshironi ta fshini {{ lloji }}?
+                </h2>
+
+                <p class="rmp-delete-description">
+                    Kontrolloni të dhënat e regjistrimit
+                    përpara se të konfirmoni fshirjen.
+                </p>
+
+                <div class="rmp-delete-property">
+
+                    <strong>
+                        {{ personi.emri }} {{ personi.mbiemri }}
+                    </strong>
+
+                    <span>
+                        {{ personi.email }}
+                    </span>
+
+                    <span>
+                        {{ personi.telefoni }}
+                    </span>
+
+                </div>
+
+                {% if ka_lidhje %}
+
+                    <div class="rmp-delete-warning" role="alert">
+
+                        {% if lloji == "pronarin" %}
+
+                            Ky pronar nuk mund të fshihet
+                            sepse ka banesa të regjistruara.
+
+                        {% elif lloji == "qiramarrësin" %}
+
+                            Ky qiramarrës nuk mund të fshihet
+                            sepse ka kontrata të regjistruara.
+
+                        {% else %}
+
+                            Ky regjistrim ka të dhëna të lidhura
+                            dhe nuk mund të fshihet.
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="rmp-delete-actions">
+
+                        <a href="{{ url_kthim }}"
+                           class="rmp-delete-cancel">
+                            Kthehu te lista
+                        </a>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="rmp-delete-warning">
+                        Kujdes! Ky veprim është i përhershëm.
+                        Regjistrimi do të largohet nga sistemi.
+                    </div>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <div class="rmp-delete-actions">
+
+                            <a href="{{ url_kthim }}"
+                               class="rmp-delete-cancel">
+                                Anulo
+                            </a>
+
+                            <button type="submit"
+                                    class="rmp-delete-confirm">
+                                Po, fshi regjistrimin
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                {% endif %}
 
             {% endif %}
 

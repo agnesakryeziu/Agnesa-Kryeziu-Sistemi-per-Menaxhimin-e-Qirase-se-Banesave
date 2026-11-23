@@ -967,7 +967,7 @@ body.page-paneli > main {
     margin: 0;
     padding: 0;
     background: var(--rmp-cream);
-    vertical-align: bottom;
+
 }
 
 
@@ -1781,4 +1781,33 @@ body.page-panel-form .rmp-gallery-empty {
     body.page-panel-lista .rmp-management-content {
         margin-top: -100px;
     }
+}
+@media (min-width: 701px) {
+    body.page-panel-form .rmp-management-content {
+        margin-top: -100px;
+    }
+}
+.rmp-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 74px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.rmp-status-available {
+    background: #e5f5e9;
+    color: #176b3a;
+    border: 1px solid #bce2c7;
+}
+
+.rmp-status-occupied {
+    background: #fff0ed;
+    color: #ad4037;
+    border: 1px solid #efc7c1;
 }

@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+
 {% url 'panel_banesat' as url_banesat %}
 {% url 'panel_pronaret' as url_pronaret %}
 {% url 'panel_qiramarresit' as url_qiramarresit %}
@@ -193,6 +194,7 @@
                                 <th>Dhoma</th>
                                 <th>Qiraja mujore</th>
                                 <th>Pronari</th>
+                                <th>Statusi</th>
                                 <th>Veprime</th>
                             </tr>
                         </thead>
@@ -243,6 +245,24 @@
 
                                 <td>
 
+                                    {% if banesa.e_zene %}
+
+                                    <span class="rmp-status-badge rmp-status-occupied">
+                                        E zënë
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="rmp-status-badge rmp-status-available">
+                                        E lirë
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
                                     <div class="rmp-row-actions">
 
                                         <a href="{% url 'panel_ndrysho_banese' banesa.pk %}"
@@ -264,7 +284,7 @@
                             {% empty %}
 
                             <tr>
-                                <td colspan="8" class="rmp-table-empty">
+                                <td colspan="9" class="rmp-table-empty">
                                     Nuk u gjet asnjë banesë.
                                 </td>
                             </tr>
@@ -303,10 +323,19 @@
 
                                 <td>
 
-                                    <a href="{% url 'panel_ndrysho_pronar' pronari.pk %}"
-                                       class="rmp-edit-link">
-                                        Përditëso
-                                    </a>
+                                    <div class="rmp-row-actions">
+
+                                        <a href="{% url 'panel_ndrysho_pronar' pronari.pk %}"
+                                           class="rmp-edit-link">
+                                            Përditëso
+                                        </a>
+
+                                        <a href="{% url 'panel_fshi_pronar' pronari.pk %}"
+                                           class="rmp-delete-link">
+                                            Fshi
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
@@ -354,10 +383,19 @@
 
                                 <td>
 
-                                    <a href="{% url 'panel_ndrysho_qiramarres' qiramarresi.pk %}"
-                                       class="rmp-edit-link">
-                                        Përditëso
-                                    </a>
+                                    <div class="rmp-row-actions">
+
+                                        <a href="{% url 'panel_ndrysho_qiramarres' qiramarresi.pk %}"
+                                           class="rmp-edit-link">
+                                            Përditëso
+                                        </a>
+
+                                        <a href="{% url 'panel_fshi_qiramarres' qiramarresi.pk %}"
+                                           class="rmp-delete-link">
+                                            Fshi
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
