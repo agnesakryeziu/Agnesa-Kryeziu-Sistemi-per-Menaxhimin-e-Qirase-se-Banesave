@@ -16,50 +16,112 @@
 {% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
 
 <div class="rmp-dashboard">
+
     <header class="rmp-header">
         <div class="rmp-header-inner">
-            <a href="{% url 'paneli' %}" class="rmp-brand">RentManage</a>
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
 
             <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
-                <a href="{% url 'paneli' %}">Paneli</a>
-                <a href="{{ url_banesat|default:'/paneli/' }}" class="{% if seksioni == 'banesat' %}rmp-link-active{% endif %}">Banesat</a>
-                <a href="{{ url_pronaret|default:'/paneli/' }}" class="{% if seksioni == 'pronaret' %}rmp-link-active{% endif %}">Pronarët</a>
-                <a href="{{ url_qiramarresit|default:'/paneli/' }}" class="{% if seksioni == 'qiramarresit' %}rmp-link-active{% endif %}">Qiramarrësit</a>
-                <a href="{{ url_kontratat|default:'/admin/' }}">Kontratat</a>
-                <a href="{{ url_pagesat|default:'/admin/' }}">Pagesat</a>
+
+                <a href="{% url 'paneli' %}">
+                    Paneli
+                </a>
+
+                <a href="{{ url_banesat|default:'/paneli/' }}"
+                   class="{% if seksioni == 'banesat' %}rmp-link-active{% endif %}">
+                    Banesat
+                </a>
+
+                <a href="{{ url_pronaret|default:'/paneli/' }}"
+                   class="{% if seksioni == 'pronaret' %}rmp-link-active{% endif %}">
+                    Pronarët
+                </a>
+
+                <a href="{{ url_qiramarresit|default:'/paneli/' }}"
+                   class="{% if seksioni == 'qiramarresit' %}rmp-link-active{% endif %}">
+                    Qiramarrësit
+                </a>
+
+                <a href="{{ url_kontratat|default:'/admin/' }}">
+                    Kontratat
+                </a>
+
+                <a href="{{ url_pagesat|default:'/admin/' }}">
+                    Pagesat
+                </a>
+
             </nav>
 
             <div class="rmp-header-actions">
-                <a href="{% url 'home' %}" class="rmp-home-link">Faqja kryesore</a>
-                <form method="post" action="{% url 'dalje' %}" class="rmp-logout-form">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
                     {% csrf_token %}
-                    <button type="submit" class="rmp-logout">Dil</button>
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
                 </form>
+
             </div>
+
         </div>
     </header>
 
     <section class="rmp-hero rmp-management-hero">
+
         <div class="rmp-hero-content">
-            <span class="rmp-eyebrow">PANELI I ADMINISTRATORIT</span>
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
             <h1>{{ titulli }}</h1>
+
             <p>{{ pershkrimi }}</p>
+
         </div>
+
     </section>
 
     <div class="rmp-content rmp-management-content">
+
         {% if messages %}
+
         <div class="rmp-alerts" role="status">
+
             {% for message in messages %}
-            <div class="rmp-alert">{{ message }}</div>
+
+            <div class="rmp-alert">
+                {{ message }}
+            </div>
+
             {% endfor %}
+
         </div>
+
         {% endif %}
 
         <section class="rmp-management-section">
+
             <div class="rmp-management-heading">
+
                 <div>
-                    <span class="rmp-management-label">REGJISTRIMET</span>
+
+                    <span class="rmp-management-label">
+                        REGJISTRIMET
+                    </span>
+
                     <h2>
                         {% if seksioni == 'banesat' %}
                             Lista e banesave
@@ -69,10 +131,16 @@
                             Lista e qiramarrësve
                         {% endif %}
                     </h2>
-                    <p>Gjithsej {{ gjithsej }} regjistrime në sistem.</p>
+
+                    <p>
+                        Gjithsej {{ gjithsej }} regjistrime në sistem.
+                    </p>
+
                 </div>
 
-                <a href="{{ url_shto }}" class="rmp-add-button rmp-management-add">
+                <a href="{{ url_shto }}"
+                   class="rmp-add-button rmp-management-add">
+
                     {% if seksioni == 'banesat' %}
                         + Shto banesë
                     {% elif seksioni == 'pronaret' %}
@@ -80,32 +148,42 @@
                     {% else %}
                         + Shto qiramarrës
                     {% endif %}
+
                 </a>
+
             </div>
 
             <form method="get" class="rmp-search-form">
-                <input
-                    type="search"
-                    name="q"
-                    value="{{ kerkimi }}"
-                    placeholder="Kërko sipas të dhënave..."
-                    aria-label="Kërko regjistrimet"
-                    class="rmp-search-input"
-                >
-                <button type="submit" class="rmp-search-button">Kërko</button>
+
+                <input type="search"
+                       name="q"
+                       value="{{ kerkimi }}"
+                       placeholder="Kërko sipas të dhënave..."
+                       aria-label="Kërko regjistrimet"
+                       class="rmp-search-input">
+
+                <button type="submit" class="rmp-search-button">
+                    Kërko
+                </button>
 
                 {% if kerkimi %}
+
                 <a href="{{ request.path }}" class="rmp-clear-search">
                     Pastro kërkimin
                 </a>
+
                 {% endif %}
+
             </form>
 
             <div class="rmp-management-table">
+
                 <div class="rmp-table-scroll">
+
                     <table class="rmp-table">
 
                         {% if seksioni == 'banesat' %}
+
                         <thead>
                             <tr>
                                 <th>Fotografia</th>
@@ -120,26 +198,38 @@
                         </thead>
 
                         <tbody>
+
                             {% for banesa in regjistrimet %}
+
                             <tr>
+
                                 <td>
+
                                     {% if banesa.fotografia %}
-                                    <img
-                                        class="rmp-banese-photo"
-                                        src="{{ banesa.fotografia.url }}"
-                                        alt="Fotografia e banesës në {{ banesa.adresa }}"
-                                        loading="lazy"
-                                    >
+
+                                    <img class="rmp-banese-photo"
+                                         src="{{ banesa.fotografia.url }}"
+                                         alt="Fotografia e banesës në {{ banesa.adresa }}"
+                                         loading="lazy">
+
                                     {% else %}
+
                                     <span class="rmp-banese-no-photo">
                                         Pa fotografi
                                     </span>
+
                                     {% endif %}
+
                                 </td>
 
-                                <td><strong>{{ banesa.adresa }}</strong></td>
+                                <td>
+                                    <strong>{{ banesa.adresa }}</strong>
+                                </td>
+
                                 <td>{{ banesa.qyteti }}</td>
+
                                 <td>{{ banesa.siperfaqja }} m²</td>
+
                                 <td>{{ banesa.numri_dhomave }}</td>
 
                                 <td class="rmp-amount">
@@ -152,25 +242,39 @@
                                 </td>
 
                                 <td>
-                                    <a
-                                        href="{% url 'panel_ndrysho_banese' banesa.pk %}"
-                                        class="rmp-edit-link"
-                                    >
-                                        Përditëso
-                                    </a>
+
+                                    <div class="rmp-row-actions">
+
+                                        <a href="{% url 'panel_ndrysho_banese' banesa.pk %}"
+                                           class="rmp-edit-link">
+                                            Përditëso
+                                        </a>
+
+                                        <a href="{% url 'panel_fshi_banese' banesa.pk %}"
+                                           class="rmp-delete-link">
+                                            Fshi
+                                        </a>
+
+                                    </div>
+
                                 </td>
+
                             </tr>
 
                             {% empty %}
+
                             <tr>
                                 <td colspan="8" class="rmp-table-empty">
                                     Nuk u gjet asnjë banesë.
                                 </td>
                             </tr>
+
                             {% endfor %}
+
                         </tbody>
 
                         {% elif seksioni == 'pronaret' %}
+
                         <thead>
                             <tr>
                                 <th>Emri</th>
@@ -182,32 +286,46 @@
                         </thead>
 
                         <tbody>
+
                             {% for pronari in regjistrimet %}
+
                             <tr>
-                                <td><strong>{{ pronari.emri }}</strong></td>
-                                <td>{{ pronari.mbiemri }}</td>
-                                <td>{{ pronari.telefoni }}</td>
-                                <td>{{ pronari.email }}</td>
+
                                 <td>
-                                    <a
-                                        href="{% url 'panel_ndrysho_pronar' pronari.pk %}"
-                                        class="rmp-edit-link"
-                                    >
+                                    <strong>{{ pronari.emri }}</strong>
+                                </td>
+
+                                <td>{{ pronari.mbiemri }}</td>
+
+                                <td>{{ pronari.telefoni }}</td>
+
+                                <td>{{ pronari.email }}</td>
+
+                                <td>
+
+                                    <a href="{% url 'panel_ndrysho_pronar' pronari.pk %}"
+                                       class="rmp-edit-link">
                                         Përditëso
                                     </a>
+
                                 </td>
+
                             </tr>
 
                             {% empty %}
+
                             <tr>
                                 <td colspan="5" class="rmp-table-empty">
                                     Nuk u gjet asnjë pronar.
                                 </td>
                             </tr>
+
                             {% endfor %}
+
                         </tbody>
 
                         {% else %}
+
                         <thead>
                             <tr>
                                 <th>Emri</th>
@@ -219,48 +337,69 @@
                         </thead>
 
                         <tbody>
+
                             {% for qiramarresi in regjistrimet %}
+
                             <tr>
-                                <td><strong>{{ qiramarresi.emri }}</strong></td>
-                                <td>{{ qiramarresi.mbiemri }}</td>
-                                <td>{{ qiramarresi.telefoni }}</td>
-                                <td>{{ qiramarresi.email }}</td>
+
                                 <td>
-                                    <a
-                                        href="{% url 'panel_ndrysho_qiramarres' qiramarresi.pk %}"
-                                        class="rmp-edit-link"
-                                    >
+                                    <strong>{{ qiramarresi.emri }}</strong>
+                                </td>
+
+                                <td>{{ qiramarresi.mbiemri }}</td>
+
+                                <td>{{ qiramarresi.telefoni }}</td>
+
+                                <td>{{ qiramarresi.email }}</td>
+
+                                <td>
+
+                                    <a href="{% url 'panel_ndrysho_qiramarres' qiramarresi.pk %}"
+                                       class="rmp-edit-link">
                                         Përditëso
                                     </a>
+
                                 </td>
+
                             </tr>
 
                             {% empty %}
+
                             <tr>
                                 <td colspan="5" class="rmp-table-empty">
                                     Nuk u gjet asnjë qiramarrës.
                                 </td>
                             </tr>
+
                             {% endfor %}
+
                         </tbody>
+
                         {% endif %}
 
                     </table>
+
                 </div>
+
             </div>
 
             {% if is_paginated %}
+
             <div class="rmp-pagination">
+
                 <span>
                     Faqja {{ page_obj.number }}
                     nga {{ page_obj.paginator.num_pages }}
                 </span>
 
                 <div class="rmp-pagination-buttons">
+
                     {% if page_obj.has_previous %}
+
                     <a href="?q={{ kerkimi|urlencode }}&page={{ page_obj.previous_page_number }}">
                         ‹ Mbrapa
                     </a>
+
                     {% endif %}
 
                     <span class="rmp-current-page">
@@ -268,16 +407,23 @@
                     </span>
 
                     {% if page_obj.has_next %}
+
                     <a href="?q={{ kerkimi|urlencode }}&page={{ page_obj.next_page_number }}">
                         Përpara ›
                     </a>
+
                     {% endif %}
+
                 </div>
+
             </div>
+
             {% endif %}
 
         </section>
+
     </div>
+
 </div>
 
 {% endblock %}

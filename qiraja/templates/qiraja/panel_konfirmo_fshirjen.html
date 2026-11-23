@@ -1,0 +1,112 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Fshi banesën | RentManage{% endblock %}
+{% block body_class %}page-paneli page-panel-form{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>Fshirja e banesës</h1>
+
+            <p>
+                Konfirmoni veprimin përpara se të vazhdoni.
+            </p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-delete-wrapper">
+
+        <div class="rmp-delete-card">
+
+            <div class="rmp-delete-icon">
+                !
+            </div>
+
+            <h2>A dëshironi ta fshini këtë banesë?</h2>
+
+            <p class="rmp-delete-description">
+                Ju lutemi kontrolloni të dhënat e banesës
+                përpara konfirmimit.
+            </p>
+
+            <div class="rmp-delete-property">
+
+                <strong>{{ banesa.adresa }}</strong>
+
+                <span>
+                    {{ banesa.qyteti }}
+                    · {{ banesa.siperfaqja }} m²
+                    · {{ banesa.cmimi_mujor }} €
+                </span>
+
+            </div>
+
+            {% if banesa.kontratat.exists %}
+
+                <div class="rmp-delete-warning" role="alert">
+                    Kjo banesë ka kontrata të regjistruara
+                    dhe nuk mund të fshihet.
+                </div>
+
+                <div class="rmp-delete-actions">
+
+                    <a href="{% url 'panel_banesat' %}"
+                       class="rmp-delete-cancel">
+                        Kthehu te banesat
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <div class="rmp-delete-warning">
+                    Kujdes! Fshirja është e përhershme.
+                    Do të largohen edhe fotografitë
+                    e lidhura me këtë banesë.
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="rmp-delete-actions">
+
+                        <a href="{% url 'panel_banesat' %}"
+                           class="rmp-delete-cancel">
+                            Anulo
+                        </a>
+
+                        <button type="submit"
+                                class="rmp-delete-confirm">
+                            Po, fshi banesën
+                        </button>
+
+                    </div>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

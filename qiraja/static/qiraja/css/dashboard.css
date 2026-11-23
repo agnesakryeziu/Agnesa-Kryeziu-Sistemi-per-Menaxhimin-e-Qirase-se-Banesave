@@ -1632,3 +1632,153 @@ body.page-panel-form .rmp-gallery-empty {
         height: 105px;
     }
 }
+.rmp-delete-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px 80px;
+}
+
+.rmp-delete-card {
+    width: 100%;
+    max-width: 570px;
+    padding: 36px;
+    border: 1px solid #e8dfcf;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 15px 45px rgba(6, 61, 44, 0.09);
+    text-align: center;
+}
+
+.rmp-delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #fff0ed;
+    color: #af4137;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.rmp-delete-card h2 {
+    margin: 0 0 12px;
+    color: #063d2c;
+    font-size: 25px;
+}
+
+.rmp-delete-description {
+    color: #617268;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.rmp-delete-property {
+    margin: 23px 0;
+    padding: 18px;
+    border: 1px solid #eadfcb;
+    border-radius: 12px;
+    background: #faf7f1;
+}
+
+.rmp-delete-property strong {
+    display: block;
+    color: #063d2c;
+    font-size: 17px;
+}
+
+.rmp-delete-property span {
+    display: block;
+    margin-top: 5px;
+    color: #738077;
+    font-size: 13px;
+}
+
+.rmp-delete-warning {
+    margin: 20px 0;
+    padding: 14px;
+    border-radius: 10px;
+    background: #fff0ed;
+    color: #963f35;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.rmp-delete-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.rmp-delete-cancel,
+.rmp-delete-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.rmp-delete-cancel {
+    border: 1px solid #d7d0c3;
+    background: #ffffff;
+    color: #063d2c;
+}
+
+.rmp-delete-confirm {
+    border: 1px solid #a83e36;
+    background: #a83e36;
+    color: #ffffff;
+}
+
+.rmp-delete-confirm:hover {
+    background: #862d27;
+}
+
+@media (max-width: 600px) {
+    .rmp-delete-card {
+        padding: 25px 18px;
+    }
+}
+.rmp-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.rmp-delete-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    background: #fff0ed;
+    color: #aa4037;
+    border: 1px solid #f0c8c3;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s ease;
+    white-space: nowrap;
+}
+
+.rmp-delete-link:hover {
+    background: #aa4037;
+    color: #ffffff;
+    border-color: #aa4037;
+}
+@media (min-width: 701px) {
+    body.page-panel-lista .rmp-management-content {
+        margin-top: -100px;
+    }
+}
