@@ -3,6 +3,10 @@
 
 {% block title %}Hyr në sistem | RentManage{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/regjistrimi.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <section class="rent-login-page">
@@ -66,7 +70,7 @@
                 <div class="rent-login-heading">
 
                     <span class="rent-login-small-title">
-                        HYRJA E ADMINISTRATORIT
+                        HYRJA NË SISTEM
                     </span>
 
                     <h1>Mirë se u kthyet!</h1>
@@ -78,18 +82,38 @@
 
                 </div>
 
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="rent-login-notice"
+                             role="status">
+                            <span aria-hidden="true">✓</span>
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
                 {% if form.non_field_errors %}
+
                     <div class="rent-login-error" role="alert">
                         {{ form.non_field_errors }}
                     </div>
+
                 {% endif %}
 
-                <form method="post" class="rent-login-form">
+                <form method="post"
+                      action="{% url 'hyrja' %}"
+                      class="rent-login-form">
 
                     {% csrf_token %}
 
                     {% if next %}
-                        <input type="hidden" name="next" value="{{ next }}">
+                        <input type="hidden"
+                               name="next"
+                               value="{{ next }}">
                     {% endif %}
 
                     <div class="rent-login-field">
@@ -141,20 +165,49 @@
 
                     </div>
 
-                    <button type="submit" class="rent-login-button">
+                    <button type="submit"
+                            class="rent-login-button">
                         <span>Hyr në sistem</span>
                         <span aria-hidden="true">→</span>
                     </button>
 
                 </form>
 
+                <div class="rent-register-entry">
+
+                    <div class="rent-register-entry-icon"
+                         aria-hidden="true">
+                        ✦
+                    </div>
+
+                    <div class="rent-register-entry-content">
+
+                        <strong>Jeni i ri në RentManage?</strong>
+
+                        <p>
+                            Krijoni llogarinë tuaj për
+                            shërbimet e rezervimit.
+                        </p>
+
+                    </div>
+
+                    <a href="{% url 'regjistrohu' %}"
+                       class="rent-register-entry-button"
+                       style="text-decoration: none;">
+                        Regjistrohu
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                </div>
+
                 <div class="rent-login-bottom">
 
-                    <span class="rent-login-lock" aria-hidden="true">●</span>
+                    <span class="rent-login-lock"
+                          aria-hidden="true">●</span>
 
                     <p>
-                        Qasje e rezervuar për administratorin
-                        e RentManage.
+                        Hyrje e sigurt dhe mbrojtje
+                        e të dhënave të llogarisë.
                     </p>
 
                 </div>

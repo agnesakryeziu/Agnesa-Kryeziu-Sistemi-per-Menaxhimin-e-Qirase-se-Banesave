@@ -1,0 +1,159 @@
+.rent-register-page .rent-register-field select#reg_roli {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 45px;
+    min-height: 45px;
+    margin: 0;
+    padding: 12px 36px 12px 14px;
+    border: 1px solid #dce4dc;
+    border-radius: 10px;
+    background-color: #f8faf7;
+    color: #203d30;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.5;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b723b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rent-register-page .rent-register-field select#reg_roli:hover {
+    border-color: #b5c6b9;
+}
+
+.rent-register-page .rent-register-field select#reg_roli:focus {
+    border-color: #b69a54;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(182, 154, 84, 0.13);
+}
+
+.rent-register-role-select option {
+    color: #203d30;
+    background-color: #ffffff;
+}
+
+.rent-register-field:has(.rent-register-error) .rent-register-role-select {
+    border-color: #d99595;
+}
+
+
+@media (max-width: 480px) {
+    .rent-register-page .rent-register-field select#reg_roli {
+        height: 46px;
+        min-height: 46px;
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rent-register-page .rent-register-field select#reg_roli {
+        transition: none;
+    }
+}
+
+.rent-register-page {
+    padding: 44px 20px 64px;
+    background: #faf9f4;
+    color: #203d30;
+    font-family: "Manrope", "DM Sans", sans-serif;
+}
+
+.rent-register-page-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.rent-register-page-card {
+    overflow: hidden;
+    border: 1px solid #e7dfcb;
+    border-radius: 23px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(10, 48, 36, 0.10);
+}
+
+.rent-register-page .rent-register-shell {
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+}
+
+.rent-register-page .rent-register-main {
+    min-width: 0;
+    padding: 38px;
+}
+
+.rent-register-page .rent-register-field input,
+.rent-register-page .rent-register-field select#reg_roli {
+    box-sizing: border-box;
+    height: 45px;
+    min-height: 45px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.rent-register-page .rent-register-phone-note {
+    color: #728078;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.rent-register-back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #174a35;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.rent-register-page .rent-register-footer a {
+    color: #174a35;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.rent-register-back:hover,
+.rent-register-page .rent-register-footer a:hover {
+    color: #9b7c37;
+    text-decoration: underline;
+}
+
+.rent-register-page a:focus-visible,
+.rent-register-page button:focus-visible {
+    outline: 2px solid #c9ae69;
+    outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+    .rent-register-page {
+        padding: 26px 14px 40px;
+    }
+    .rent-register-page .rent-register-shell {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .rent-register-page .rent-register-main {
+        padding: 28px 25px;
+    }
+    .rent-register-page-card {
+        border-radius: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rent-register-page .rent-register-main {
+        padding: 25px 20px;
+    }
+    .rent-register-page .rent-register-field input,
+    .rent-register-page .rent-register-field select#reg_roli {
+        height: 46px;
+        min-height: 46px;
+        font-size: 16px;
+    }
+}

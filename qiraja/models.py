@@ -5,13 +5,32 @@ from django.core.validators import FileExtensionValidator
 
 
 class Perdorues(AbstractUser):
+    ROLET = [
+        ("klient", "Klient"),
+        ("pronar", "Pronar"),
+    ]
+
     email = models.EmailField(unique=True)
+
+    roli = models.CharField(
+        max_length=20,
+        choices=ROLET,
+        default="klient"
+    )
 
     def __str__(self):
         return self.username
 
 
 class Pronari(models.Model):
+    perdoruesi = models.OneToOneField(
+        Perdorues,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="profili_pronarit"
+    )
+
     emri = models.CharField(max_length=100)
     mbiemri = models.CharField(max_length=100)
     telefoni = models.CharField(max_length=20)
@@ -26,6 +45,7 @@ class Banesa(models.Model):
     qyteti = models.CharField(max_length=100)
     siperfaqja = models.PositiveIntegerField()
     numri_dhomave = models.PositiveIntegerField()
+
     cmimi_mujor = models.DecimalField(
         max_digits=10,
         decimal_places=2
@@ -214,7 +234,8 @@ class Pagesa(models.Model):
 
     def __str__(self):
         return f"Pagesa {self.muaji}/{self.viti} - Kontrata {self.kontrata_id}"
-        
+
+
 class MesazhKontakti(models.Model):
     emri = models.CharField(max_length=150)
     email = models.EmailField()
@@ -229,6 +250,7 @@ class MesazhKontakti(models.Model):
 
     def __str__(self):
         return f"{self.emri} - {self.subjekti}"
+
 
 class FotoBanese(models.Model):
     banesa = models.ForeignKey(

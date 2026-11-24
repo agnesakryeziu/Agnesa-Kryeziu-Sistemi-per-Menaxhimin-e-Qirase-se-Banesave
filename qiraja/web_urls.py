@@ -3,6 +3,7 @@ from django.urls import path
 from . import web_views
 from .kontakt_views import KontaktView
 from .login_views import HyrjeView, DaljeView
+from .regjistrim_views import RegjistrimiView
 from .panel_views import paneli
 
 from .panel_management_views import (
@@ -55,6 +56,12 @@ urlpatterns = [
         "hyrja/",
         HyrjeView.as_view(),
         name="hyrja",
+    ),
+
+    path(
+        "regjistrohu/",
+        RegjistrimiView.as_view(),
+        name="regjistrohu",
     ),
 
     path(

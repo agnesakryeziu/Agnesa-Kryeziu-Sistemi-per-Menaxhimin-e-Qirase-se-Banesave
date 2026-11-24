@@ -4,19 +4,14 @@ from django.urls import reverse_lazy
 
 class HyrjeView(LoginView):
     template_name = "qiraja/hyrja.html"
-    next_page = reverse_lazy("paneli")
 
-    def form_valid(self, form):
-        perdoruesi = form.get_user()
+    def get_success_url(self):
+        perdoruesi = self.request.user
 
-        if not perdoruesi.is_staff:
-            form.add_error(
-                None,
-                "Kjo faqe është vetëm për administratorin."
-            )
-            return self.form_invalid(form)
+        if perdoruesi.is_staff:
+            return reverse_lazy("paneli")
 
-        return super().form_valid(form)
+        return reverse_lazy("home")
 
 
 class DaljeView(LogoutView):

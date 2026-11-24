@@ -1,0 +1,344 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Regjistrohu | RentManage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/regjistrimi.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/regjistrimi_rolet.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="rent-register-page" aria-labelledby="rent-register-title">
+    <div class="rent-register-page-container">
+        <a href="{% url 'hyrja' %}" class="rent-register-back">← Kthehu te hyrja</a>
+        <div class="rent-register-page-card">
+<div class="rent-register-shell">
+
+        <aside class="rent-register-aside">
+
+            <div class="rent-register-brand">
+
+                <span class="rent-register-brand-symbol">
+                    ✦
+                </span>
+
+                <span>RENTMANAGE</span>
+
+            </div>
+
+            <div class="rent-register-aside-content">
+
+                <span class="rent-register-eyebrow">
+                    MIRË SE VINI
+                </span>
+
+                <h2>
+                    Hapni derën e
+                    mundësive të reja.
+                </h2>
+
+                <p>
+                    Krijoni llogarinë tuaj dhe bëhuni
+                    pjesë e platformës RentManage.
+                </p>
+
+                <div class="rent-register-benefits">
+
+                    <div class="rent-register-benefit">
+                        <span aria-hidden="true">✓</span>
+                        <p>Regjistrim i thjeshtë</p>
+                    </div>
+
+                    <div class="rent-register-benefit">
+                        <span aria-hidden="true">✓</span>
+                        <p>Llogari personale e sigurt</p>
+                    </div>
+
+                    <div class="rent-register-benefit">
+                        <span aria-hidden="true">✓</span>
+                        <p>Kërkoni ose ofroni banesa me qira</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="rent-register-aside-bottom">
+                NJË HAP MË AFËR BANESËS SUAJ
+            </div>
+
+        </aside>
+
+        <div class="rent-register-main">
+
+            
+
+            <div class="rent-register-header">
+
+                <span class="rent-register-header-tag">
+                    LLOGARI E RE
+                </span>
+
+                <h2 id="rent-register-title">
+                    Krijo llogarinë
+                </h2>
+
+                <p>
+                    Plotësoni të dhënat për t'u
+                    regjistruar në RentManage.
+                </p>
+
+            </div>
+
+            <form
+                method="post"
+                action="{% url 'regjistrohu' %}"
+                class="rent-register-form"
+                novalidate>
+
+                {% csrf_token %}
+
+                {% if regjistrimi_form.non_field_errors %}
+
+                    <div class="rent-register-error-box"
+                         role="alert">
+
+                        {% for error in regjistrimi_form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+                <div class="rent-register-field">
+                    <label for="reg_roli">Lloji i llogarisë <span>*</span></label>
+                    <select id="reg_roli" name="roli" class="rent-register-role-select" required>
+                        <option value="klient" {% if regjistrimi_form.roli.value != 'pronar' %}selected{% endif %}>Klient – Kërkoj banesë</option>
+                        <option value="pronar" {% if regjistrimi_form.roli.value == 'pronar' %}selected{% endif %}>Pronar – Ofroj banesë</option>
+                    </select>
+                    {% for error in regjistrimi_form.roli.errors %}
+                        <small class="rent-register-error">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="rent-register-grid">
+
+                    <div class="rent-register-field">
+
+                        <label for="reg_emri">
+                            Emri <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="reg_emri"
+                            name="emri"
+                            placeholder="Emri juaj"
+                            maxlength="150"
+                            autocomplete="given-name"
+                            value="{{ regjistrimi_form.emri.value|default_if_none:'' }}"
+                            required>
+
+                        {% for error in regjistrimi_form.emri.errors %}
+                            <small class="rent-register-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="rent-register-field">
+
+                        <label for="reg_mbiemri">
+                            Mbiemri <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="reg_mbiemri"
+                            name="mbiemri"
+                            placeholder="Mbiemri juaj"
+                            maxlength="150"
+                            autocomplete="family-name"
+                            value="{{ regjistrimi_form.mbiemri.value|default_if_none:'' }}"
+                            required>
+
+                        {% for error in regjistrimi_form.mbiemri.errors %}
+                            <small class="rent-register-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="rent-register-field">
+
+                    <label for="reg_email">
+                        Adresa e email-it <span>*</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="reg_email"
+                        name="email"
+                        placeholder="emri@example.com"
+                        maxlength="254"
+                        autocomplete="email"
+                        value="{{ regjistrimi_form.email.value|default_if_none:'' }}"
+                        required>
+
+                    {% for error in regjistrimi_form.email.errors %}
+                        <small class="rent-register-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="rent-register-field" id="rent-register-phone-field">
+                    <label for="reg_telefoni">
+                        Numri i telefonit <span class="rent-register-phone-note">(i detyrueshëm për pronarët)</span>
+                    </label>
+                    <input type="tel" id="reg_telefoni" name="telefoni"
+                           maxlength="20" autocomplete="tel"
+                           placeholder="+383 ..."
+                           value="{{ regjistrimi_form.telefoni.value|default_if_none:'' }}">
+                    {% for error in regjistrimi_form.telefoni.errors %}
+                        <small class="rent-register-error">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="rent-register-field">
+
+                    <label for="reg_fjalekalimi">
+                        Fjalëkalimi <span>*</span>
+                    </label>
+
+                    <div class="rent-register-password">
+
+                        <input
+                            type="password"
+                            id="reg_fjalekalimi"
+                            name="fjalekalimi"
+                            placeholder="Krijoni fjalëkalimin"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="rent-register-toggle"
+                            data-password-toggle="reg_fjalekalimi"
+                            aria-label="Shfaq fjalëkalimin"
+                            aria-pressed="false">
+
+                            Shfaq
+
+                        </button>
+
+                    </div>
+
+                    {% for error in regjistrimi_form.fjalekalimi.errors %}
+                        <small class="rent-register-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="rent-register-field">
+
+                    <label for="reg_konfirmo">
+                        Konfirmo fjalëkalimin <span>*</span>
+                    </label>
+
+                    <div class="rent-register-password">
+
+                        <input
+                            type="password"
+                            id="reg_konfirmo"
+                            name="konfirmo_fjalekalimin"
+                            placeholder="Përsëritni fjalëkalimin"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="rent-register-toggle"
+                            data-password-toggle="reg_konfirmo"
+                            aria-label="Shfaq konfirmimin e fjalëkalimit"
+                            aria-pressed="false">
+
+                            Shfaq
+
+                        </button>
+
+                    </div>
+
+                    {% for error in regjistrimi_form.konfirmo_fjalekalimin.errors %}
+                        <small class="rent-register-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <p class="rent-register-password-note">
+                    Përdorni një fjalëkalim të fortë që
+                    nuk e përdorni në llogari të tjera.
+                </p>
+
+                <button type="submit"
+                        class="rent-register-submit">
+
+                    <span>Krijo llogarinë</span>
+                    <span aria-hidden="true">→</span>
+
+                </button>
+
+                <div class="rent-register-footer">
+
+                    Keni tashmë një llogari?
+
+                    <a href="{% url 'hyrja' %}">Kthehu te hyrja</a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const role = document.getElementById("reg_roli");
+    const phone = document.getElementById("reg_telefoni");
+
+    function updateRole() {
+        phone.required = role.value === "pronar";
+    }
+
+    role.addEventListener("change", updateRole);
+    updateRole();
+
+    document.querySelectorAll(".rent-register-page [data-password-toggle]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const input = document.getElementById(button.dataset.passwordToggle);
+            const visible = input.type === "text";
+            input.type = visible ? "password" : "text";
+            button.textContent = visible ? "Shfaq" : "Fshih";
+            button.setAttribute("aria-pressed", String(!visible));
+        });
+    });
+});
+</script>
+{% endblock %}
