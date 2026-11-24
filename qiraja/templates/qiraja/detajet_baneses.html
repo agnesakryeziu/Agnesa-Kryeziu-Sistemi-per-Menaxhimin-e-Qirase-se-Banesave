@@ -241,9 +241,47 @@
                 shfaqen nga sistemi RentManage.
             </p>
 
-            <a href="{% url 'banesat' %}" class="detail-button">
-                ← Shiko të gjitha banesat
-            </a>
+            <div class="detail-actions">
+
+                {% if not banesa.e_zene %}
+
+                    {% if request.user.is_authenticated %}
+
+                        {% if request.user.roli == "klient" and not request.user.is_staff %}
+
+                            <a href="{% url 'rezervo_banese' banesa.pk %}"
+                               class="detail-button">
+                                Rezervo banesën →
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href="{% url 'rezervo_banese' banesa.pk %}"
+                           class="detail-button">
+                            Kyçu për të rezervuar →
+                        </a>
+
+                    {% endif %}
+
+                {% endif %}
+
+                <a href="{% url 'banesat' %}"
+                   class="detail-button">
+                    ← Shiko të gjitha banesat
+                </a>
+
+            </div>
+
+            {% if banesa.e_zene %}
+
+                <p class="detail-note">
+                    Kjo banesë aktualisht nuk është
+                    e disponueshme për rezervim.
+                </p>
+
+            {% endif %}
 
         </div>
 

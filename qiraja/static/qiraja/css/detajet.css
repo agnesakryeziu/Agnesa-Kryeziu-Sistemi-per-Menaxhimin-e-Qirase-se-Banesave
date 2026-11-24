@@ -271,3 +271,35 @@
         font-size: 32px;
     }
 }
+.detail-panel .detail-actions {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.detail-panel .detail-actions .detail-button {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 50px;
+    margin: 0;
+    padding: 12px 15px;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal;
+}
+
+@media (max-width: 480px) {
+    .detail-panel .detail-actions {
+        flex-direction: column;
+    }
+
+    .detail-panel .detail-actions .detail-button {
+        width: 100%;
+    }
+}

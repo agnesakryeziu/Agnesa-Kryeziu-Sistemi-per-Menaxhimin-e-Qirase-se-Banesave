@@ -1,0 +1,309 @@
+body.page-rezervimi {
+    background: #faf8f5;
+}
+
+.rr-hero {
+    padding: 55px 25px 40px;
+    text-align: center;
+}
+
+.rr-eyebrow {
+    color: #a18448;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.rr-hero h1 {
+    margin: 18px 0 12px;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 4vw, 44px);
+}
+
+.rr-hero p {
+    color: #66776f;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.rr-container {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: 30px;
+    width: calc(100% - 40px);
+    max-width: 1100px;
+    margin: 0 auto 60px;
+}
+
+.rr-container *,
+.rr-container *::before,
+.rr-container *::after {
+    box-sizing: border-box;
+}
+
+.rr-property,
+.rr-form-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e8e4dc;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 7px 26px rgba(28, 44, 33, 0.055);
+}
+
+.rr-property-image {
+    display: block;
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.rr-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 280px;
+    background: #e9eee8;
+    color: #063d2c;
+    font-size: 75px;
+}
+
+.rr-property-content {
+    padding: 27px;
+}
+
+.rr-city {
+    color: #a18448;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.rr-property-content h2 {
+    margin: 14px 0 25px;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    overflow-wrap: anywhere;
+}
+
+.rr-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.rr-details div {
+    padding: 15px;
+    border: 1px solid #ece9e3;
+    border-radius: 10px;
+    background: #faf8f5;
+}
+
+.rr-details span {
+    display: block;
+    margin-bottom: 8px;
+    color: #66776f;
+    font-size: 12px;
+}
+
+.rr-details strong {
+    color: #063d2c;
+    font-size: 16px;
+}
+
+.rr-price {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ece9e3;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.rr-price small {
+    color: #66776f;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.rr-form-card {
+    padding: 32px;
+}
+
+.rr-form-card h2 {
+    margin: 12px 0;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+}
+
+.rr-line {
+    width: 65px;
+    height: 4px;
+    border-radius: 4px;
+    background: #dfb36d;
+}
+
+.rr-description {
+    margin: 18px 0 27px;
+    color: #66776f;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.rr-form {
+    display: grid;
+    gap: 20px;
+}
+
+.rr-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rr-field label {
+    color: #123c2e;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.rr-readonly,
+.rr-field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #dedfd8;
+    border-radius: 10px;
+    background: #faf8f5;
+    color: #123c2e;
+    font-family: inherit;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.rr-field textarea {
+    min-height: 125px;
+    resize: vertical;
+    outline: none;
+}
+
+.rr-field textarea:focus {
+    border-color: #cba66b;
+    box-shadow: 0 0 0 3px rgba(203, 166, 107, 0.15);
+}
+
+.rr-field textarea::placeholder {
+    color: #8e9991;
+}
+
+.rr-information {
+    padding: 18px;
+    border: 1px solid #e5dccb;
+    border-left: 4px solid #dfb36d;
+    border-radius: 10px;
+    background: #faf8f5;
+}
+
+.rr-information strong {
+    color: #063d2c;
+    font-size: 13px;
+}
+
+.rr-information p {
+    margin: 8px 0 0;
+    color: #66776f;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.rr-errors {
+    padding: 15px;
+    border: 1px solid #efcdcd;
+    border-radius: 9px;
+    background: #fff2f2;
+    color: #a12c2c;
+    font-size: 13px;
+}
+
+.rr-error {
+    color: #a12c2c;
+    font-size: 12px;
+}
+
+.rr-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid #ece9e3;
+}
+
+.rr-cancel,
+.rr-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 24px;
+    border: 1px solid #cba66b;
+    border-radius: 28px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.rr-cancel {
+    background: #ffffff;
+    color: #063d2c;
+}
+
+.rr-submit {
+    background: #063d2c;
+    color: #ffffff;
+}
+
+.rr-cancel:hover {
+    background: #f4ebdc;
+    color: #063d2c;
+}
+
+.rr-submit:hover {
+    background: #0a6545;
+}
+
+@media (max-width: 800px) {
+    .rr-container {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+
+    .rr-hero {
+        padding: 35px 20px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rr-form-card,
+    .rr-property-content {
+        padding: 22px;
+    }
+
+    .rr-property-image,
+    .rr-placeholder {
+        height: 220px;
+    }
+
+    .rr-actions a,
+    .rr-actions button {
+        flex: 1;
+    }
+}

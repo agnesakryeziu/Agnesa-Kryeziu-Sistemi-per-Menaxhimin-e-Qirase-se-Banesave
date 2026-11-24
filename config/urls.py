@@ -8,6 +8,7 @@ from qiraja.panel_delete_views import FshiBanese
 from qiraja.panel_delete_views import FshiPronar, FshiQiramarres
 from qiraja.panel_kontrata_cancel_views import AnuloKontrate
 from qiraja.panel_pronari_views import PaneliPronarit
+from qiraja.rezervimi_views import RezervoBanese
 
 from qiraja.pronari_banesat_views import (
     ShtoBanesePronari,
@@ -48,6 +49,12 @@ urlpatterns = [
         "pronari/banesat/<int:pk>/ndrysho/",
         NdryshoBanesePronari.as_view(),
         name="pronari_ndrysho_banese"
+    ),
+
+    path(
+        "banesat/<int:pk>/rezervo/",
+        RezervoBanese.as_view(),
+        name="rezervo_banese"
     ),
 
     path("", include("qiraja.web_urls")),

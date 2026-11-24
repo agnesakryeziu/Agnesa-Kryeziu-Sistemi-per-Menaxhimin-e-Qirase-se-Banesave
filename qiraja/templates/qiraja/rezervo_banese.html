@@ -1,0 +1,179 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Rezervo banesën | RentManage{% endblock %}
+
+{% block body_class %}page-rezervimi{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/rezervimi.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="rr-hero">
+
+    <span class="rr-eyebrow">
+        RENTMANAGE — REZERVIMI
+    </span>
+
+    <h1>Rezervo banesën tuaj</h1>
+
+    <p>
+        Dërgoni një kërkesë për rezervim te pronari
+        i banesës së përzgjedhur.
+    </p>
+
+</section>
+
+<div class="rr-container">
+
+    <section class="rr-property">
+
+        {% if banesa.fotografia %}
+
+        <img class="rr-property-image"
+             src="{{ banesa.fotografia.url }}"
+             alt="Banesa në {{ banesa.qyteti }}">
+
+        {% else %}
+
+        <div class="rr-placeholder">
+            ⌂
+        </div>
+
+        {% endif %}
+
+        <div class="rr-property-content">
+
+            <span class="rr-city">
+                {{ banesa.qyteti }}
+            </span>
+
+            <h2>{{ banesa.adresa }}</h2>
+
+            <div class="rr-details">
+
+                <div>
+                    <span>Sipërfaqja</span>
+                    <strong>{{ banesa.siperfaqja }} m²</strong>
+                </div>
+
+                <div>
+                    <span>Numri i dhomave</span>
+                    <strong>{{ banesa.numri_dhomave }}</strong>
+                </div>
+
+            </div>
+
+            <div class="rr-price">
+
+                {{ banesa.cmimi_mujor|floatformat:2 }} €
+
+                <small>/ muaj</small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="rr-form-card">
+
+        <span class="rr-eyebrow">
+            KËRKESA JUAJ
+        </span>
+
+        <h2>Kërkesë për rezervim</h2>
+
+        <div class="rr-line"></div>
+
+        <p class="rr-description">
+            Plotësoni informacionet dhe dërgoni kërkesën
+            te pronari.
+        </p>
+
+        <form method="post" class="rr-form">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+
+            <div class="rr-errors">
+                {{ form.non_field_errors }}
+            </div>
+
+            {% endif %}
+
+            <div class="rr-field">
+
+                <label>Emri dhe mbiemri</label>
+
+                <div class="rr-readonly">
+                    {{ request.user.first_name }}
+                    {{ request.user.last_name }}
+                </div>
+
+            </div>
+
+            <div class="rr-field">
+
+                <label>Email</label>
+
+                <div class="rr-readonly">
+                    {{ request.user.email }}
+                </div>
+
+            </div>
+
+            <div class="rr-field">
+
+                <label for="{{ form.mesazhi.id_for_label }}">
+                    Mesazhi për pronarin (opsional)
+                </label>
+
+                {{ form.mesazhi }}
+
+                {% for error in form.mesazhi.errors %}
+
+                <span class="rr-error">
+                    {{ error }}
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="rr-information">
+
+                <strong>Informacion i rëndësishëm</strong>
+
+                <p>
+                    Pas dërgimit, kërkesa juaj do të jetë
+                    në pritje të përgjigjes së pronarit.
+                    Ky veprim nuk krijon kontratë
+                    dhe nuk kërkon pagesë.
+                </p>
+
+            </div>
+
+            <div class="rr-actions">
+
+                <a href="{% url 'home' %}"
+                   class="rr-cancel">
+                    Anulo
+                </a>
+
+                <button type="submit" class="rr-submit">
+                    Dërgo kërkesën
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+{% endblock %}

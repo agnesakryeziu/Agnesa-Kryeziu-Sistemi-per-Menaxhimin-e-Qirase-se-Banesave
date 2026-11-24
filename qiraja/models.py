@@ -265,3 +265,50 @@ class FotoBanese(models.Model):
 
     def __str__(self):
         return f"Fotografia e banesës {self.banesa_id}"
+
+class Rezervimi(models.Model):
+
+    STATUSI = [
+        ("ne_pritje", "Në pritje"),
+        ("pranuar", "Pranuar"),
+        ("refuzuar", "Refuzuar"),
+    ]
+
+    banesa = models.ForeignKey(
+        Banesa,
+        on_delete=models.PROTECT,
+        related_name="rezervimet"
+    )
+
+    klienti = models.ForeignKey(
+        Perdorues,
+        on_delete=models.PROTECT,
+        related_name="rezervimet"
+    )
+
+    data_kerkese = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    mesazhi = models.TextField(
+        blank=True
+    )
+
+    statusi = models.CharField(
+        max_length=20,
+        choices=STATUSI,
+        default="ne_pritje"
+    )
+
+    class Meta:
+        ordering = ["-data_kerkese"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["banesa", "klienti"],
+                name="rezervimi_unik_klient_banese"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.klienti.email} - {self.banesa.adresa}"

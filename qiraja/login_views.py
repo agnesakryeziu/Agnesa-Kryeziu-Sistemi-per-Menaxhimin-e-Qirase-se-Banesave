@@ -14,6 +14,11 @@ class HyrjeView(LoginView):
         if perdoruesi.roli == "pronar":
             return reverse_lazy("paneli_pronarit")
 
+        url = self.get_redirect_url()
+
+        if url:
+            return url
+
         return reverse_lazy("home")
 
 
