@@ -1,0 +1,222 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+
+{% block body_class %}page-paneli page-panel-form page-pronari{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/pronari_banesa_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli_pronarit' %}"
+               class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation">
+
+                <a href="{% url 'paneli_pronarit' %}">
+                    Paneli
+                </a>
+
+                <a href="{% url 'paneli_pronarit' %}#banesat"
+                   class="rmp-link-active">
+                    Banesat e mia
+                </a>
+
+                <a href="{% url 'paneli_pronarit' %}#kontratat">
+                    Kontratat
+                </a>
+
+                <a href="{% url 'paneli_pronarit' %}#pagesat">
+                    Pagesat
+                </a>
+
+                <a href="{% url 'paneli_pronarit' %}#profili">
+                    Profili im
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}"
+                   class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit"
+                            class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I PRONARIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>{{ pershkrimi }}</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        <section class="rmp-surface rpf-surface">
+
+            <div class="rmp-section-heading">
+
+                <div>
+
+                    <h2>Informacionet e banesës</h2>
+
+                    <span class="rmp-title-line"></span>
+
+                </div>
+
+                <span class="rmp-period">
+                    {{ pronari.emri }} {{ pronari.mbiemri }}
+                </span>
+
+            </div>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  class="rpf-form">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="rpf-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="rpf-grid">
+
+                    {% for field in form %}
+
+                    <div class="rpf-field {% if field.name == 'fotografia' %}rpf-full{% endif %}">
+
+                        <label for="{{ field.id_for_label }}">
+
+                            {{ field.label }}
+
+                            {% if field.field.required %}
+                                <span class="rpf-required">*</span>
+                            {% endif %}
+
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small>{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+
+                            <span class="rpf-error">
+                                {{ error }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% if object.fotografia %}
+
+                    <div class="rpf-current-photo">
+
+                        <span>Fotografia aktuale</span>
+
+                        <img src="{{ object.fotografia.url }}"
+                             alt="Fotografia aktuale e banesës">
+
+                    </div>
+
+                {% endif %}
+
+                <div class="rpf-owner">
+
+                    <span>Pronari i banesës</span>
+
+                    <strong>
+                        {{ pronari.emri }} {{ pronari.mbiemri }}
+                    </strong>
+
+                    <small>
+                        Banesa lidhet automatikisht me llogarinë tuaj.
+                    </small>
+
+                </div>
+
+                <div class="rpf-actions">
+
+                    <a href="{% url 'paneli_pronarit' %}#banesat"
+                       class="rpf-cancel">
+                        Anulo
+                    </a>
+
+                    <button type="submit"
+                            class="rmp-add-button">
+                        {{ butoni }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}

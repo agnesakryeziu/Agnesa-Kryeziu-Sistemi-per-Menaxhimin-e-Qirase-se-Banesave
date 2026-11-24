@@ -8,7 +8,7 @@
 
 .page-pronari .rpo-properties-table {
     width: 100%;
-    min-width: 500px;
+    min-width: 620px;
 }
 
 .page-pronari .rpo-property-cell {
@@ -37,6 +37,27 @@
     background: #f0ece3;
     color: #063d2c;
     font-size: 25px;
+}
+
+.page-pronari .rpo-edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 13px;
+    border: 1px solid #dfb36d;
+    border-radius: 20px;
+    background: #faf3e7;
+    color: #063d2c;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.page-pronari .rpo-edit-button:hover {
+    background: #063d2c;
+    color: #ffffff;
 }
 
 .page-pronari .rpo-profile-heading {

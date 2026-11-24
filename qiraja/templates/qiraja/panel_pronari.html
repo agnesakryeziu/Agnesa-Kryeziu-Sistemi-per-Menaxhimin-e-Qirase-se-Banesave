@@ -22,11 +22,9 @@
                 RentManage
             </a>
 
-            <nav class="rmp-navigation"
-                 aria-label="Navigimi i pronarit">
+            <nav class="rmp-navigation" aria-label="Navigimi i pronarit">
 
-                <a href="{% url 'paneli_pronarit' %}"
-                   class="rmp-link-active">
+                <a href="{% url 'paneli_pronarit' %}" class="rmp-link-active">
                     Paneli
                 </a>
 
@@ -50,8 +48,7 @@
 
             <div class="rmp-header-actions">
 
-                <a href="{% url 'home' %}"
-                   class="rmp-home-link">
+                <a href="{% url 'home' %}" class="rmp-home-link">
                     Faqja kryesore
                 </a>
 
@@ -61,8 +58,7 @@
 
                     {% csrf_token %}
 
-                    <button type="submit"
-                            class="rmp-logout">
+                    <button type="submit" class="rmp-logout">
                         Dil
                     </button>
 
@@ -103,8 +99,9 @@
 
                 </div>
 
-                <a href="#banesat" class="rmp-add-button">
-                    Shiko banesat e mia
+                <a href="{% url 'pronari_shto_banese' %}"
+                   class="rmp-add-button">
+                    + Shto banesë
                 </a>
 
             </div>
@@ -114,6 +111,22 @@
     </section>
 
     <div class="rmp-content">
+
+        {% if messages %}
+
+        <div class="rmp-alerts" role="status">
+
+            {% for message in messages %}
+
+            <div class="rmp-alert">
+                {{ message }}
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
 
         <section class="rmp-statistics"
                  aria-label="Statistikat personale">
@@ -166,9 +179,10 @@
 
                     </div>
 
-                    <span class="rmp-period">
-                        Pronat personale
-                    </span>
+                    <a href="{% url 'pronari_shto_banese' %}"
+                       class="rmp-view-all">
+                        + Shto banesë
+                    </a>
 
                 </div>
 
@@ -183,7 +197,8 @@
                                 <th>Qyteti</th>
                                 <th>Sipërfaqja</th>
                                 <th>Dhoma</th>
-                                <th>Qiraja mujore</th>
+                                <th>Qiraja</th>
+                                <th>Veprimet</th>
                             </tr>
 
                         </thead>
@@ -213,28 +228,29 @@
 
                                         {% endif %}
 
-                                        <span>
-                                            {{ banesa.adresa }}
-                                        </span>
+                                        <span>{{ banesa.adresa }}</span>
 
                                     </div>
 
                                 </td>
 
-                                <td>
-                                    {{ banesa.qyteti }}
-                                </td>
+                                <td>{{ banesa.qyteti }}</td>
 
-                                <td>
-                                    {{ banesa.siperfaqja }} m²
-                                </td>
+                                <td>{{ banesa.siperfaqja }} m²</td>
 
-                                <td>
-                                    {{ banesa.numri_dhomave }}
-                                </td>
+                                <td>{{ banesa.numri_dhomave }}</td>
 
                                 <td class="rmp-amount">
                                     {{ banesa.cmimi_mujor|floatformat:2 }} €
+                                </td>
+
+                                <td>
+
+                                    <a href="{% url 'pronari_ndrysho_banese' banesa.pk %}"
+                                       class="rpo-edit-button">
+                                        Ndrysho
+                                    </a>
+
                                 </td>
 
                             </tr>
@@ -243,8 +259,7 @@
 
                             <tr>
 
-                                <td colspan="5"
-                                    class="rmp-table-empty">
+                                <td colspan="6" class="rmp-table-empty">
 
                                     Nuk keni regjistruar ende banesa.
 
@@ -301,35 +316,23 @@
                 <div class="rpo-profile-grid">
 
                     <div class="rpo-profile-field">
-
                         <span>Emri</span>
-
                         <strong>{{ pronari.emri }}</strong>
-
                     </div>
 
                     <div class="rpo-profile-field">
-
                         <span>Mbiemri</span>
-
                         <strong>{{ pronari.mbiemri }}</strong>
-
                     </div>
 
                     <div class="rpo-profile-field">
-
                         <span>Email</span>
-
                         <strong>{{ pronari.email }}</strong>
-
                     </div>
 
                     <div class="rpo-profile-field">
-
                         <span>Telefoni</span>
-
                         <strong>{{ pronari.telefoni }}</strong>
-
                     </div>
 
                 </div>
@@ -346,11 +349,15 @@
                   aria-hidden="true"></span>
 
             <p>
-                Shikoni banesat tuaja dhe mbani të organizuara
-                informacionet për kontratat dhe pagesat.
+                Regjistroni banesa të reja dhe përditësoni
+                informacionet e pronave tuaja.
             </p>
 
             <div class="rmp-shortcut-links">
+
+                <a href="{% url 'pronari_shto_banese' %}">
+                    Shto banesë
+                </a>
 
                 <a href="#banesat">
                     Banesat e mia
