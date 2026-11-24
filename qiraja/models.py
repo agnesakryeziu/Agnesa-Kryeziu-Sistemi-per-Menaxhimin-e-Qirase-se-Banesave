@@ -95,6 +95,22 @@ class Qiramarresi(models.Model):
 
 
 class Kontrata(models.Model):
+    STATUS_CHOICES = [
+        ("aktive", "Aktive"),
+        ("anuluar", "E anuluar"),
+    ]
+
+    status = models.CharField(
+        max_length=12,
+        choices=STATUS_CHOICES,
+        default="aktive"
+    )
+
+    data_anulimit = models.DateField(
+        null=True,
+        blank=True
+    )
+
     banesa = models.ForeignKey(
         Banesa,
         on_delete=models.PROTECT,
@@ -118,6 +134,11 @@ class Kontrata(models.Model):
     def clean(self):
         super().clean()
 
+        if self.qiraja_mujore is not None and self.qiraja_mujore <= 0:
+            raise ValidationError(
+                "Qiraja mujore duhet te jete me e madhe se zero."
+            )
+
         if not self.data_fillimit or not self.data_mbarimit:
             return
 
@@ -126,21 +147,17 @@ class Kontrata(models.Model):
                 "Data e mbarimit duhet te jete pas dates se fillimit."
             )
 
-        if self.qiraja_mujore is not None and self.qiraja_mujore <= 0:
-            raise ValidationError(
-                "Qiraja mujore duhet te jete me e madhe se zero."
-            )
-
-        if self.banesa_id:
+        if self.status == "aktive" and self.banesa_id:
             kontratat = Kontrata.objects.filter(
                 banesa_id=self.banesa_id,
+                status="aktive",
                 data_fillimit__lte=self.data_mbarimit,
                 data_mbarimit__gte=self.data_fillimit
             ).exclude(pk=self.pk)
 
             if kontratat.exists():
                 raise ValidationError(
-                    "Kjo banese ka nje kontrate tjeter ne kete periudhe."
+                    "Kjo banese ka nje kontrate tjeter aktive ne kete periudhe."
                 )
 
     def __str__(self):

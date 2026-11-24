@@ -38,9 +38,86 @@
                 !
             </div>
 
-            {% if banesa %}
+            {% if kontrata %}
 
-                <h2>A dëshironi ta fshini këtë banesë?</h2>
+                <h2>
+                    A dëshironi ta anuloni këtë kontratë?
+                </h2>
+
+                <p class="rmp-delete-description">
+                    Kontrolloni të dhënat e kontratës
+                    përpara se të konfirmoni anulimin.
+                </p>
+
+                <div class="rmp-delete-property">
+
+                    <strong>
+                        Kontrata #{{ kontrata.pk }}
+                    </strong>
+
+                    <span>
+                        Banesa: {{ kontrata.banesa.adresa }}
+                    </span>
+
+                    <span>
+                        Qiramarrësi:
+                        {{ kontrata.qiramarresi.emri }}
+                        {{ kontrata.qiramarresi.mbiemri }}
+                    </span>
+
+                    <span>
+                        Fillimi:
+                        {{ kontrata.data_fillimit|date:"d.m.Y" }}
+                    </span>
+
+                    <span>
+                        Mbarimi:
+                        {{ kontrata.data_mbarimit|date:"d.m.Y" }}
+                    </span>
+
+                    <span>
+                        Qiraja mujore:
+                        {{ kontrata.qiraja_mujore|floatformat:2 }} €
+                    </span>
+
+                </div>
+
+                <div class="rmp-delete-warning">
+
+                    Kujdes! Anulimi i kontratës do të
+                    ndryshojë statusin e saj në
+                    "E anuluar".
+
+                    Kontrata dhe pagesat e regjistruara
+                    nuk do të fshihen nga databaza.
+
+                </div>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="rmp-delete-actions">
+
+                        <a href="{{ url_kthim }}"
+                           class="rmp-delete-cancel">
+                            Anulo veprimin
+                        </a>
+
+                        <button type="submit"
+                                class="rmp-delete-confirm">
+                            Po, anulo kontratën
+                        </button>
+
+                    </div>
+
+                </form>
+
+            {% elif banesa %}
+
+                <h2>
+                    A dëshironi ta fshini këtë banesë?
+                </h2>
 
                 <p class="rmp-delete-description">
                     Kontrolloni të dhënat e banesës
@@ -49,7 +126,9 @@
 
                 <div class="rmp-delete-property">
 
-                    <strong>{{ banesa.adresa }}</strong>
+                    <strong>
+                        {{ banesa.adresa }}
+                    </strong>
 
                     <span>
                         {{ banesa.qyteti }}
@@ -61,9 +140,12 @@
 
                 {% if banesa.kontratat.exists %}
 
-                    <div class="rmp-delete-warning" role="alert">
+                    <div class="rmp-delete-warning"
+                         role="alert">
+
                         Kjo banesë nuk mund të fshihet,
                         sepse ka kontrata të regjistruara.
+
                     </div>
 
                     <div class="rmp-delete-actions">
@@ -78,9 +160,11 @@
                 {% else %}
 
                     <div class="rmp-delete-warning">
+
                         Kujdes! Fshirja është e përhershme.
                         Do të largohen edhe fotografitë
                         e lidhura me këtë banesë.
+
                     </div>
 
                     <form method="post">
@@ -119,7 +203,8 @@
                 <div class="rmp-delete-property">
 
                     <strong>
-                        {{ personi.emri }} {{ personi.mbiemri }}
+                        {{ personi.emri }}
+                        {{ personi.mbiemri }}
                     </strong>
 
                     <span>
@@ -134,22 +219,23 @@
 
                 {% if ka_lidhje %}
 
-                    <div class="rmp-delete-warning" role="alert">
+                    <div class="rmp-delete-warning"
+                         role="alert">
 
                         {% if lloji == "pronarin" %}
 
-                            Ky pronar nuk mund të fshihet
+                            Ky pronar nuk mund të fshihet,
                             sepse ka banesa të regjistruara.
 
                         {% elif lloji == "qiramarrësin" %}
 
-                            Ky qiramarrës nuk mund të fshihet
+                            Ky qiramarrës nuk mund të fshihet,
                             sepse ka kontrata të regjistruara.
 
                         {% else %}
 
-                            Ky regjistrim ka të dhëna të lidhura
-                            dhe nuk mund të fshihet.
+                            Ky regjistrim ka të dhëna të
+                            lidhura dhe nuk mund të fshihet.
 
                         {% endif %}
 
@@ -167,8 +253,10 @@
                 {% else %}
 
                     <div class="rmp-delete-warning">
+
                         Kujdes! Ky veprim është i përhershëm.
                         Regjistrimi do të largohet nga sistemi.
+
                     </div>
 
                     <form method="post">

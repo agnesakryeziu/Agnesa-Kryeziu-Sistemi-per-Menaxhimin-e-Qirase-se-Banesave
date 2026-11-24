@@ -12,6 +12,7 @@ def home(request):
 
     kontratat_aktive = Kontrata.objects.filter(
         banesa_id=OuterRef("pk"),
+        status="aktive",
         data_fillimit__lte=sot,
         data_mbarimit__gte=sot
     )
@@ -65,6 +66,7 @@ def banesat(request):
 
     kontratat_aktive = Kontrata.objects.filter(
         banesa_id=OuterRef("pk"),
+        status="aktive",
         data_fillimit__lte=sot,
         data_mbarimit__gte=sot
     )
@@ -160,6 +162,7 @@ def detajet_baneses(request, pk):
 
     kontratat_aktive = Kontrata.objects.filter(
         banesa_id=OuterRef("pk"),
+        status="aktive",
         data_fillimit__lte=sot,
         data_mbarimit__gte=sot
     )

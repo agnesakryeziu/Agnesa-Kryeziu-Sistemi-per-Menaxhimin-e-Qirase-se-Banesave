@@ -20,6 +20,7 @@ def paneli(request):
     sot = timezone.localdate()
 
     kontratat_aktive = Kontrata.objects.filter(
+        status="aktive",
         data_fillimit__lte=sot,
         data_mbarimit__gte=sot
     )

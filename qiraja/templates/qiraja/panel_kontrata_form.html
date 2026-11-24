@@ -1,0 +1,261 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+
+{% block body_class %}page-paneli page-panel-form{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% url 'panel_banesat' as url_banesat %}
+{% url 'panel_pronaret' as url_pronaret %}
+{% url 'panel_qiramarresit' as url_qiramarresit %}
+{% url 'panel_kontratat' as url_kontratat %}
+{% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
+
+                <a href="{% url 'paneli' %}">
+                    Paneli
+                </a>
+
+                <a href="{{ url_banesat }}"
+                   class="{% if seksioni == 'banesat' %}rmp-link-active{% endif %}">
+                    Banesat
+                </a>
+
+                <a href="{{ url_pronaret }}"
+                   class="{% if seksioni == 'pronaret' %}rmp-link-active{% endif %}">
+                    Pronarët
+                </a>
+
+                <a href="{{ url_qiramarresit }}"
+                   class="{% if seksioni == 'qiramarresit' %}rmp-link-active{% endif %}">
+                    Qiramarrësit
+                </a>
+
+                <a href="{{ url_kontratat }}"
+                   class="rmp-link-active">
+                    Kontratat
+                </a>
+
+                <a href="{{ url_pagesat }}">
+                    Pagesat
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>{{ pershkrimi }}</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+
+        <div class="rmp-alerts" role="status">
+
+            {% for message in messages %}
+
+            <div class="rmp-alert">
+                {{ message }}
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        <section class="rmp-form-section">
+
+            <div class="rmp-form-heading">
+
+                <div>
+
+                    <span class="rmp-management-label">
+
+                        {% if eshte_ndryshim %}
+                            PËRDITËSIMI I TË DHËNAVE
+                        {% else %}
+                            REGJISTRIM I RI
+                        {% endif %}
+
+                    </span>
+
+                    <h2>
+                        Të dhënat e kontratës
+                    </h2>
+
+                    <p>
+                        Plotësoni fushat e mëposhtme për të
+                        ruajtur kontratën në sistem.
+                    </p>
+
+                </div>
+
+                <a href="{{ url_kthim }}" class="rmp-back-link">
+                    Kthehu te lista
+                </a>
+
+            </div>
+
+            <div class="rmp-form-card">
+
+                <form method="post"
+                      class="rmp-management-form"
+                      novalidate>
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+
+                    <div class="rmp-form-errors" role="alert">
+
+                        {% for error in form.non_field_errors %}
+
+                        <p>{{ error }}</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="rmp-form-grid">
+
+                        {% for field in form %}
+
+                        <div class="rmp-form-group">
+
+                            <label for="{{ field.id_for_label }}"
+                                   class="rmp-form-label">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+                                    <span class="rmp-required">*</span>
+                                {% endif %}
+
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+
+                            <small class="rmp-field-help">
+                                {{ field.help_text }}
+                            </small>
+
+                            {% endif %}
+
+                            {% if field.errors %}
+
+                            <div class="rmp-field-errors" role="alert">
+
+                                {% for error in field.errors %}
+
+                                <span>{{ error }}</span>
+
+                                {% endfor %}
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="rmp-form-actions">
+
+                        <a href="{{ url_kthim }}"
+                           class="rmp-cancel-button">
+                            Anulo
+                        </a>
+
+                        <button type="submit"
+                                class="rmp-save-button">
+
+                            {% if eshte_ndryshim %}
+                                Ruaj ndryshimet
+                            {% else %}
+                                Ruaj kontratën
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="rmp-form-note">
+
+                <p>
+                    Fushat e shënuara me * janë të detyrueshme.
+                    Kontratat ruhen në databazën e RentManage.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

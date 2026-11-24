@@ -40,26 +40,33 @@
             <div class="gallery-stage">
 
                 {% if banesa.fotografia %}
+
                     <img
                         data-gallery-main
                         src="{{ banesa.fotografia.url }}"
                         alt="Fotografia kryesore e banesës"
                     >
-                {% elif banesa.fotot_shtese.first %}
+
+                {% elif banesa.fotografite.first %}
+
                     <img
                         data-gallery-main
-                        src="{{ banesa.fotot_shtese.first.fotografia.url }}"
-                        alt="Fotografia e banesës"
+                        src="{{ banesa.fotografite.first.fotografia.url }}"
+                        alt="{{ banesa.fotografite.first.pershkrimi|default:'Fotografia e banesës' }}"
                     >
+
                 {% else %}
+
                     <img
                         data-gallery-main
                         src="{% static 'qiraja/img/banesa1.jpg' %}"
                         alt="Fotografi ilustruese"
                     >
+
                     <span class="detail-photo-label">
                         Fotografi ilustruese
                     </span>
+
                 {% endif %}
 
                 <button
@@ -91,11 +98,12 @@
 
             </div>
 
-            {% if banesa.fotografia or banesa.fotot_shtese.exists %}
+            {% if banesa.fotografia or banesa.fotografite.exists %}
 
                 <div class="gallery-thumbnails">
 
                     {% if banesa.fotografia %}
+
                         <button
                             type="button"
                             class="gallery-thumbnail active"
@@ -112,17 +120,19 @@
                                 loading="lazy"
                             >
                         </button>
+
                     {% endif %}
 
-                    {% for foto in banesa.fotot_shtese.all %}
+                    {% for foto in banesa.fotografite.all %}
+
                         <button
                             type="button"
                             class="gallery-thumbnail{% if not banesa.fotografia and forloop.first %} active{% endif %}"
                             data-gallery-thumb
                             data-image="{{ foto.fotografia.url }}"
-                            data-alt="Fotografia shtesë {{ forloop.counter }} e banesës"
-                            data-caption="Fotografia shtesë {{ forloop.counter }}"
-                            aria-label="Shfaq fotografinë shtesë {{ forloop.counter }}"
+                            data-alt="{% if foto.pershkrimi %}{{ foto.pershkrimi }}{% else %}Fotografia shtesë {{ forloop.counter }} e banesës{% endif %}"
+                            data-caption="{% if foto.pershkrimi %}{{ foto.pershkrimi }}{% else %}Fotografia shtesë {{ forloop.counter }}{% endif %}"
+                            aria-label="{% if foto.pershkrimi %}Shfaq fotografinë {{ foto.pershkrimi }}{% else %}Shfaq fotografinë shtesë {{ forloop.counter }}{% endif %}"
                             aria-pressed="{% if not banesa.fotografia and forloop.first %}true{% else %}false{% endif %}"
                         >
                             <img
@@ -131,6 +141,7 @@
                                 loading="lazy"
                             >
                         </button>
+
                     {% endfor %}
 
                 </div>
@@ -138,17 +149,27 @@
             {% endif %}
 
             <div class="gallery-caption" aria-live="polite">
+
                 <span data-gallery-caption>
+
                     {% if banesa.fotografia %}
+
                         Fotografia kryesore
-                    {% elif banesa.fotot_shtese.first %}
-                        Fotografia shtesë 1
+
+                    {% elif banesa.fotografite.first %}
+
+                        {{ banesa.fotografite.first.pershkrimi|default:"Fotografia shtesë 1" }}
+
                     {% else %}
+
                         Fotografi ilustruese
+
                     {% endif %}
+
                 </span>
 
                 <span data-gallery-count></span>
+
             </div>
 
         </div>
@@ -156,14 +177,17 @@
         <div class="detail-panel">
 
             <span class="detail-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+
                 {% if banesa.e_zene %}
                     E zënë
                 {% else %}
                     E lirë
                 {% endif %}
+
             </span>
 
             <div class="detail-price">
+
                 <span>Çmimi mujor</span>
 
                 <strong>
@@ -171,11 +195,13 @@
                 </strong>
 
                 <small>/ muaj</small>
+
             </div>
 
             <h2>Informacionet e banesës</h2>
 
             <dl class="detail-info">
+
                 <div>
                     <dt>Qyteti</dt>
                     <dd>{{ banesa.qyteti }}</dd>
@@ -198,6 +224,7 @@
 
                 <div>
                     <dt>Disponueshmëria</dt>
+
                     <dd>
                         {% if banesa.e_zene %}
                             E zënë
@@ -206,6 +233,7 @@
                         {% endif %}
                     </dd>
                 </div>
+
             </dl>
 
             <p class="detail-note">
@@ -218,11 +246,14 @@
             </a>
 
         </div>
+
     </div>
 </section>
 
 <dialog class="gallery-dialog" data-gallery-dialog>
+
     <div class="gallery-dialog-content">
+
         <button
             type="button"
             class="gallery-dialog-close"
@@ -232,8 +263,13 @@
             &times;
         </button>
 
-        <img data-gallery-large alt="Fotografia e zmadhuar">
+        <img
+            data-gallery-large
+            alt="Fotografia e zmadhuar"
+        >
+
     </div>
+
 </dialog>
 
 {% endblock %}

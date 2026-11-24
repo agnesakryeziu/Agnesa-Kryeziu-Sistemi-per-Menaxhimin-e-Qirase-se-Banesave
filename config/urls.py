@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.urls import path as delete_path
 from qiraja.panel_delete_views import FshiBanese
 from qiraja.panel_delete_views import FshiPronar, FshiQiramarres
+from qiraja.panel_kontrata_cancel_views import AnuloKontrate
 
 
 urlpatterns = [
@@ -38,5 +39,38 @@ urlpatterns += [
         "paneli/qiramarresit/<int:pk>/fshi/",
         FshiQiramarres.as_view(),
         name="panel_fshi_qiramarres"
+    ),
+]
+urlpatterns += [
+    delete_path(
+        "paneli/kontratat/<int:pk>/anulo/",
+        AnuloKontrate.as_view(),
+        name="panel_anulo_kontrate"
+    ),
+]
+
+
+from django.urls import path as kontrata_path
+from qiraja.panel_kontrata_views import (
+    ListaKontratave,
+    ShtoKontrate,
+    NdryshoKontrate,
+)
+
+urlpatterns += [
+    kontrata_path(
+        "paneli/kontratat/",
+        ListaKontratave.as_view(),
+        name="panel_kontratat"
+    ),
+    kontrata_path(
+        "paneli/kontratat/shto/",
+        ShtoKontrate.as_view(),
+        name="panel_shto_kontrate"
+    ),
+    kontrata_path(
+        "paneli/kontratat/<int:pk>/ndrysho/",
+        NdryshoKontrate.as_view(),
+        name="panel_ndrysho_kontrate"
     ),
 ]
