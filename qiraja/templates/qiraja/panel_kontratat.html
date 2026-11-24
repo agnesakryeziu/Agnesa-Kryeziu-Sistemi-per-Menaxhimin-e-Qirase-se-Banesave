@@ -44,7 +44,7 @@
                     Kontratat
                 </a>
 
-                <a href="{% url 'admin:qiraja_pagesa_changelist' %}">
+                <a href="{% url 'panel_pagesat' %}">
                     Pagesat
                 </a>
 
@@ -167,7 +167,6 @@
                     <table class="rmp-table">
 
                         <thead>
-
                             <tr>
                                 <th>Kontrata</th>
                                 <th>Banesa</th>
@@ -178,7 +177,6 @@
                                 <th>Statusi</th>
                                 <th>Veprime</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
@@ -276,11 +274,9 @@
                             {% empty %}
 
                                 <tr>
-
                                     <td colspan="8" class="rmp-table-empty">
                                         Nuk u gjet asnjë kontratë.
                                     </td>
-
                                 </tr>
 
                             {% endfor %}

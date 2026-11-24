@@ -14,7 +14,7 @@
 {% url 'panel_pronaret' as url_pronaret %}
 {% url 'panel_qiramarresit' as url_qiramarresit %}
 {% url 'panel_kontratat' as url_kontratat %}
-{% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
+{% url 'panel_pagesat' as url_pagesat %}
 
 <div class="rmp-dashboard">
 
@@ -46,11 +46,11 @@
                     Qiramarrësit
                 </a>
 
-                <a href="{{ url_kontratat|default:'/admin/' }}">
+                <a href="{{ url_kontratat|default:'/paneli/' }}">
                     Kontratat
                 </a>
 
-                <a href="{{ url_pagesat|default:'/admin/' }}">
+                <a href="{{ url_pagesat|default:'/paneli/' }}">
                     Pagesat
                 </a>
 
@@ -75,7 +75,6 @@
                 </form>
 
             </div>
-
         </div>
     </header>
 
@@ -88,7 +87,6 @@
             </span>
 
             <h1>{{ titulli }}</h1>
-
             <p>{{ pershkrimi }}</p>
 
         </div>

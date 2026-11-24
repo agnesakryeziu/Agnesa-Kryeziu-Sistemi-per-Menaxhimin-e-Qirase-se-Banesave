@@ -1,0 +1,345 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+{% block body_class %}page-paneli page-panel-lista{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% url 'panel_banesat' as url_banesat %}
+{% url 'panel_pronaret' as url_pronaret %}
+{% url 'panel_qiramarresit' as url_qiramarresit %}
+{% url 'panel_kontratat' as url_kontratat %}
+{% url 'panel_pagesat' as url_pagesat %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation"
+                 aria-label="Navigimi i administratorit">
+
+                <a href="{% url 'paneli' %}">
+                    Paneli
+                </a>
+
+                <a href="{{ url_banesat }}">
+                    Banesat
+                </a>
+
+                <a href="{{ url_pronaret }}">
+                    Pronarët
+                </a>
+
+                <a href="{{ url_qiramarresit }}">
+                    Qiramarrësit
+                </a>
+
+                <a href="{{ url_kontratat }}">
+                    Kontratat
+                </a>
+
+                <a href="{{ url_pagesat|default:'/admin/qiraja/pagesa/' }}"
+                   class="rmp-link-active">
+                    Pagesat
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>{{ pershkrimi }}</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+
+            <div class="rmp-alerts" role="status">
+
+                {% for message in messages %}
+
+                    <div class="rmp-alert">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <section class="rmp-management-section">
+
+            <div class="rmp-management-heading">
+
+                <div>
+
+                    <span class="rmp-management-label">
+                        REGJISTRIMET
+                    </span>
+
+                    <h2>Lista e pagesave</h2>
+
+                    <p>
+                        Gjithsej {{ gjithsej }} pagesa
+                        të regjistruara në sistem.
+                    </p>
+
+                </div>
+
+                <a href="{{ url_shto }}"
+                   class="rmp-add-button rmp-management-add">
+
+                    + Regjistro pagesë
+
+                </a>
+
+            </div>
+
+            <form method="get" class="rmp-search-form">
+
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ kerkimi }}"
+                    placeholder="Kërko sipas banesës ose qiramarrësit..."
+                    aria-label="Kërko pagesat"
+                    class="rmp-search-input"
+                >
+
+                <button type="submit"
+                        class="rmp-search-button">
+                    Kërko
+                </button>
+
+                {% if kerkimi %}
+
+                    <a href="{{ request.path }}"
+                       class="rmp-clear-search">
+                        Pastro kërkimin
+                    </a>
+
+                {% endif %}
+
+            </form>
+
+            <div class="rmp-management-table">
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Banesa</th>
+                                <th>Qiramarrësi</th>
+                                <th>Muaji / Viti</th>
+                                <th>Shuma</th>
+                                <th>Data e pagesës</th>
+                                <th>Statusi</th>
+                                <th>Veprime</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for pagesa in regjistrimet %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>#{{ pagesa.id }}</strong>
+                                    </td>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ pagesa.kontrata.banesa.adresa }}
+                                        </strong>
+
+                                        <div>
+                                            {{ pagesa.kontrata.banesa.qyteti }}
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ pagesa.kontrata.qiramarresi.emri }}
+                                        {{ pagesa.kontrata.qiramarresi.mbiemri }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ pagesa.muaji }}/{{ pagesa.viti }}
+
+                                    </td>
+
+                                    <td class="rmp-amount">
+
+                                        {{ pagesa.shuma|floatformat:2 }} €
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ pagesa.data_pageses|date:"d/m/Y" }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if pagesa.e_paguar %}
+
+                                            <strong>
+                                                E paguar
+                                            </strong>
+
+                                        {% else %}
+
+                                            <span>
+                                                E papaguar
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% url 'panel_ndrysho_pagese' pagesa.pk as url_ndrysho %}
+
+                                        <a href="{{ url_ndrysho|default:'#' }}"
+                                           class="rmp-edit-link">
+
+                                            Përditëso
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td colspan="8"
+                                        class="rmp-table-empty">
+
+                                        Nuk u gjet asnjë pagesë.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            {% if is_paginated %}
+
+                <div class="rmp-pagination">
+
+                    <span>
+
+                        Faqja {{ page_obj.number }}
+                        nga {{ page_obj.paginator.num_pages }}
+
+                    </span>
+
+                    <div class="rmp-pagination-buttons">
+
+                        {% if page_obj.has_previous %}
+
+                            <a href="?q={{ kerkimi|urlencode }}&page={{ page_obj.previous_page_number }}">
+
+                                ‹ Mbrapa
+
+                            </a>
+
+                        {% endif %}
+
+                        <span class="rmp-current-page">
+
+                            {{ page_obj.number }}
+
+                        </span>
+
+                        {% if page_obj.has_next %}
+
+                            <a href="?q={{ kerkimi|urlencode }}&page={{ page_obj.next_page_number }}">
+
+                                Përpara ›
+
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

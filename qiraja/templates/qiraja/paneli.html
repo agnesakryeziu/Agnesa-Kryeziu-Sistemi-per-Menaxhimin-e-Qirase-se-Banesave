@@ -14,11 +14,11 @@
 {% url 'panel_banesat' as url_banesat %}
 {% url 'panel_pronaret' as url_pronaret %}
 {% url 'panel_qiramarresit' as url_qiramarresit %}
-{% url 'admin:qiraja_kontrata_changelist' as url_kontratat %}
-{% url 'admin:qiraja_pagesa_changelist' as url_pagesat %}
+{% url 'panel_kontratat' as url_kontratat %}
+{% url 'panel_pagesat' as url_pagesat %}
 {% url 'panel_shto_banese' as url_shto_banese %}
-{% url 'admin:qiraja_kontrata_add' as url_shto_kontrate %}
-{% url 'admin:qiraja_pagesa_add' as url_shto_pagese %}
+{% url 'panel_shto_kontrate' as url_shto_kontrate %}
+{% url 'panel_shto_pagese' as url_shto_pagese %}
 
 <div class="rmp-dashboard">
 
@@ -46,11 +46,11 @@
                     Qiramarrësit
                 </a>
 
-                <a href="{{ url_kontratat|default:'/admin/' }}">
+                <a href="{{ url_kontratat }}">
                     Kontratat
                 </a>
 
-                <a href="{{ url_pagesat|default:'/admin/' }}">
+                <a href="{{ url_pagesat }}">
                     Pagesat
                 </a>
             </nav>
@@ -235,7 +235,7 @@
                         <span class="rmp-title-line"></span>
                     </div>
 
-                    <a href="{{ url_pagesat|default:'/admin/' }}" class="rmp-view-all">
+                    <a href="{{ url_pagesat }}" class="rmp-view-all">
                         Shiko të gjitha →
                     </a>
                 </div>
@@ -317,11 +317,11 @@
             </p>
 
             <div class="rmp-shortcut-links">
-                <a href="{{ url_shto_kontrate|default:'/admin/' }}">
+                <a href="{{ url_shto_kontrate }}">
                     Shto kontratë
                 </a>
 
-                <a href="{{ url_shto_pagese|default:'/admin/' }}">
+                <a href="{{ url_shto_pagese }}">
                     Regjistro pagesë
                 </a>
             </div>
