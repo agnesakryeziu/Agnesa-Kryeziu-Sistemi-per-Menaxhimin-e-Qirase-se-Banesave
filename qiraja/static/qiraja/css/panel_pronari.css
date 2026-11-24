@@ -1,0 +1,153 @@
+.page-pronari .rmp-statistics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.page-pronari .rpo-details-grid {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+}
+
+.page-pronari .rpo-properties-table {
+    width: 100%;
+    min-width: 500px;
+}
+
+.page-pronari .rpo-property-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-pronari .rpo-property-cell img,
+.page-pronari .rpo-property-placeholder {
+    width: 60px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 8px;
+}
+
+.page-pronari .rpo-property-cell img {
+    display: block;
+    object-fit: cover;
+}
+
+.page-pronari .rpo-property-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0ece3;
+    color: #063d2c;
+    font-size: 25px;
+}
+
+.page-pronari .rpo-profile-heading {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding-bottom: 23px;
+    margin-bottom: 23px;
+    border-bottom: 1px solid #ece9e3;
+}
+
+.page-pronari .rpo-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 63px;
+    height: 63px;
+    flex-shrink: 0;
+    border: 1px solid #dfb36d;
+    border-radius: 50%;
+    background: #faf3e7;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.page-pronari .rpo-profile-heading h3 {
+    margin: 0 0 6px;
+    color: #063d2c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    overflow-wrap: anywhere;
+}
+
+.page-pronari .rpo-profile-heading p {
+    margin: 0;
+    color: #66776f;
+    font-size: 12px;
+}
+
+.page-pronari .rpo-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.page-pronari .rpo-profile-field {
+    min-width: 0;
+    padding: 15px;
+    border: 1px solid #ece9e3;
+    border-radius: 12px;
+    background: #faf8f5;
+}
+
+.page-pronari .rpo-profile-field span {
+    display: block;
+    margin-bottom: 9px;
+    color: #66776f;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.page-pronari .rpo-profile-field strong {
+    display: block;
+    color: #123c2e;
+    font-size: 13px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.page-pronari #banesat,
+.page-pronari #profili,
+.page-pronari #kontratat,
+.page-pronari #pagesat {
+    scroll-margin-top: 25px;
+}
+
+@media (max-width: 1100px) {
+    .page-pronari .rpo-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .page-pronari .rmp-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .page-pronari .rmp-stat {
+        border-right: none;
+    }
+
+    .page-pronari .rmp-stat:nth-child(odd) {
+        border-right: 1px solid #decdb8;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-pronari .rpo-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-pronari .rpo-profile-heading h3 {
+        font-size: 19px;
+    }
+
+    .page-pronari .rpo-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+}

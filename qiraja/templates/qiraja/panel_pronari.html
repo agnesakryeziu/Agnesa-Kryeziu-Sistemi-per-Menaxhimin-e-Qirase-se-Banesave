@@ -1,0 +1,383 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Paneli i pronarit | RentManage{% endblock %}
+
+{% block body_class %}page-paneli page-pronari{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/panel_pronari.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli_pronarit' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation"
+                 aria-label="Navigimi i pronarit">
+
+                <a href="{% url 'paneli_pronarit' %}"
+                   class="rmp-link-active">
+                    Paneli
+                </a>
+
+                <a href="#banesat">
+                    Banesat e mia
+                </a>
+
+                <a href="#kontratat">
+                    Kontratat
+                </a>
+
+                <a href="#pagesat">
+                    Pagesat
+                </a>
+
+                <a href="#profili">
+                    Profili im
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}"
+                   class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit"
+                            class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I PRONARIT
+            </span>
+
+            <h1>
+                Mirë se erdhët, {{ pronari.emri }}!
+            </h1>
+
+            <p>
+                Menaxhoni banesat, kontratat dhe pagesat tuaja
+                në mënyrë të thjeshtë dhe efikase.
+            </p>
+
+            <div class="rmp-hero-bottom">
+
+                <div class="rmp-today">
+
+                    <span>Sot është</span>
+
+                    <strong>
+                        {% now "d.m.Y" %}
+                    </strong>
+
+                </div>
+
+                <a href="#banesat" class="rmp-add-button">
+                    Shiko banesat e mia
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content">
+
+        <section class="rmp-statistics"
+                 aria-label="Statistikat personale">
+
+            <div class="rmp-stat">
+
+                <strong>{{ numri_banesave }}</strong>
+
+                <span>Banesat e mia</span>
+
+            </div>
+
+            <div class="rmp-stat" id="kontratat">
+
+                <strong>{{ numri_kontratave }}</strong>
+
+                <span>Kontrata aktive</span>
+
+            </div>
+
+            <div class="rmp-stat" id="pagesat">
+
+                <strong>{{ numri_pagesave }}</strong>
+
+                <span>Pagesa gjithsej</span>
+
+            </div>
+
+            <div class="rmp-stat">
+
+                <strong>{{ pagesat_e_paguara }}</strong>
+
+                <span>Pagesa të përfunduara</span>
+
+            </div>
+
+        </section>
+
+        <div class="rmp-details-grid rpo-details-grid">
+
+            <section class="rmp-surface" id="banesat">
+
+                <div class="rmp-section-heading">
+
+                    <div>
+
+                        <h2>Banesat e mia</h2>
+
+                        <span class="rmp-title-line"></span>
+
+                    </div>
+
+                    <span class="rmp-period">
+                        Pronat personale
+                    </span>
+
+                </div>
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table rpo-properties-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Banesa</th>
+                                <th>Qyteti</th>
+                                <th>Sipërfaqja</th>
+                                <th>Dhoma</th>
+                                <th>Qiraja mujore</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for banesa in banesat %}
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="rpo-property-cell">
+
+                                        {% if banesa.fotografia %}
+
+                                        <img
+                                            src="{{ banesa.fotografia.url }}"
+                                            alt="Banesa në {{ banesa.qyteti }}"
+                                            loading="lazy">
+
+                                        {% else %}
+
+                                        <div class="rpo-property-placeholder">
+                                            ⌂
+                                        </div>
+
+                                        {% endif %}
+
+                                        <span>
+                                            {{ banesa.adresa }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    {{ banesa.qyteti }}
+                                </td>
+
+                                <td>
+                                    {{ banesa.siperfaqja }} m²
+                                </td>
+
+                                <td>
+                                    {{ banesa.numri_dhomave }}
+                                </td>
+
+                                <td class="rmp-amount">
+                                    {{ banesa.cmimi_mujor|floatformat:2 }} €
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="rmp-table-empty">
+
+                                    Nuk keni regjistruar ende banesa.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <section class="rmp-surface" id="profili">
+
+                <div class="rmp-section-heading">
+
+                    <div>
+
+                        <h2>Profili im</h2>
+
+                        <span class="rmp-title-line"></span>
+
+                    </div>
+
+                    <span class="rmp-period">
+                        Llogari personale
+                    </span>
+
+                </div>
+
+                <div class="rpo-profile-heading">
+
+                    <div class="rpo-avatar">
+                        {{ pronari.emri|first }}{{ pronari.mbiemri|first }}
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ pronari.emri }} {{ pronari.mbiemri }}
+                        </h3>
+
+                        <p>Pronar i banesave</p>
+
+                    </div>
+
+                </div>
+
+                <div class="rpo-profile-grid">
+
+                    <div class="rpo-profile-field">
+
+                        <span>Emri</span>
+
+                        <strong>{{ pronari.emri }}</strong>
+
+                    </div>
+
+                    <div class="rpo-profile-field">
+
+                        <span>Mbiemri</span>
+
+                        <strong>{{ pronari.mbiemri }}</strong>
+
+                    </div>
+
+                    <div class="rpo-profile-field">
+
+                        <span>Email</span>
+
+                        <strong>{{ pronari.email }}</strong>
+
+                    </div>
+
+                    <div class="rpo-profile-field">
+
+                        <span>Telefoni</span>
+
+                        <strong>{{ pronari.telefoni }}</strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <section class="rmp-shortcuts">
+
+            <h2>Menaxhimi i pronave</h2>
+
+            <span class="rmp-shortcuts-divider"
+                  aria-hidden="true"></span>
+
+            <p>
+                Shikoni banesat tuaja dhe mbani të organizuara
+                informacionet për kontratat dhe pagesat.
+            </p>
+
+            <div class="rmp-shortcut-links">
+
+                <a href="#banesat">
+                    Banesat e mia
+                </a>
+
+                <a href="#profili">
+                    Profili im
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}

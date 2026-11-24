@@ -11,6 +11,9 @@ class HyrjeView(LoginView):
         if perdoruesi.is_staff:
             return reverse_lazy("paneli")
 
+        if perdoruesi.roli == "pronar":
+            return reverse_lazy("paneli_pronarit")
+
         return reverse_lazy("home")
 
 

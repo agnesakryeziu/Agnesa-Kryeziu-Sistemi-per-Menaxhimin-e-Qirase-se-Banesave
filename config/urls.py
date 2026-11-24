@@ -7,6 +7,7 @@ from django.urls import path as delete_path
 from qiraja.panel_delete_views import FshiBanese
 from qiraja.panel_delete_views import FshiPronar, FshiQiramarres
 from qiraja.panel_kontrata_cancel_views import AnuloKontrate
+from qiraja.panel_pronari_views import PaneliPronarit
 
 from qiraja.panel_kontrata_views import (
     ListaKontratave,
@@ -25,6 +26,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("qiraja.urls")),
     path("api-auth/", include("rest_framework.urls")),
+    path(
+        "pronari/",
+        PaneliPronarit.as_view(),
+        name="paneli_pronarit"
+    ),
     path("", include("qiraja.web_urls")),
 ]
 

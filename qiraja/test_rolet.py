@@ -35,6 +35,7 @@ class TestRolet(TestCase):
         self.assertTrue(
             perdoruesi.check_password("RentTest@2026")
         )
+
         self.assertFalse(
             Pronari.objects.filter(
                 perdoruesi=perdoruesi
@@ -98,19 +99,28 @@ class TestRolet(TestCase):
     def test_hyrja_sipas_roleve(self):
         for roli, is_staff, faqja in [
             ("klient", False, "home"),
-            ("pronar", False, "home"),
+            ("pronar", False, "paneli_pronarit"),
             ("klient", True, "paneli"),
         ]:
             with self.subTest(roli=roli, is_staff=is_staff):
                 email = f"{roli}-{is_staff}@example.com"
 
-                Perdorues.objects.create_user(
+                perdoruesi = Perdorues.objects.create_user(
                     username=email,
                     email=email,
                     password="RentTest@2026",
                     roli=roli,
                     is_staff=is_staff
                 )
+
+                if roli == "pronar":
+                    Pronari.objects.create(
+                        perdoruesi=perdoruesi,
+                        emri="Arben",
+                        mbiemri="Krasniqi",
+                        telefoni="044000000",
+                        email=email
+                    )
 
                 response = self.client.post(
                     reverse("hyrja"),
