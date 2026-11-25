@@ -272,6 +272,7 @@ class Rezervimi(models.Model):
         ("ne_pritje", "Në pritje"),
         ("pranuar", "Pranuar"),
         ("refuzuar", "Refuzuar"),
+        ("anuluar", "Anuluar"),
     ]
 
     banesa = models.ForeignKey(

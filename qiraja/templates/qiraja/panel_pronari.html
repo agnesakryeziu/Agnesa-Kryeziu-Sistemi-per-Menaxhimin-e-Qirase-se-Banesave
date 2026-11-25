@@ -22,29 +22,7 @@
                 RentManage
             </a>
 
-            <nav class="rmp-navigation" aria-label="Navigimi i pronarit">
-
-                <a href="{% url 'paneli_pronarit' %}" class="rmp-link-active">
-                    Paneli
-                </a>
-
-                <a href="#banesat">
-                    Banesat e mia
-                </a>
-
-                <a href="#kontratat">
-                    Kontratat
-                </a>
-
-                <a href="#pagesat">
-                    Pagesat
-                </a>
-
-                <a href="#profili">
-                    Profili im
-                </a>
-
-            </nav>
+            {% include "qiraja/pronari_nav.html" %}
 
             <div class="rmp-header-actions">
 
@@ -83,8 +61,9 @@
             </h1>
 
             <p>
-                Menaxhoni banesat, kontratat dhe pagesat tuaja
-                në mënyrë të thjeshtë dhe efikase.
+                Menaxhoni banesat, rezervimet, kontratat
+                dhe pagesat tuaja në mënyrë të thjeshtë
+                dhe efikase.
             </p>
 
             <div class="rmp-hero-bottom">
@@ -349,8 +328,9 @@
                   aria-hidden="true"></span>
 
             <p>
-                Regjistroni banesa të reja dhe përditësoni
-                informacionet e pronave tuaja.
+                Regjistroni banesa të reja, përditësoni
+                informacionet dhe menaxhoni kërkesat
+                për rezervim.
             </p>
 
             <div class="rmp-shortcut-links">
@@ -359,11 +339,15 @@
                     Shto banesë
                 </a>
 
-                <a href="#banesat">
+                <a href="{% url 'pronari_banesat' %}">
                     Banesat e mia
                 </a>
 
-                <a href="#profili">
+                <a href="{% url 'pronari_rezervimet' %}">
+                    Rezervimet
+                </a>
+
+                <a href="{% url 'pronari_profili' %}">
                     Profili im
                 </a>
 

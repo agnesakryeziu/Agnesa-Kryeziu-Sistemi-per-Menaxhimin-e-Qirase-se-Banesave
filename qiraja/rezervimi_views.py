@@ -16,7 +16,7 @@ class RezervoBanese(LoginRequiredMixin, FormView):
     login_url = "hyrja"
     template_name = "qiraja/rezervo_banese.html"
     form_class = RezervimiForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("klienti_rezervimet")
 
     def dispatch(self, request, *args, **kwargs):
 

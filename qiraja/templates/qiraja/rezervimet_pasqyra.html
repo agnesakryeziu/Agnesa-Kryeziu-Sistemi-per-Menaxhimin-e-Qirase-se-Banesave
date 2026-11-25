@@ -1,0 +1,210 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+{% block body_class %}page-paneli page-panel-lista{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/pronari_rezervimet.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'home' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            <nav class="rmp-navigation">
+
+                {% if administratori %}
+
+                    <a href="{% url 'paneli' %}">Paneli</a>
+
+                {% else %}
+
+                    <a href="{% url 'banesat' %}">Banesat</a>
+
+                {% endif %}
+
+                <a href="{{ request.path }}" class="rmp-link-active">
+                    Rezervimet
+                </a>
+
+            </nav>
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">RENTMANAGE</span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>Shikoni informacionet dhe statusin e rezervimeve.</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+            <div class="rmp-alerts" role="status">
+                {% for message in messages %}
+                    <div class="rmp-alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="rmp-surface rpr-surface">
+
+            <div class="rmp-section-heading">
+
+                <div>
+                    <h2>Lista e rezervimeve</h2>
+                    <span class="rmp-title-line"></span>
+                </div>
+
+            </div>
+
+            <div class="rmp-table-scroll">
+
+                <table class="rmp-table">
+
+                    <thead>
+                        <tr>
+                            <th>Banesa</th>
+                            <th>Qyteti</th>
+
+                            {% if administratori %}
+                                <th>Klienti</th>
+                                <th>Pronari</th>
+                            {% endif %}
+
+                            <th>Data</th>
+                            <th>Mesazhi</th>
+                            <th>Statusi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for rezervimi in rezervimet %}
+
+                        <tr>
+
+                            <td>{{ rezervimi.banesa.adresa }}</td>
+                            <td>{{ rezervimi.banesa.qyteti }}</td>
+
+                            {% if administratori %}
+
+                                <td>{{ rezervimi.klienti.email }}</td>
+
+                                <td>
+                                    {{ rezervimi.banesa.pronari.emri }}
+                                    {{ rezervimi.banesa.pronari.mbiemri }}
+                                </td>
+
+                            {% endif %}
+
+                            <td>
+                                {{ rezervimi.data_kerkese|date:"d.m.Y" }}
+                            </td>
+
+                            <td class="rpr-message">
+                                {{ rezervimi.mesazhi|default:"Pa mesazh" }}
+                            </td>
+
+                            <td>
+
+                                {% if rezervimi.statusi == "ne_pritje" %}
+
+                                    <span class="rpr-status rpr-pending">
+                                        Në pritje
+                                    </span>
+
+                                {% elif rezervimi.statusi == "pranuar" %}
+
+                                    <span class="rpr-status rpr-accepted">
+                                        Pranuar
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="rpr-status rpr-rejected">
+                                        {{ rezervimi.get_statusi_display }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="{% if administratori %}7{% else %}5{% endif %}"
+                                class="rmp-table-empty">
+                                Nuk ka ende rezervime.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}

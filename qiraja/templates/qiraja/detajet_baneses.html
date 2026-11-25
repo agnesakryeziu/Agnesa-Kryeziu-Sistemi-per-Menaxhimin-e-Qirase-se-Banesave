@@ -1,4 +1,6 @@
 {% extends "qiraja/base.html" %}
+{% load rezervimet_status %}
+
 {% load static %}
 
 {% block title %}Detajet e banesës | RentManage{% endblock %}
@@ -176,9 +178,9 @@
 
         <div class="detail-panel">
 
-            <span class="detail-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
+            <span class="detail-status {% if banesa|e_padisponueshme %}occupied{% else %}available{% endif %}">
 
-                {% if banesa.e_zene %}
+                {% if banesa|e_padisponueshme %}
                     E zënë
                 {% else %}
                     E lirë
@@ -226,7 +228,7 @@
                     <dt>Disponueshmëria</dt>
 
                     <dd>
-                        {% if banesa.e_zene %}
+                        {% if banesa|e_padisponueshme %}
                             E zënë
                         {% else %}
                             E lirë
@@ -241,9 +243,17 @@
                 shfaqen nga sistemi RentManage.
             </p>
 
-            <div class="detail-actions">
 
-                {% if not banesa.e_zene %}
+    {% if request.user.is_authenticated and request.user.roli == "klient" and not request.user.is_staff %}
+        <p class="detail-note">
+            <a href="{% url 'klienti_rezervimet' %}">
+                Rezervimet e mia
+            </a>
+        </p>
+    {% endif %}
+    <div class="detail-actions">
+
+                {% if not banesa|e_padisponueshme %}
 
                     {% if request.user.is_authenticated %}
 
@@ -274,7 +284,7 @@
 
             </div>
 
-            {% if banesa.e_zene %}
+            {% if banesa|e_padisponueshme %}
 
                 <p class="detail-note">
                     Kjo banesë aktualisht nuk është

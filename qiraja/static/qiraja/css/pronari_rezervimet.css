@@ -1,0 +1,118 @@
+.page-pronari .rpr-statistics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 30px;
+}
+
+.rpr-surface {
+    margin-bottom: 35px;
+}
+
+.rpr-table {
+    width: 100%;
+    min-width: 950px;
+}
+
+.rpr-city {
+    display: block;
+    margin-top: 6px;
+    color: #66776f;
+    font-size: 11px;
+}
+
+.rpr-message {
+    min-width: 150px;
+    max-width: 250px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.7;
+}
+
+.rpr-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 85px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rpr-pending {
+    background: #fff2d8;
+    color: #936b21;
+}
+
+.rpr-accepted {
+    background: #e4f2e9;
+    color: #17543b;
+}
+
+.rpr-rejected {
+    background: #fbe9e9;
+    color: #a33636;
+}
+
+.rpr-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.rpr-accept,
+.rpr-reject {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    min-height: 35px;
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.rpr-accept {
+    border: 1px solid #17543b;
+    background: #17543b;
+    color: #ffffff;
+}
+
+.rpr-accept:hover {
+    background: #0a3024;
+}
+
+.rpr-reject {
+    border: 1px solid #d59a9a;
+    background: #ffffff;
+    color: #a33636;
+}
+
+.rpr-reject:hover {
+    background: #a33636;
+    color: #ffffff;
+}
+
+.rpr-completed {
+    color: #66776f;
+    font-size: 11px;
+}
+
+@media (max-width: 720px) {
+    .page-pronari .rpr-statistics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rpr-statistics .rmp-stat {
+        border-right: none;
+    }
+
+    .rpr-statistics .rmp-stat:nth-child(odd) {
+        border-right: 1px solid #decdb8;
+    }
+}

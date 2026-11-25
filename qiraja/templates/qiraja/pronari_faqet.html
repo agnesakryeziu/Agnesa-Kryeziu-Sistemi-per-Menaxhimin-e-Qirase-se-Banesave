@@ -1,0 +1,378 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+{% block body_class %}page-paneli page-panel-lista page-pronari{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/panel_pronari.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/pronari_faqet.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli_pronarit' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            {% include "qiraja/pronari_nav.html" %}
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I PRONARIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            <p>{{ pershkrimi }}</p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+            <div class="rmp-alerts" role="status">
+                {% for message in messages %}
+                    <div class="rmp-alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section class="rmp-surface rpf-page">
+
+            <div class="rmp-section-heading">
+
+                <div>
+                    <h2>{{ titulli }}</h2>
+                    <span class="rmp-title-line"></span>
+                </div>
+
+                {% if seksioni == "banesat" %}
+                    <a href="{% url 'pronari_shto_banese' %}"
+                       class="rmp-add-button">
+                        + Shto banesë
+                    </a>
+                {% endif %}
+
+            </div>
+
+            {% if seksioni == "banesat" %}
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table rpf-table">
+
+                        <thead>
+                            <tr>
+                                <th>Fotografia</th>
+                                <th>Adresa</th>
+                                <th>Qyteti</th>
+                                <th>Sipërfaqja</th>
+                                <th>Dhoma</th>
+                                <th>Qiraja</th>
+                                <th>Veprimet</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for banesa in banesat %}
+
+                            <tr>
+
+                                <td>
+                                    {% if banesa.fotografia %}
+                                        <img class="rpf-photo"
+                                             src="{{ banesa.fotografia.url }}"
+                                             alt="Banesa në {{ banesa.qyteti }}">
+                                    {% else %}
+                                        <span>Pa fotografi</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ banesa.adresa }}</td>
+                                <td>{{ banesa.qyteti }}</td>
+                                <td>{{ banesa.siperfaqja }} m²</td>
+                                <td>{{ banesa.numri_dhomave }}</td>
+
+                                <td class="rmp-amount">
+                                    {{ banesa.cmimi_mujor|floatformat:2 }} €
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'pronari_ndrysho_banese' banesa.pk %}"
+                                       class="rpo-edit-button">
+                                        Ndrysho
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="7" class="rmp-table-empty">
+                                    Nuk keni regjistruar ende banesa.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% elif seksioni == "kontratat" %}
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table rpf-table">
+
+                        <thead>
+                            <tr>
+                                <th>Banesa</th>
+                                <th>Qiramarrësi</th>
+                                <th>Fillimi</th>
+                                <th>Përfundimi</th>
+                                <th>Qiraja mujore</th>
+                                <th>Statusi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for kontrata in kontratat %}
+
+                            <tr>
+
+                                <td>{{ kontrata.banesa.adresa }}</td>
+
+                                <td>
+                                    {{ kontrata.qiramarresi.emri }}
+                                    {{ kontrata.qiramarresi.mbiemri }}
+                                </td>
+
+                                <td>
+                                    {{ kontrata.data_fillimit|date:"d.m.Y" }}
+                                </td>
+
+                                <td>
+                                    {{ kontrata.data_mbarimit|date:"d.m.Y" }}
+                                </td>
+
+                                <td class="rmp-amount">
+                                    {{ kontrata.qiraja_mujore|floatformat:2 }} €
+                                </td>
+
+                                <td>
+                                    {{ kontrata.get_status_display }}
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="6" class="rmp-table-empty">
+                                    Nuk keni ende kontrata.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% elif seksioni == "pagesat" %}
+
+                <div class="rmp-table-scroll">
+
+                    <table class="rmp-table rpf-table">
+
+                        <thead>
+                            <tr>
+                                <th>Banesa</th>
+                                <th>Qiramarrësi</th>
+                                <th>Data e pagesës</th>
+                                <th>Muaji / Viti</th>
+                                <th>Shuma</th>
+                                <th>Statusi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for pagesa in pagesat %}
+
+                            <tr>
+
+                                <td>
+                                    {{ pagesa.kontrata.banesa.adresa }}
+                                </td>
+
+                                <td>
+                                    {{ pagesa.kontrata.qiramarresi.emri }}
+                                    {{ pagesa.kontrata.qiramarresi.mbiemri }}
+                                </td>
+
+                                <td>
+                                    {{ pagesa.data_pageses|date:"d.m.Y" }}
+                                </td>
+
+                                <td>
+                                    {{ pagesa.muaji }}/{{ pagesa.viti }}
+                                </td>
+
+                                <td class="rmp-amount">
+                                    {{ pagesa.shuma|floatformat:2 }} €
+                                </td>
+
+                                <td>
+
+                                    {% if pagesa.e_paguar %}
+
+                                        <span class="rmp-status rmp-paid">
+                                            E paguar
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="rmp-status rmp-unpaid">
+                                            E papaguar
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="6" class="rmp-table-empty">
+                                    Nuk keni ende pagesa të regjistruara.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% elif seksioni == "profili" %}
+
+                <div class="rpo-profile-heading">
+
+                    <div class="rpo-avatar">
+                        {{ pronari.emri|first }}{{ pronari.mbiemri|first }}
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ pronari.emri }} {{ pronari.mbiemri }}
+                        </h3>
+
+                        <p>Pronar i banesave</p>
+
+                    </div>
+
+                </div>
+
+                <div class="rpo-profile-grid">
+
+                    <div class="rpo-profile-field">
+                        <span>Emri</span>
+                        <strong>{{ pronari.emri }}</strong>
+                    </div>
+
+                    <div class="rpo-profile-field">
+                        <span>Mbiemri</span>
+                        <strong>{{ pronari.mbiemri }}</strong>
+                    </div>
+
+                    <div class="rpo-profile-field">
+                        <span>Email</span>
+                        <strong>{{ pronari.email }}</strong>
+                    </div>
+
+                    <div class="rpo-profile-field">
+                        <span>Telefoni</span>
+                        <strong>{{ pronari.telefoni }}</strong>
+                    </div>
+
+                    <div class="rpo-profile-field">
+                        <span>Roli</span>
+                        <strong>Pronar</strong>
+                    </div>
+
+                    <div class="rpo-profile-field">
+                        <span>Statusi i llogarisë</span>
+                        <strong>Aktive</strong>
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}

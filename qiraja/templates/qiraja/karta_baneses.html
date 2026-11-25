@@ -1,3 +1,4 @@
+{% load rezervimet_status %}
 {% load static %}
 
 <article class="property-card">
@@ -34,8 +35,8 @@
             {% endif %}
         </a>
 
-        <span class="property-status {% if banesa.e_zene %}occupied{% else %}available{% endif %}">
-            {% if banesa.e_zene %}
+        <span class="property-status {% if banesa|e_padisponueshme %}occupied{% else %}available{% endif %}">
+            {% if banesa|e_padisponueshme %}
                 E zënë
             {% else %}
                 E lirë

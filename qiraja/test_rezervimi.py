@@ -79,7 +79,7 @@ class TestRezervimi(TestCase):
 
         self.assertRedirects(
             response,
-            reverse("home")
+            reverse("klienti_rezervimet")
         )
 
         rezervimi = Rezervimi.objects.get(

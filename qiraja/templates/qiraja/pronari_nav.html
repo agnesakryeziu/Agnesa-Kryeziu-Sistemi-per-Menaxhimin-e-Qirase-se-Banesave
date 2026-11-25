@@ -1,0 +1,37 @@
+{% with faqja=request.resolver_match.url_name %}
+
+<nav class="rmp-navigation" aria-label="Navigimi i pronarit">
+
+    <a href="{% url 'paneli_pronarit' %}"
+       class="{% if faqja == 'paneli_pronarit' %}rmp-link-active{% endif %}">
+        Paneli
+    </a>
+
+    <a href="{% url 'pronari_banesat' %}"
+       class="{% if faqja == 'pronari_banesat' or faqja == 'pronari_shto_banese' or faqja == 'pronari_ndrysho_banese' %}rmp-link-active{% endif %}">
+        Banesat e mia
+    </a>
+
+    <a href="{% url 'pronari_rezervimet' %}"
+       class="{% if faqja == 'pronari_rezervimet' %}rmp-link-active{% endif %}">
+        Rezervimet
+    </a>
+
+    <a href="{% url 'pronari_kontratat' %}"
+       class="{% if faqja == 'pronari_kontratat' %}rmp-link-active{% endif %}">
+        Kontratat
+    </a>
+
+    <a href="{% url 'pronari_pagesat' %}"
+       class="{% if faqja == 'pronari_pagesat' %}rmp-link-active{% endif %}">
+        Pagesat
+    </a>
+
+    <a href="{% url 'pronari_profili' %}"
+       class="{% if faqja == 'pronari_profili' %}rmp-link-active{% endif %}">
+        Profili im
+    </a>
+
+</nav>
+
+{% endwith %}

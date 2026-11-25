@@ -23,30 +23,7 @@
                 RentManage
             </a>
 
-            <nav class="rmp-navigation">
-
-                <a href="{% url 'paneli_pronarit' %}">
-                    Paneli
-                </a>
-
-                <a href="{% url 'paneli_pronarit' %}#banesat"
-                   class="rmp-link-active">
-                    Banesat e mia
-                </a>
-
-                <a href="{% url 'paneli_pronarit' %}#kontratat">
-                    Kontratat
-                </a>
-
-                <a href="{% url 'paneli_pronarit' %}#pagesat">
-                    Pagesat
-                </a>
-
-                <a href="{% url 'paneli_pronarit' %}#profili">
-                    Profili im
-                </a>
-
-            </nav>
+            {% include "qiraja/pronari_nav.html" %}
 
             <div class="rmp-header-actions">
 
@@ -187,7 +164,7 @@
 
                 <div class="rpf-actions">
 
-                    <a href="{% url 'paneli_pronarit' %}#banesat"
+                    <a href="{% url 'pronari_banesat' %}"
                        class="rpf-cancel">
                         Anulo
                     </a>

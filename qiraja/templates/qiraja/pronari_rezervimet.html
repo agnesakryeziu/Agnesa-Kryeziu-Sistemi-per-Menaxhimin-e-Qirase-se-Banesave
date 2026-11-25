@@ -1,0 +1,300 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Rezervimet | RentManage{% endblock %}
+
+{% block body_class %}page-paneli page-panel-lista page-pronari{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/pronari_rezervimet.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli_pronarit' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            {% include "qiraja/pronari_nav.html" %}
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I PRONARIT
+            </span>
+
+            <h1>Rezervimet e banesave</h1>
+
+            <p>
+                Shikoni dhe menaxhoni kërkesat për rezervim
+                të banesave tuaja.
+            </p>
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+
+            <div class="rmp-alerts" role="status">
+
+                {% for message in messages %}
+
+                    <div class="rmp-alert">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <section class="rmp-statistics rpr-statistics">
+
+            <div class="rmp-stat">
+                <strong>{{ numri_rezervimeve }}</strong>
+                <span>Rezervime gjithsej</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ ne_pritje }}</strong>
+                <span>Në pritje</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ pranuar }}</strong>
+                <span>Të pranuara</span>
+            </div>
+
+            <div class="rmp-stat">
+                <strong>{{ refuzuar }}</strong>
+                <span>Të refuzuara / anuluara</span>
+            </div>
+
+        </section>
+
+        <section class="rmp-surface rpr-surface">
+
+            <div class="rmp-section-heading">
+
+                <div>
+
+                    <h2>Kërkesat për rezervim</h2>
+
+                    <span class="rmp-title-line"></span>
+
+                </div>
+
+                <span class="rmp-period">
+                    {{ numri_rezervimeve }} kërkesa
+                </span>
+
+            </div>
+
+            <div class="rmp-table-scroll">
+
+                <table class="rmp-table rpr-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Banesa</th>
+                            <th>Klienti</th>
+                            <th>Email</th>
+                            <th>Data</th>
+                            <th>Mesazhi</th>
+                            <th>Statusi</th>
+                            <th>Veprimet</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for rezervimi in rezervimet %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ rezervimi.banesa.adresa }}
+                                </strong>
+
+                                <small class="rpr-city">
+                                    {{ rezervimi.banesa.qyteti }}
+                                </small>
+
+                            </td>
+
+                            <td>
+                                {{ rezervimi.klienti.first_name }}
+                                {{ rezervimi.klienti.last_name }}
+                            </td>
+
+                            <td>
+                                {{ rezervimi.klienti.email }}
+                            </td>
+
+                            <td>
+                                {{ rezervimi.data_kerkese|date:"d.m.Y" }}
+                            </td>
+
+                            <td class="rpr-message">
+
+                                {{ rezervimi.mesazhi|default:"Pa mesazh" }}
+
+                            </td>
+
+                            <td>
+
+                                {% if rezervimi.statusi == "ne_pritje" %}
+
+                                    <span class="rpr-status rpr-pending">
+                                        Në pritje
+                                    </span>
+
+                                {% elif rezervimi.statusi == "pranuar" %}
+
+                                    <span class="rpr-status rpr-accepted">
+                                        Pranuar
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="rpr-status rpr-rejected">
+                                        {{ rezervimi.get_statusi_display }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if rezervimi.statusi == "ne_pritje" %}
+
+                                <form method="post"
+                                      action="{% url 'pronari_vendimi_rezervimit' rezervimi.pk %}"
+                                      class="rpr-actions">
+
+                                    {% csrf_token %}
+
+                                    <button type="submit"
+                                            name="vendimi"
+                                            value="prano"
+                                            class="rpr-accept">
+                                        Prano
+                                    </button>
+
+                                    <button type="submit"
+                                            name="vendimi"
+                                            value="refuzo"
+                                            class="rpr-reject">
+                                        Refuzo
+                                    </button>
+
+                                </form>
+
+
+    {% elif rezervimi.statusi == "pranuar" %}
+
+        <form method="post"
+              action="{% url 'pronari_vendimi_rezervimit' rezervimi.pk %}">
+            {% csrf_token %}
+            <button type="submit"
+                    name="vendimi"
+                    value="anulo"
+                    class="rpr-reject">
+                Anulo rezervimin
+            </button>
+        </form>
+
+    {% else %}
+
+    <span class="rpr-completed">
+
+                                        Përfunduar
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7" class="rmp-table-empty">
+
+                                Nuk keni ende kërkesa për rezervim.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}
