@@ -229,7 +229,7 @@
                                         class="rmp-pm-open"
                                         data-photo-open
                                         data-photo-src="{{ foto.fotografia.url }}"
-                                        data-photo-label="Fotografia shtesë {{ forloop.counter }}"
+                                        data-photo-label="{{ foto.pershkrimi|default:'Fotografi shtese' }}"
                                         aria-label="Shiko fotografinë shtesë {{ forloop.counter }}">
 
                                     <img src="{{ foto.fotografia.url }}"
@@ -249,6 +249,14 @@
                                 <span class="rmp-pm-caption">
                                     Foto {{ forloop.counter }}
                                 </span>
+<input type="text"
+       name="pershkrimi_foto_{{ foto.pk }}"
+       value="{{ foto.pershkrimi }}"
+       maxlength="100"
+       placeholder="Pershkrimi i fotos"
+       aria-label="Pershkrimi i fotografise"
+       class="rmp-form-input rm-existing-description">
+
 
                                 <input type="checkbox"
                                        name="fotot_per_fshirje"
@@ -328,6 +336,49 @@
                                 </label>
 
                                 {{ form.fotot_shtese }}
+<div id="pershkrimet-fotografive"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector(
+        'input[name="fotot_shtese"]'
+    );
+
+    const container = document.getElementById(
+        "pershkrimet-fotografive"
+    );
+
+    if (!input || !container) {
+        return;
+    }
+
+    input.addEventListener("change", function () {
+        container.replaceChildren();
+
+        Array.from(input.files).forEach(function (file, index) {
+            const row = document.createElement("div");
+            row.className = "rm-photo-description-row";
+
+            const label = document.createElement("label");
+            label.textContent = file.name;
+            label.htmlFor = "pershkrimi_ri_" + index;
+
+            const description = document.createElement("input");
+
+            description.type = "text";
+            description.name = "pershkrimet_e_reja";
+            description.id = "pershkrimi_ri_" + index;
+            description.maxLength = 100;
+            description.placeholder = "P.sh. Sallon, Banjo, Kuzhine";
+            description.className = "rmp-form-input";
+
+            row.append(label, description);
+            container.appendChild(row);
+        });
+    });
+});
+</script>
+
 
                                 {% if form.fotot_shtese.errors %}
                                 <div class="rmp-field-errors" role="alert">

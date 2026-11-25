@@ -151,6 +151,60 @@ class BanesaForm(StiliFormes, forms.ModelForm):
                 "Zgjidhni ose largimin ose zëvendësimin e fotografisë kryesore."
             )
 
+
+        kufiri = min(
+            100,
+            FotografiaBaneses._meta.get_field("pershkrimi").max_length
+        )
+
+        if hasattr(self.data, "getlist"):
+            pershkrimet = self.data.getlist("pershkrimet_e_reja")
+        else:
+            pershkrimet = self.data.get("pershkrimet_e_reja", [])
+
+        if isinstance(pershkrimet, str):
+            pershkrimet = [pershkrimet]
+
+        pershkrimet = [v.strip() for v in pershkrimet]
+
+        if not pershkrimet:
+            pershkrimet = [""] * len(fotot_e_reja)
+
+        if len(pershkrimet) != len(fotot_e_reja):
+            self.add_error(
+                None,
+                "Kontrolloni pershkrimet e fotografive."
+            )
+
+        if any(len(v) > kufiri for v in pershkrimet):
+            self.add_error(
+                None,
+                "Pershkrimi i fotografise eshte shume i gjate."
+            )
+
+        cleaned_data["pershkrimet_e_reja"] = pershkrimet
+
+        pershkrimet_ekzistuese = {}
+
+        if self.instance and self.instance.pk:
+            per_fshirje = {foto.pk for foto in fotot_per_fshirje}
+
+            for foto in self.instance.fotografite.all():
+                emri = f"pershkrimi_foto_{foto.pk}"
+
+                if emri in self.data and foto.pk not in per_fshirje:
+                    vlera = self.data.get(emri, "").strip()
+
+                    if len(vlera) > kufiri:
+                        self.add_error(
+                            None,
+                            "Pershkrimi i fotografise eshte shume i gjate."
+                        )
+                    else:
+                        pershkrimet_ekzistuese[foto.pk] = vlera
+
+        cleaned_data["pershkrimet_ekzistuese"] = pershkrimet_ekzistuese
+
         return cleaned_data
 
 

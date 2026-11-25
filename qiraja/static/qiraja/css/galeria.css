@@ -202,3 +202,130 @@
         right: 10px;
     }
 }
+.page-detajet .gallery-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto !important;
+    padding: 0;
+    width: min(1100px, 92vw);
+    height: min(780px, 88vh);
+    max-width: 92vw;
+    max-height: 88vh;
+    border: none;
+    border-radius: 20px;
+    background: #10291f;
+    overflow: hidden;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+}
+
+.page-detajet .gallery-dialog::backdrop {
+    background: rgba(5, 24, 17, 0.85);
+    backdrop-filter: blur(4px);
+}
+
+.page-detajet .gallery-dialog-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 45px 75px;
+    background: #10291f;
+}
+
+.page-detajet .gallery-dialog-content img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 0;
+}
+
+.page-detajet .gallery-dialog-close,
+.page-detajet .gallery-dialog-arrow {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #063d2c;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s ease;
+}
+
+.page-detajet .gallery-dialog-close {
+    top: 14px;
+    right: 16px;
+    font-size: 28px;
+}
+
+.page-detajet .gallery-dialog-arrow {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.page-detajet .gallery-dialog-prev {
+    left: 18px;
+}
+
+.page-detajet .gallery-dialog-next {
+    right: 18px;
+}
+
+.page-detajet .gallery-dialog-close:hover,
+.page-detajet .gallery-dialog-arrow:hover {
+    background: #efca91;
+}
+
+.page-detajet .gallery-dialog-arrow[hidden] {
+    display: none;
+}
+
+.page-detajet .gallery-dialog-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 7px 18px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .page-detajet .gallery-dialog {
+        width: 96vw;
+        max-width: 96vw;
+        height: 80vh;
+        border-radius: 14px;
+    }
+
+    .page-detajet .gallery-dialog-content {
+        padding: 45px 42px;
+    }
+
+    .page-detajet .gallery-dialog-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 17px;
+    }
+
+    .page-detajet .gallery-dialog-prev {
+        left: 4px;
+    }
+
+    .page-detajet .gallery-dialog-next {
+        right: 4px;
+    }
+}

@@ -1,125 +1,178 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const gallery = document.querySelector("[data-gallery]");
 
-    if (!gallery) {
+    const gallery = document.querySelector("[data-gallery]");
+    const dialog = document.querySelector("[data-gallery-dialog]");
+
+    if (!gallery || !dialog) {
         return;
     }
 
     const mainImage = gallery.querySelector("[data-gallery-main]");
-    const caption = gallery.querySelector("[data-gallery-caption]");
-    const counter = gallery.querySelector("[data-gallery-count]");
     const thumbnails = Array.from(
         gallery.querySelectorAll("[data-gallery-thumb]")
     );
 
-    const previousButton = gallery.querySelector("[data-gallery-prev]");
-    const nextButton = gallery.querySelector("[data-gallery-next]");
-    const expandButton = gallery.querySelector("[data-gallery-expand]");
+    const prev = gallery.querySelector("[data-gallery-prev]");
+    const next = gallery.querySelector("[data-gallery-next]");
+    const expand = gallery.querySelector("[data-gallery-expand]");
+    const caption = gallery.querySelector("[data-gallery-caption]");
+    const count = gallery.querySelector("[data-gallery-count]");
 
-    const dialog = document.querySelector("[data-gallery-dialog]");
-    const largeImage = dialog?.querySelector("[data-gallery-large]");
-    const closeButton = dialog?.querySelector("[data-gallery-close]");
+    const largeImage = dialog.querySelector("[data-gallery-large]");
+    const closeButton = dialog.querySelector("[data-gallery-close]");
+    const dialogPrev = dialog.querySelector("[data-gallery-dialog-prev]");
+    const dialogNext = dialog.querySelector("[data-gallery-dialog-next]");
+    const dialogCount = dialog.querySelector("[data-gallery-dialog-count]");
 
-    let currentIndex = 0;
-
-    if (thumbnails.length === 0) {
-        previousButton.hidden = true;
-        nextButton.hidden = true;
-        expandButton.hidden = true;
+    if (!mainImage || !largeImage) {
         return;
     }
 
-    if (thumbnails.length === 1) {
-        previousButton.hidden = true;
-        nextButton.hidden = true;
+    let photos = thumbnails.map(function (thumb) {
+        return {
+            src: thumb.dataset.image,
+            alt: thumb.dataset.alt || "Fotografia e baneses",
+            caption: thumb.dataset.caption || ""
+        };
+    });
+
+    if (photos.length === 0) {
+        photos = [{
+            src: mainImage.src,
+            alt: mainImage.alt,
+            caption: caption ? caption.textContent.trim() : ""
+        }];
+    }
+
+    let currentIndex = thumbnails.findIndex(function (thumb) {
+        return thumb.classList.contains("active");
+    });
+
+    if (currentIndex < 0) {
+        currentIndex = 0;
     }
 
     function showPhoto(index) {
+
         currentIndex = (
-            index + thumbnails.length
-        ) % thumbnails.length;
+            index + photos.length
+        ) % photos.length;
 
-        const selected = thumbnails[currentIndex];
-        const imageUrl = selected.dataset.image;
-        const imageAlt = selected.dataset.alt;
-        const imageCaption = selected.dataset.caption;
+        const photo = photos[currentIndex];
 
-        mainImage.src = imageUrl;
-        mainImage.alt = imageAlt;
+        mainImage.src = photo.src;
+        mainImage.alt = photo.alt;
 
-        caption.textContent = imageCaption;
-        counter.textContent = `${currentIndex + 1} / ${thumbnails.length}`;
+        largeImage.src = photo.src;
+        largeImage.alt = photo.alt;
 
-        thumbnails.forEach(function (thumbnail, position) {
-            const active = position === currentIndex;
+        thumbnails.forEach(function (thumb, i) {
 
-            thumbnail.classList.toggle("active", active);
-            thumbnail.setAttribute("aria-pressed", String(active));
+            const active = i === currentIndex;
+
+            thumb.classList.toggle("active", active);
+            thumb.setAttribute("aria-pressed", String(active));
+
         });
 
-        selected.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "nearest"
-        });
+        if (caption) {
+            caption.textContent = photo.caption;
+        }
 
-        if (dialog?.open && largeImage) {
-            largeImage.src = imageUrl;
-            largeImage.alt = imageAlt;
+        const counter = `${currentIndex + 1} / ${photos.length}`;
+
+        if (count) {
+            count.textContent = counter;
+        }
+
+        if (dialogCount) {
+            dialogCount.textContent = counter;
         }
     }
 
-    thumbnails.forEach(function (thumbnail, index) {
-        thumbnail.addEventListener("click", function () {
+    thumbnails.forEach(function (thumb, index) {
+
+        thumb.addEventListener("click", function () {
             showPhoto(index);
         });
+
     });
 
-    previousButton.addEventListener("click", function () {
-        showPhoto(currentIndex - 1);
-    });
+    if (prev) {
+        prev.addEventListener("click", function () {
+            showPhoto(currentIndex - 1);
+        });
+    }
 
-    nextButton.addEventListener("click", function () {
-        showPhoto(currentIndex + 1);
-    });
+    if (next) {
+        next.addEventListener("click", function () {
+            showPhoto(currentIndex + 1);
+        });
+    }
 
-    expandButton.addEventListener("click", function () {
-        if (!dialog || !largeImage) {
-            return;
-        }
+    if (dialogPrev) {
+        dialogPrev.addEventListener("click", function () {
+            showPhoto(currentIndex - 1);
+        });
+    }
 
-        if (typeof dialog.showModal !== "function") {
-            return;
-        }
+    if (dialogNext) {
+        dialogNext.addEventListener("click", function () {
+            showPhoto(currentIndex + 1);
+        });
+    }
 
-        largeImage.src = mainImage.src;
-        largeImage.alt = mainImage.alt;
-        dialog.showModal();
-    });
+    if (expand) {
 
-    closeButton?.addEventListener("click", function () {
-        dialog.close();
-    });
+        expand.addEventListener("click", function () {
 
-    dialog?.addEventListener("click", function (event) {
+            showPhoto(currentIndex);
+
+            if (!dialog.open) {
+                dialog.showModal();
+            }
+
+        });
+
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener("click", function () {
+            dialog.close();
+        });
+    }
+
+    dialog.addEventListener("click", function (event) {
+
         if (event.target === dialog) {
             dialog.close();
         }
+
     });
 
-    document.addEventListener("keydown", function (event) {
-        if (!dialog?.open) {
-            return;
-        }
+    dialog.addEventListener("keydown", function (event) {
 
         if (event.key === "ArrowLeft") {
+            event.preventDefault();
             showPhoto(currentIndex - 1);
         }
 
         if (event.key === "ArrowRight") {
+            event.preventDefault();
             showPhoto(currentIndex + 1);
         }
+
     });
 
-    showPhoto(0);
+    [prev, next, dialogPrev, dialogNext].forEach(function (button) {
+
+        if (button && photos.length <= 1) {
+            button.hidden = true;
+            button.style.display = "none";
+        }
+
+    });
+
+    showPhoto(currentIndex);
+
 });

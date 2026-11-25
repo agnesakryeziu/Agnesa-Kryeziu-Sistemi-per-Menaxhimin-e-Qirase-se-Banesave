@@ -1869,3 +1869,71 @@ body.page-panel-form .rmp-gallery-empty {
         gap: 10px;
     }
 }
+body.page-paneli {
+    background: var(--rmp-cream, #faf8f5);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.page-paneli > main {
+    flex: 1;
+    background: var(--rmp-cream, #faf8f5);
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.page-paneli .rmp-dashboard {
+    background: var(--rmp-cream, #faf8f5);
+    margin-bottom: 0 !important;
+}
+
+body.page-paneli > .site-footer {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
+}
+
+body.page-paneli .footer-wave,
+body.page-paneli .rmp-bottom-wave {
+    display: none !important;
+}
+#pershkrimet-fotografive {
+    display: grid;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.rm-photo-description-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #e7dfcb;
+    border-radius: 10px;
+}
+
+.rm-photo-description-row label {
+    color: #063d2c;
+    font-size: 12px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.rm-photo-description-row input {
+    width: 100%;
+    background: #faf8f5;
+    font-size: 13px;
+}
+
+.rm-existing-description {
+    width: 100%;
+    min-width: 0;
+    margin-top: 8px;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #e7dfcb;
+    border-radius: 7px;
+    background: #ffffff;
+}

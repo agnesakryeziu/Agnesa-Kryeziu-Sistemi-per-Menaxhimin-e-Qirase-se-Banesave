@@ -258,11 +258,22 @@ class RuajtjaFotoveBanese:
             )["maksimumi"] or 0
         ) + 1
 
-        for foto in fotot_e_reja:
+        for pk, pershkrimi in form.cleaned_data.get(
+            "pershkrimet_ekzistuese", {}
+        ).items():
+            FotografiaBaneses.objects.filter(
+                pk=pk,
+                banesa=self.object
+            ).update(pershkrimi=pershkrimi)
+
+        for foto, pershkrimi in zip(
+            fotot_e_reja,
+            form.cleaned_data["pershkrimet_e_reja"]
+        ):
             FotografiaBaneses.objects.create(
                 banesa=self.object,
                 fotografia=foto,
-                pershkrimi="",
+                pershkrimi=pershkrimi,
                 renditja=renditja_tjeter
             )
 

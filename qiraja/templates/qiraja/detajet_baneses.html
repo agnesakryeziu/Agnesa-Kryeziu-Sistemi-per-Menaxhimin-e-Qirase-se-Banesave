@@ -261,7 +261,7 @@
 
                             <a href="{% url 'rezervo_banese' banesa.pk %}"
                                class="detail-button">
-                                Rezervo banesën →
+                                Rezervo banesën 
                             </a>
 
                         {% endif %}
@@ -270,7 +270,7 @@
 
                         <a href="{% url 'rezervo_banese' banesa.pk %}"
                            class="detail-button">
-                            Kyçu për të rezervuar →
+                            Kyçu për të rezervuar 
                         </a>
 
                     {% endif %}
@@ -298,23 +298,40 @@
     </div>
 </section>
 
-<dialog class="gallery-dialog" data-gallery-dialog>
+<dialog class="gallery-dialog"
+        data-gallery-dialog
+        aria-label="Galeria e baneses">
 
     <div class="gallery-dialog-content">
 
-        <button
-            type="button"
-            class="gallery-dialog-close"
-            data-gallery-close
-            aria-label="Mbyll fotografinë"
-        >
+        <button type="button"
+                class="gallery-dialog-close"
+                data-gallery-close
+                aria-label="Mbyll galerine">
             &times;
         </button>
 
-        <img
-            data-gallery-large
-            alt="Fotografia e zmadhuar"
-        >
+        <button type="button"
+                class="gallery-dialog-arrow gallery-dialog-prev"
+                data-gallery-dialog-prev
+                aria-label="Fotografia e meparshme">
+            &#10094;
+        </button>
+
+        <img data-gallery-large
+             alt="Fotografia e zmadhuar">
+
+        <button type="button"
+                class="gallery-dialog-arrow gallery-dialog-next"
+                data-gallery-dialog-next
+                aria-label="Fotografia tjeter">
+            &#10095;
+        </button>
+
+        <div class="gallery-dialog-counter"
+             data-gallery-dialog-count
+             aria-live="polite">
+        </div>
 
     </div>
 
