@@ -194,9 +194,14 @@
                                         </td>
 
                                         <td>
-                                            <strong>{{ kontrata.banesa.adresa }}</strong>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=kontrata.banesa only %}
+<div class="rm-panel-property-info">
+<strong>{{ kontrata.banesa.adresa }}</strong>
                                             <div>{{ kontrata.banesa.qyteti }}</div>
-                                        </td>
+</div>
+</div>
+</td>
 
                                         <td>
                                             {{ kontrata.qiramarresi.emri }}

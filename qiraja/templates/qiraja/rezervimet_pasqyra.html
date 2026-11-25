@@ -124,7 +124,14 @@
 
                         <tr>
 
-                            <td>{{ rezervimi.banesa.adresa }}</td>
+                            <td>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=rezervimi.banesa only %}
+<div class="rm-panel-property-info">
+{{ rezervimi.banesa.adresa }}
+</div>
+</div>
+</td>
                             <td>{{ rezervimi.banesa.qyteti }}</td>
 
                             {% if administratori %}

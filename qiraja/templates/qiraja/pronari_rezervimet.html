@@ -152,16 +152,19 @@
                         <tr>
 
                             <td>
-
-                                <strong>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=rezervimi.banesa only %}
+<div class="rm-panel-property-info">
+<strong>
                                     {{ rezervimi.banesa.adresa }}
                                 </strong>
 
                                 <small class="rpr-city">
                                     {{ rezervimi.banesa.qyteti }}
                                 </small>
-
-                            </td>
+</div>
+</div>
+</td>
 
                             <td>
                                 {{ rezervimi.klienti.first_name }}

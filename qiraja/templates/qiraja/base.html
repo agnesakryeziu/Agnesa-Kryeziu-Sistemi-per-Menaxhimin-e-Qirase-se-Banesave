@@ -30,7 +30,13 @@
                 <a href="/rreth-nesh/" class="{% if request.path == '/rreth-nesh/' %}active{% endif %}">Rreth Nesh</a>
                 <a href="/sherbimet/" class="{% if request.path == '/sherbimet/' %}active{% endif %}">Shërbimet</a>
                 <a href="/kontaktet/" class="{% if request.path == '/kontaktet/' %}active{% endif %}">Kontaktet</a>
-            </nav>
+
+    {% if request.user.is_authenticated and request.user.roli == "klient" and not request.user.is_staff %}
+        <a href="{% url 'klienti_rezervimet' %}">
+            Rezervimet e mia
+        </a>
+    {% endif %}
+    </nav>
 
             <div class="nav-actions">
 

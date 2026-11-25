@@ -180,7 +180,14 @@
 
                             <tr>
 
-                                <td>{{ kontrata.banesa.adresa }}</td>
+                                <td>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=kontrata.banesa only %}
+<div class="rm-panel-property-info">
+{{ kontrata.banesa.adresa }}
+</div>
+</div>
+</td>
 
                                 <td>
                                     {{ kontrata.qiramarresi.emri }}
@@ -245,8 +252,13 @@
                             <tr>
 
                                 <td>
-                                    {{ pagesa.kontrata.banesa.adresa }}
-                                </td>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=pagesa.kontrata.banesa only %}
+<div class="rm-panel-property-info">
+{{ pagesa.kontrata.banesa.adresa }}
+</div>
+</div>
+</td>
 
                                 <td>
                                     {{ pagesa.kontrata.qiramarresi.emri }}

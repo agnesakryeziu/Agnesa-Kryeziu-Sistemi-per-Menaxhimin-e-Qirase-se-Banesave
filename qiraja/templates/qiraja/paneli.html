@@ -258,8 +258,13 @@
 
                             <tr>
                                 <td>
-                                    {{ pagesa.kontrata.banesa.adresa|truncatechars:19 }}
-                                </td>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=pagesa.kontrata.banesa only %}
+<div class="rm-panel-property-info">
+{{ pagesa.kontrata.banesa.adresa|truncatechars:19 }}
+</div>
+</div>
+</td>
 
                                 <td>
                                     {{ pagesa.kontrata.qiramarresi.emri }}

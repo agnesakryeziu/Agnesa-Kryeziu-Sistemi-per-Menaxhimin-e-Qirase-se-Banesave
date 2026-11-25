@@ -1,0 +1,22 @@
+{% if banesa.fotografia %}
+
+    <img class="rm-panel-photo"
+         src="{{ banesa.fotografia.url }}"
+         alt="Banesa në {{ banesa.qyteti }}"
+         loading="lazy">
+
+{% elif banesa.fotografite.first %}
+
+    <img class="rm-panel-photo"
+         src="{{ banesa.fotografite.first.fotografia.url }}"
+         alt="Banesa në {{ banesa.qyteti }}"
+         loading="lazy">
+
+{% else %}
+
+    <div class="rm-panel-no-photo">
+        <span>⌂</span>
+        <small>Pa fotografi</small>
+    </div>
+
+{% endif %}

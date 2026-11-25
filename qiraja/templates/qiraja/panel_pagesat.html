@@ -199,16 +199,19 @@
                                     </td>
 
                                     <td>
-
-                                        <strong>
+<div class="rm-panel-property">
+{% include "qiraja/foto_baneses_panel.html" with banesa=pagesa.kontrata.banesa only %}
+<div class="rm-panel-property-info">
+<strong>
                                             {{ pagesa.kontrata.banesa.adresa }}
                                         </strong>
 
                                         <div>
                                             {{ pagesa.kontrata.banesa.qyteti }}
                                         </div>
-
-                                    </td>
+</div>
+</div>
+</td>
 
                                     <td>
 
