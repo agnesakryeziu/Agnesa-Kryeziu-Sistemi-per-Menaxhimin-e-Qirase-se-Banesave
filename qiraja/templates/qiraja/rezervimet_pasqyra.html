@@ -21,7 +21,10 @@
                 RentManage
             </a>
 
-            <nav class="rmp-navigation">
+            {% if administratori %}
+{% include "qiraja/administratori_nav.html" %}
+{% else %}
+<nav class="rmp-navigation">
 
                 {% if administratori %}
 
@@ -38,6 +41,7 @@
                 </a>
 
             </nav>
+{% endif %}
 
             <div class="rmp-header-actions">
 

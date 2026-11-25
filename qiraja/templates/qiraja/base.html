@@ -122,17 +122,28 @@
                 <h3>Bëhu i informuar</h3>
                 <p>Abonohu për të marrë njoftimet dhe ofertat më të reja.</p>
 
-                <div class="newsletter-preview">
-                    <input
-                        type="email"
-                        placeholder="Shkruaj email-in tuaj"
-                        aria-label="Email për njoftimet"
-                        disabled
-                    >
-                    <button type="button" aria-label="Abonimi ende nuk është aktiv" disabled>➤</button>
-                </div>
 
-                <small>Abonimi do të aktivizohet më vonë.</small>
+<form method="post"
+      action="{% url 'abonohu' %}"
+      class="newsletter-preview">
+
+    {% csrf_token %}
+
+    <input type="email"
+           name="email"
+           placeholder="Shkruaj email-in tuaj"
+           aria-label="Email per njoftimet"
+           maxlength="254"
+           required>
+
+    <button type="submit" aria-label="Abonohu">
+        &#10148;
+    </button>
+
+</form>
+
+
+
             </div>
 
         </div>

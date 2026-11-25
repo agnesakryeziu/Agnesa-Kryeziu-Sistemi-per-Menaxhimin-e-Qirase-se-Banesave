@@ -21,34 +21,7 @@
                 RentManage
             </a>
 
-            <nav class="rmp-navigation" aria-label="Navigimi i administratorit">
-
-                <a href="{% url 'paneli' %}">
-                    Paneli
-                </a>
-
-                <a href="{% url 'panel_banesat' %}">
-                    Banesat
-                </a>
-
-                <a href="{% url 'panel_pronaret' %}">
-                    Pronarët
-                </a>
-
-                <a href="{% url 'panel_qiramarresit' %}">
-                    Qiramarrësit
-                </a>
-
-                <a href="{% url 'panel_kontratat' %}"
-                   class="rmp-link-active">
-                    Kontratat
-                </a>
-
-                <a href="{% url 'panel_pagesat' %}">
-                    Pagesat
-                </a>
-
-            </nav>
+            {% include "qiraja/administratori_nav.html" %}
 
             <div class="rmp-header-actions">
 

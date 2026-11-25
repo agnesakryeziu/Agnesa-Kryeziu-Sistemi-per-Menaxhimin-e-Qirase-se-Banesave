@@ -242,6 +242,7 @@ class MesazhKontakti(models.Model):
     subjekti = models.CharField(max_length=200)
     mesazhi = models.TextField()
     krijuar_me = models.DateTimeField(auto_now_add=True)
+    i_lexuar = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-krijuar_me"]
@@ -313,3 +314,17 @@ class Rezervimi(models.Model):
 
     def __str__(self):
         return f"{self.klienti.email} - {self.banesa.adresa}"
+
+class Abonenti(models.Model):
+
+    email = models.EmailField(unique=True)
+    krijuar_me = models.DateTimeField(auto_now_add=True)
+    aktiv = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["-krijuar_me"]
+        verbose_name = "Abonent"
+        verbose_name_plural = "Abonentet"
+
+    def __str__(self):
+        return self.email

@@ -1,0 +1,52 @@
+{% with faqja=request.resolver_match.url_name %}
+
+<nav class="rmp-navigation" aria-label="Navigimi i administratorit">
+
+    <a href="{% url 'paneli' %}"
+       class="{% if faqja == 'paneli' %}rmp-link-active{% endif %}">
+        Paneli
+    </a>
+
+    <a href="{% url 'panel_banesat' %}"
+       class="{% if faqja == 'panel_banesat' or faqja == 'panel_shto_banese' or faqja == 'panel_ndrysho_banese' %}rmp-link-active{% endif %}">
+        Banesat
+    </a>
+
+    <a href="{% url 'panel_pronaret' %}"
+       class="{% if faqja == 'panel_pronaret' or faqja == 'panel_shto_pronar' or faqja == 'panel_ndrysho_pronar' %}rmp-link-active{% endif %}">
+        Pronarët
+    </a>
+
+    <a href="{% url 'panel_qiramarresit' %}"
+       class="{% if faqja == 'panel_qiramarresit' or faqja == 'panel_shto_qiramarres' or faqja == 'panel_ndrysho_qiramarres' %}rmp-link-active{% endif %}">
+        Qiramarrësit
+    </a>
+
+    <a href="{% url 'panel_kontratat' %}"
+       class="{% if faqja == 'panel_kontratat' or faqja == 'panel_shto_kontrate' or faqja == 'panel_ndrysho_kontrate' %}rmp-link-active{% endif %}">
+        Kontratat
+    </a>
+
+    <a href="{% url 'panel_pagesat' %}"
+       class="{% if faqja == 'panel_pagesat' or faqja == 'panel_shto_pagese' or faqja == 'panel_ndrysho_pagese' %}rmp-link-active{% endif %}">
+        Pagesat
+    </a>
+
+    <a href="{% url 'panel_rezervimet' %}"
+       class="{% if faqja == 'panel_rezervimet' %}rmp-link-active{% endif %}">
+        Rezervimet
+    </a>
+
+    <a href="{% url 'panel_mesazhet' %}"
+       class="{% if faqja == 'panel_mesazhet' %}rmp-link-active{% endif %}">
+        Mesazhet
+    </a>
+
+    <a href="{% url 'panel_abonentet' %}"
+       class="{% if faqja == 'panel_abonentet' %}rmp-link-active{% endif %}">
+        Abonentët
+    </a>
+
+</nav>
+
+{% endwith %}

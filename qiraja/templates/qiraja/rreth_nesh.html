@@ -1,3 +1,4 @@
+
 {% extends "qiraja/base.html" %}
 
 {% block title %}Rreth Nesh | RentManage{% endblock %}
@@ -5,123 +6,254 @@
 
 {% block content %}
 
-<section class="rmx-hero">
-    <div class="rmx-shell rmx-hero-layout">
+<!-- =========================================
+     HERO SECTION
+========================================= -->
 
-        <div class="rmx-hero-copy">
-            <span class="rmx-eyebrow">RRETH RENTMANAGE</span>
+<section class="about-hero">
+    <div class="about-container about-hero-layout">
+
+        <div class="about-hero-copy">
+
+            <span class="about-eyebrow">
+                RRETH RENTMANAGE
+            </span>
 
             <h1>
-                Një mënyrë më e lehtë
-                për të gjetur banesën tuaj.
+                Qiradhënia bëhet më e lehtë
+                kur gjithçka është në një vend.
             </h1>
 
             <p>
-                Kërkimi i një banese fillon me informacionin
-                e duhur. RentManage ju ndihmon të shihni
-                ofertat, të krahasoni çmimet dhe të njiheni
-                me çdo hapësirë përpara se të vendosni.
+                RentManage është një platformë digjitale e krijuar
+                për ta thjeshtuar kërkimin e banesave dhe menaxhimin
+                e qirasë. Një vend ku informacioni është i qartë
+                dhe çdo hap është më i organizuar.
             </p>
 
-            <div class="rmx-actions">
-                <a href="{% url 'banesat' %}" class="rmx-button">
-                    Shiko banesat
-                    <span aria-hidden="true">→</span>
-                </a>
+            <a href="{% url 'banesat' %}" class="about-button">
+                Shiko banesat
+                <span aria-hidden="true">→</span>
+            </a>
 
-                <a href="{% url 'sherbimet' %}" class="rmx-text-link">
-                    Shërbimet tona
-                </a>
-            </div>
         </div>
 
-        <div class="rmx-art" aria-hidden="true">
-            <div class="rmx-art-ring"></div>
-            <div class="rmx-art-circle"></div>
-            <div class="rmx-art-circle-small"></div>
-            <div class="rmx-art-stem"></div>
-            <span class="rmx-art-leaf leaf-one"></span>
-            <span class="rmx-art-leaf leaf-two"></span>
-            <span class="rmx-art-leaf leaf-three"></span>
-            <span class="rmx-art-leaf leaf-four"></span>
-            <span class="rmx-art-leaf leaf-five"></span>
-        </div>
 
-    </div>
-</section>
+        <!-- Dekorimet abstrakte -->
 
-<section class="rmx-section">
-    <div class="rmx-shell">
+        <div class="about-hero-art" aria-hidden="true">
 
-        <div class="rmx-section-intro">
-            <span class="rmx-eyebrow">ÇFARË NA KARAKTERIZON</span>
-            <h2>Informacion i qartë. Zgjedhje më e lehtë.</h2>
-        </div>
+            <span class="about-ball about-ball-one"></span>
 
-        <div class="rmx-feature-grid">
+            <span class="about-ball about-ball-two"></span>
 
-            <div class="rmx-feature">
-                <span class="rmx-feature-mark">01</span>
-                <h3>Gjithçka në një vend</h3>
-                <p>
-                    Fotografitë, çmimet, vendndodhja dhe
-                    karakteristikat kryesore të banesave.
-                </p>
-            </div>
-
-            <div class="rmx-feature">
-                <span class="rmx-feature-mark">02</span>
-                <h3>Kërkim sipas nevojës</h3>
-                <p>
-                    Filtroni ofertat sipas qytetit,
-                    çmimit dhe disponueshmërisë.
-                </p>
-            </div>
-
-            <div class="rmx-feature">
-                <span class="rmx-feature-mark">03</span>
-                <h3>Organizim më i mirë</h3>
-                <p>
-                    Një sistem i strukturuar për
-                    banesat, kontratat dhe pagesat.
-                </p>
-            </div>
+            <span class="about-ball about-ball-three"></span>
 
         </div>
 
     </div>
 </section>
 
-<section class="rmx-statement">
-    <div class="rmx-shell rmx-statement-layout">
 
-        <div>
-            <span class="rmx-eyebrow">QASJA JONË</span>
-            <h2>Pa kërkime të komplikuara.</h2>
+<!-- =========================================
+     OUR STORY
+========================================= -->
+
+<section class="about-story">
+
+    <div class="about-container about-story-layout">
+
+        <div class="about-story-heading">
+
+            <span class="about-eyebrow">
+                IDEJA JONË
+            </span>
+
+            <h2>
+                Më pak komplikime,
+                më shumë qartësi.
+            </h2>
+
         </div>
 
-        <p>
-            Nga pamja e banesës deri te çmimi mujor,
-            informacionet kryesore duhet të jenë të
-            lehta për t'u gjetur dhe kuptuar.
-            Pikërisht kështu është menduar RentManage.
-        </p>
+
+        <!-- Karta e tekstit -->
+
+        <div class="about-story-text about-story-card">
+
+            <p>
+                Gjetja e një banese nuk duhet të jetë proces
+                i vështirë. Ndonjëherë ajo që nevojitet është
+                vetëm një vend ku mund të shihen ofertat,
+                të krahasohen çmimet dhe të gjenden
+                informacionet kryesore.
+            </p>
+
+            <p>
+                Pikërisht për këtë është krijuar RentManage.
+                Platforma bashkon kërkimin e banesave me
+                organizimin e kërkesave, kontratave dhe
+                pagesave, duke e bërë procesin më të
+                kuptueshëm për të gjithë.
+            </p>
+
+        </div>
 
     </div>
+
 </section>
 
-<section class="rmx-cta">
-    <div class="rmx-shell rmx-cta-layout">
-        <div>
-            <span class="rmx-eyebrow">GJENI BANESËN TUAJ</span>
-            <h2>Shikoni ofertat e disponueshme.</h2>
+
+<!-- =========================================
+     WHO IS IT FOR
+========================================= -->
+
+<section class="about-people">
+
+    <div class="about-container">
+
+        <div class="about-section-heading">
+
+            <span class="about-eyebrow">
+                PËR KË ËSHTË KRIJUAR
+            </span>
+
+            <h2>
+                Një platformë për të gjithë pjesëmarrësit.
+            </h2>
+
+            <p>
+                RentManage u shërben personave që janë pjesë
+                e procesit të qiradhënies, duke i ndihmuar
+                të organizojnë më lehtë aktivitetet e tyre.
+            </p>
+
         </div>
 
-        <a href="{% url 'banesat' %}" class="rmx-button">
-            Eksploro banesat
-            <span aria-hidden="true">→</span>
-        </a>
+
+        <div class="about-person-row">
+
+            <span class="about-person-number">01</span>
+
+            <h3>Qiramarrësit</h3>
+
+            <p>
+                Mund të kërkojnë banesa, të shikojnë fotografitë,
+                çmimet dhe karakteristikat e tyre, si dhe të
+                dërgojnë kërkesë për qira.
+            </p>
+
+        </div>
+
+
+        <div class="about-person-row">
+
+            <span class="about-person-number">02</span>
+
+            <h3>Pronarët</h3>
+
+            <p>
+                Mund të menaxhojnë banesat e tyre dhe të kenë
+                informacionin e pronave më të organizuar
+                në një sistem të vetëm.
+            </p>
+
+        </div>
+
+
+        <div class="about-person-row">
+
+            <span class="about-person-number">03</span>
+
+            <h3>Administratori</h3>
+
+            <p>
+                Kujdeset për organizimin e sistemit, shqyrtimin
+                e kërkesave dhe menaxhimin e kontratave
+                dhe pagesave.
+            </p>
+
+        </div>
+
     </div>
+
+</section>
+
+
+<!-- =========================================
+     HOW IT WORKS
+========================================= -->
+
+<section class="about-process">
+
+    <div class="about-container">
+
+        <div class="about-process-heading">
+
+            <span class="about-eyebrow">
+                SI FUNKSIONON
+            </span>
+
+            <h2>
+                Nga kërkimi deri te kontrata.
+            </h2>
+
+            <p>
+                Procesi zhvillohet në disa hapa të thjeshtë,
+                duke filluar nga zgjedhja e banesës deri te
+                shqyrtimi dhe konfirmimi i kërkesës.
+            </p>
+
+        </div>
+
+
+        <div class="about-process-steps">
+
+            <div class="about-process-step">
+
+                <span>01</span>
+
+                <h3>Kërkoni banesën</h3>
+
+                <p>
+                    Shikoni ofertat dhe zgjidhni
+                    banesën që ju përshtatet.
+                </p>
+
+            </div>
+
+
+            <div class="about-process-step">
+
+                <span>02</span>
+
+                <h3>Dërgoni kërkesën</h3>
+
+                <p>
+                    Paraqitni kërkesën për banesën
+                    që keni zgjedhur.
+                </p>
+
+            </div>
+
+
+            <div class="about-process-step">
+
+                <span>03</span>
+
+                <h3>Shqyrtimi dhe kontrata</h3>
+
+                <p>
+                    Administratori shqyrton kërkesën
+                    dhe pas konfirmimit krijohet kontrata.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
 {% endblock %}

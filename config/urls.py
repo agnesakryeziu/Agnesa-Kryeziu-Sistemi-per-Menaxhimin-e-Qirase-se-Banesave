@@ -48,7 +48,34 @@ from qiraja.panel_pagesa_views import (
 )
 
 
+
+from qiraja.abonimi_views import AbonohuView
+
+from qiraja.panel_komunikimi_views import (
+    ListaMesazheve,
+    LexoMesazhin,
+    ListaAbonenteve,
+    NdryshoStatusinAbonentit,
+)
+
 urlpatterns = [
+
+    path("abonohu/", AbonohuView.as_view(), name="abonohu"),
+
+    path("paneli/mesazhet/", ListaMesazheve.as_view(),
+         name="panel_mesazhet"),
+
+    path("paneli/mesazhet/<int:pk>/lexo/", LexoMesazhin.as_view(),
+         name="panel_lexo_mesazhin"),
+
+    path("paneli/abonentet/", ListaAbonenteve.as_view(),
+         name="panel_abonentet"),
+
+    path("paneli/abonentet/<int:pk>/statusi/",
+         NdryshoStatusinAbonentit.as_view(),
+         name="panel_statusi_abonentit"),
+
+
 
     path("admin/", admin.site.urls),
     path("api/", include("qiraja.urls")),

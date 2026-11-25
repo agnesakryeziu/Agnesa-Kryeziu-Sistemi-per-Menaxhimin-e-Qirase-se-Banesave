@@ -1,0 +1,383 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}{{ titulli }} | RentManage{% endblock %}
+
+{% block body_class %}page-paneli page-panel-lista{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'qiraja/css/panel_komunikimi.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rmp-dashboard">
+
+    <header class="rmp-header">
+
+        <div class="rmp-header-inner">
+
+            <a href="{% url 'paneli' %}" class="rmp-brand">
+                RentManage
+            </a>
+
+            {% include "qiraja/administratori_nav.html" %}
+
+            <div class="rmp-header-actions">
+
+                <a href="{% url 'home' %}" class="rmp-home-link">
+                    Faqja kryesore
+                </a>
+
+                <form method="post"
+                      action="{% url 'dalje' %}"
+                      class="rmp-logout-form">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="rmp-logout">
+                        Dil
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="rmp-hero rmp-management-hero">
+
+        <div class="rmp-hero-content">
+
+            <span class="rmp-eyebrow">
+                PANELI I ADMINISTRATORIT
+            </span>
+
+            <h1>{{ titulli }}</h1>
+
+            {% if seksioni == "mesazhet" %}
+
+                <p>Lexoni mesazhet e dërguara nga vizitorët dhe klientët.</p>
+
+            {% else %}
+
+                <p>Menaxhoni abonentët e platformës RentManage.</p>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+    <div class="rmp-content rmp-management-content">
+
+        {% if messages %}
+
+            <div class="rmp-alerts" role="status">
+
+                {% for message in messages %}
+
+                    <div class="rmp-alert">{{ message }}</div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <section class="rmp-statistics rmk-statistics">
+
+            <div class="rmp-stat">
+
+                <strong>{{ gjithsej }}</strong>
+
+                <span>Gjithsej</span>
+
+            </div>
+
+            {% if seksioni == "mesazhet" %}
+
+                <div class="rmp-stat">
+
+                    <strong>{{ palexuara }}</strong>
+
+                    <span>Mesazhe të palexuara</span>
+
+                </div>
+
+                <div class="rmp-stat">
+
+                    <strong>{{ lexuara }}</strong>
+
+                    <span>Mesazhe të lexuara</span>
+
+                </div>
+
+            {% else %}
+
+                <div class="rmp-stat">
+
+                    <strong>{{ aktive }}</strong>
+
+                    <span>Abonentë aktivë</span>
+
+                </div>
+
+                <div class="rmp-stat">
+
+                    <strong>{{ joaktive }}</strong>
+
+                    <span>Abonentë joaktivë</span>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+        <section class="rmp-surface rmk-surface">
+
+            <div class="rmp-section-heading">
+
+                <div>
+
+                    <h2>{{ titulli }}</h2>
+
+                    <span class="rmp-title-line"></span>
+
+                </div>
+
+            </div>
+
+            <div class="rmp-table-scroll">
+
+                <table class="rmp-table rmk-table">
+
+                    {% if seksioni == "mesazhet" %}
+
+                        <thead>
+
+                            <tr>
+                                <th>Emri</th>
+                                <th>Email</th>
+                                <th>Subjekti</th>
+                                <th>Mesazhi</th>
+                                <th>Data</th>
+                                <th>Statusi</th>
+                                <th>Veprimet</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for mesazhi in mesazhet %}
+
+                            <tr>
+
+                                <td>{{ mesazhi.emri }}</td>
+
+                                <td>{{ mesazhi.email }}</td>
+
+                                <td>
+
+                                    <strong>{{ mesazhi.subjekti }}</strong>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="rmk-message">{{ mesazhi.mesazhi }}</div>
+
+                                </td>
+
+                                <td>
+
+                                    {{ mesazhi.krijuar_me|date:"d.m.Y" }}
+
+                                    <small class="rmk-time">
+                                        {{ mesazhi.krijuar_me|date:"H:i" }}
+                                    </small>
+
+                                </td>
+
+                                <td>
+
+                                    {% if mesazhi.i_lexuar %}
+
+                                        <span class="rmk-badge rmk-green">
+                                            I lexuar
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="rmk-badge rmk-gold">
+                                            I palexuar
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if not mesazhi.i_lexuar %}
+
+                                        <form method="post"
+                                              action="{% url 'panel_lexo_mesazhin' mesazhi.pk %}">
+
+                                            {% csrf_token %}
+
+                                            <button type="submit"
+                                                    class="rmk-button">
+                                                Shëno si të lexuar
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <span class="rmk-muted">
+                                            Përfunduar
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="7" class="rmp-table-empty">
+                                    Nuk ka ende mesazhe të kontaktit.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    {% else %}
+
+                        <thead>
+
+                            <tr>
+                                <th>Email</th>
+                                <th>Data e abonimit</th>
+                                <th>Statusi</th>
+                                <th>Veprimet</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for abonenti in abonentet %}
+
+                            <tr>
+
+                                <td>
+
+                                    <strong>{{ abonenti.email }}</strong>
+
+                                </td>
+
+                                <td>
+
+                                    {{ abonenti.krijuar_me|date:"d.m.Y" }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if abonenti.aktiv %}
+
+                                        <span class="rmk-badge rmk-green">
+                                            Aktiv
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="rmk-badge rmk-red">
+                                            Joaktiv
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    <form method="post"
+                                          action="{% url 'panel_statusi_abonentit' abonenti.pk %}">
+
+                                        {% csrf_token %}
+
+                                        {% if abonenti.aktiv %}
+
+                                            <button type="submit"
+                                                    class="rmk-button rmk-button-red">
+                                                Çaktivizo
+                                            </button>
+
+                                        {% else %}
+
+                                            <button type="submit"
+                                                    class="rmk-button">
+                                                Aktivizo
+                                            </button>
+
+                                        {% endif %}
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="4" class="rmp-table-empty">
+                                    Nuk ka ende abonentë të regjistruar.
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    {% endif %}
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <svg class="rmp-bottom-wave"
+         viewBox="0 0 1440 100"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+
+        <path
+            d="M0 38 C170 80 315 84 500 60 C690 28 790 70 960 62 C1150 53 1260 23 1440 42 L1440 100 L0 100 Z"
+            fill="#063d2c"
+        />
+
+    </svg>
+
+</div>
+
+{% endblock %}

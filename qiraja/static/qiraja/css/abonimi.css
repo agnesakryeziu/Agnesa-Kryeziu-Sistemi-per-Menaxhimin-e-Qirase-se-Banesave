@@ -1,0 +1,81 @@
+.rma-page {
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #faf8f3;
+    padding: 65px 20px;
+}
+
+.rma-card {
+    width: 100%;
+    max-width: 580px;
+    background: #ffffff;
+    border: 1px solid #e7dfcb;
+    border-radius: 24px;
+    padding: 50px 35px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(6, 61, 44, 0.08);
+}
+
+.rma-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.rma-success {
+    background: #e5f3e9;
+    color: #17623d;
+}
+
+.rma-error {
+    background: #fbeaea;
+    color: #a23737;
+}
+
+.rma-eyebrow {
+    color: #a18448;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.rma-card h1 {
+    color: #063d2c;
+    font-size: 34px;
+    margin: 12px 0 18px;
+}
+
+.rma-card p {
+    color: #526159;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.rma-description {
+    margin-top: 12px;
+}
+
+.rma-button {
+    display: inline-block;
+    background: #063d2c;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 14px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-top: 25px;
+    transition: background 0.2s ease;
+}
+
+.rma-button:hover {
+    background: #17623d;
+    color: #ffffff;
+}

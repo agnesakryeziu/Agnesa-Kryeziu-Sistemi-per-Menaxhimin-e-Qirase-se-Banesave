@@ -1,0 +1,56 @@
+{% extends "qiraja/base.html" %}
+{% load static %}
+
+{% block title %}Abonimi | RentManage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'qiraja/css/abonimi.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="rma-page">
+
+    <div class="rma-card">
+
+        {% if sukses %}
+
+            <div class="rma-icon rma-success">
+                ✓
+            </div>
+
+            <span class="rma-eyebrow">RENTMANAGE</span>
+
+            <h1>Faleminderit!</h1>
+
+        {% else %}
+
+            <div class="rma-icon rma-error">
+                !
+            </div>
+
+            <span class="rma-eyebrow">RENTMANAGE</span>
+
+            <h1>Kontrolloni email-in</h1>
+
+        {% endif %}
+
+        <p>{{ njoftimi }}</p>
+
+        {% if sukses %}
+
+            <p class="rma-description">
+                Kërkesa juaj për abonim është regjistruar në sistemin tonë.
+            </p>
+
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="rma-button">
+            Kthehu në faqen kryesore
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

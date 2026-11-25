@@ -1,0 +1,111 @@
+.rmp-dashboard .rmk-statistics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.rmk-surface {
+    margin-bottom: 40px;
+    min-height: 220px;
+}
+
+.rmk-table {
+    width: 100%;
+    min-width: 850px;
+}
+
+.rmk-table td {
+    vertical-align: middle;
+    padding-top: 17px;
+    padding-bottom: 17px;
+}
+
+.rmk-message {
+    min-width: 200px;
+    max-width: 350px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+    color: #47564e;
+}
+
+.rmk-time {
+    display: block;
+    margin-top: 5px;
+    color: #77847d;
+}
+
+.rmk-badge {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rmk-green {
+    background: #e5f3e9;
+    color: #17623d;
+}
+
+.rmk-gold {
+    background: #faf0dc;
+    color: #946b25;
+}
+
+.rmk-red {
+    background: #fbeaea;
+    color: #a23737;
+}
+
+.rmk-button {
+    border: none;
+    background: #063d2c;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.rmk-button:hover {
+    background: #17623d;
+}
+
+.rmk-button-red {
+    background: #fbeaea;
+    color: #a23737;
+}
+
+.rmk-button-red:hover {
+    background: #f2d4d4;
+}
+
+.rmk-muted {
+    color: #77847d;
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+    .rmp-dashboard .rmk-statistics {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+.rmk-message {
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.rmk-table td {
+    text-align: left;
+    vertical-align: middle;
+}
